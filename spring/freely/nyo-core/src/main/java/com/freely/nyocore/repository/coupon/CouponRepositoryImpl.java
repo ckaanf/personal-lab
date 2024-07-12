@@ -1,4 +1,4 @@
-package com.freely.nyo.repository.coupon;
+package com.freely.nyocore.repository.coupon;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Repository;

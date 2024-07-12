@@ -1,1 +1,5 @@
 rootProject.name = 'nyo'
+
+include 'nyo-api'
+include 'nyo-core'
+

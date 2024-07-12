@@ -1,4 +1,4 @@
-package com.freely.nyo.repository.user;
+package com.freely.nyocore.repository.user;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
 
