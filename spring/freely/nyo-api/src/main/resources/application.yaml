@@ -1,24 +1,4 @@
 spring:
-  application:
-    name: FREELY
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-
-  h2:
-    console:
-      path: /h2
-      enabled: true
-
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        format_sql: true
-        show_sql: true
-
+  config:
+    import:
+      - nyo-core.yaml

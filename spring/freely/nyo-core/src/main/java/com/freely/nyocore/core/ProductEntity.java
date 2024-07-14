@@ -5,6 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+
+@Getter
 @Entity(name = "product")
 public class ProductEntity {
 	@Id
@@ -13,4 +16,14 @@ public class ProductEntity {
 	@Column(length = 100)
 	private String name;
 	private int price;
+
+	public ProductEntity() {
+
+	}
+
+	public ProductEntity(Long id, String name, int price) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+	}
 }

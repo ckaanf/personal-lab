@@ -3,16 +3,20 @@ package com.freely.nyo.service;
 import org.springframework.stereotype.Service;
 
 import com.freely.nyo.domain.Product;
+import com.freely.nyocore.repository.product.ProductJpaRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class ProductService {
+	private final ProductJpaRepository productJpaRepository;
 
-	private final ProductRepository productRepository;
+	public void getProduct(long productId) {
+		productJpaRepository.findById(productId);
+	}
 
-	public Product calculatePrice(Long productId)  {
-		return null;
+	public void saveProduct(Product product) {
+		productJpaRepository.save(Product.to(product));
 	}
 }
