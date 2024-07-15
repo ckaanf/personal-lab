@@ -1,4 +1,11 @@
+spring.profiles.active: local
+
 spring:
   config:
     import:
       - nyo-core.yaml
+#      - logging.yaml //
+
+logging:
+  level:
+    root: DEBUG

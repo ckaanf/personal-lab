@@ -1,19 +1,16 @@
 pluginManagement {
-    ext.springBootVersion = settings.springBootVersion
-    ext.springDMV = settings.springDMV
-
-    resolutionStrategy {
-        eachPlugin { plugin ->
-            if (plugin.requested.id.id == 'org.springframework.boot') {
-                useVersion(springBootVersion as String)
-            } else if (plugin.requested.id.id == 'io.spring.dependency-management') {
-                useVersion(springDMV)
-            }
-        }
+    plugins {
+        id 'org.springframework.boot' version "${springBootVersion}"
+        id 'io.spring.dependency-management' version "${springDMV}"
     }
 }
 
 rootProject.name = 'nyo'
 
-include ('nyo-api', 'nyo-core')
+include (
+        'nyo-api',
+        'nyo-core',
+        'nyo-domain',
+        'nyo-logging'
+)
 
