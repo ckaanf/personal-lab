@@ -1,16 +1,13 @@
 plugins {
     id 'java-library'
     id 'org.springframework.boot' apply(false)
-    id 'io.spring.dependency-management' apply(false)
+    id 'io.spring.dependency-management'
 }
 
-ext.projectGroup = project.group
-ext.applicationVersion = project.applicationVersion
-
 allprojects {
-    group = ext.projectGroup
-    version = ext.applicationVersion
-    sourceCompatibility = '17'
+    group = "${projectGroup}"
+    version = "${applicationVersion}"
+    sourceCompatibility = project.javaVersion
 
     repositories {
         mavenCentral()
@@ -27,6 +24,12 @@ subprojects {
     configurations {
         compileOnly {
             extendsFrom annotationProcessor
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudDependenciesVersion}"
         }
     }
 

@@ -1,0 +1,8 @@
+dependencies {
+    compileOnly("org.springframework:spring-context")
+}
+// 제거하면 빈 세팅을 다 해주면 됨
+//
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}

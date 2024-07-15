@@ -1,5 +1,9 @@
+
 dependencies {
-    implementation project(":nyo-core")
+    implementation project(":nyo-domain")
+    implementation project(":nyo-logging")
+    // db
+    runtimeOnly project(":nyo-core")
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 

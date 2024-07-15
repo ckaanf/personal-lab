@@ -1,4 +1,7 @@
 dependencies {
+    compileOnly project(":nyo-domain")
+
+    // api 와 implementation 확인
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
-    api 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
