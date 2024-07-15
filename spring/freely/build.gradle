@@ -1,12 +1,15 @@
 plugins {
     id 'java-library'
-    id 'org.springframework.boot' version '3.3.1' apply(false)
-    id 'io.spring.dependency-management' version '1.1.5' apply(false)
+    id 'org.springframework.boot' apply(false)
+    id 'io.spring.dependency-management' apply(false)
 }
 
+ext.projectGroup = project.group
+ext.applicationVersion = project.applicationVersion
+
 allprojects {
-    group = 'com.freely'
-    version = '0.0.1-SNAPSHOT'
+    group = ext.projectGroup
+    version = ext.applicationVersion
     sourceCompatibility = '17'
 
     repositories {
@@ -40,9 +43,6 @@ subprojects {
 
     tasks.named("jar") {
         enabled = true
-    }
-    tasks.named('test') {
-        useJUnitPlatform()
     }
 }
 

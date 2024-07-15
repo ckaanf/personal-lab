@@ -1,5 +1,19 @@
+pluginManagement {
+    ext.springBootVersion = settings.springBootVersion
+    ext.springDMV = settings.springDMV
+
+    resolutionStrategy {
+        eachPlugin { plugin ->
+            if (plugin.requested.id.id == 'org.springframework.boot') {
+                useVersion(springBootVersion as String)
+            } else if (plugin.requested.id.id == 'io.spring.dependency-management') {
+                useVersion(springDMV)
+            }
+        }
+    }
+}
+
 rootProject.name = 'nyo'
 
-include 'nyo-api'
-include 'nyo-core'
+include ('nyo-api', 'nyo-core')
 
