@@ -1,4 +1,4 @@
-package com.freely.nyo.domain;
+package com.freely.nyodomain.domain;
 
 import java.util.List;
 
