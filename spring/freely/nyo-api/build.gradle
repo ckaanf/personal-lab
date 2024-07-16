@@ -1,12 +1,14 @@
+tasks.named("bootJar") {
+    enabled = true
+}
+tasks.named("jar") {
+    enabled = false
+}
 
 dependencies {
     implementation project(":nyo-domain")
-    implementation project(":nyo-logging")
-    // db
+//    implementation project(":nyo-logging")
+    //TODO runtimeOnly implementation -> IDEA에서 런 할 때 문제 발생
     runtimeOnly project(":nyo-core")
     implementation 'org.springframework.boot:spring-boot-starter-web'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

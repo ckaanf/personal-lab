@@ -1,11 +1,10 @@
 package com.freely.nyocore.repository.product;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.freely.nyocore.core.ProductEntity;
 import com.freely.nyodomain.domain.Product;
 import com.freely.nyodomain.repository.ProductRepository;
-import com.freely.nyocore.core.ProductEntity;
 
 import jakarta.persistence.EntityNotFoundException;
 

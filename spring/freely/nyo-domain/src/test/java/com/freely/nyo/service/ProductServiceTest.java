@@ -11,16 +11,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.freely.nyodomain.domain.Product;
 import com.freely.nyodomain.repository.ProductRepository;
 import com.freely.nyodomain.service.ProductService;
 
-@ExtendWith(MockitoExtension.class)
+// SpringExtension.class -> 통합
+@ExtendWith({MockitoExtension.class})
 class ProductServiceTest {
 	@InjectMocks
 	ProductService productService;
 
+	// @Mock // 단위테스트
 	@Mock
 	ProductRepository productRepository;
 

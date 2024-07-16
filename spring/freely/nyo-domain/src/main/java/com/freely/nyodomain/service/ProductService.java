@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.freely.nyodomain.domain.Product;
 import com.freely.nyodomain.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -18,5 +19,11 @@ public class ProductService {
 
 	public void saveProduct(Product product) {
 		productRepository.save(product);
+	}
+
+	@Transactional
+	public void saveProductWithTransaction(Product product) {
+		productRepository.save(product);
+		// throw new RuntimeException();
 	}
 }

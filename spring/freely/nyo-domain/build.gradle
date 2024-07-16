@@ -1,8 +1,12 @@
 dependencies {
     compileOnly("org.springframework:spring-context")
+//    compileOnly("org.springframework:spring-tx")
+    compileOnly("jakarta.transaction:jakarta.transaction-api")
 }
-// 제거하면 빈 세팅을 다 해주면 됨
-//
-//tasks.named('test') {
-//    useJUnitPlatform()
-//}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+//JPA 에 최대한 의존적이지 않게 <--
+// 구현체만 바꾸는게 ORM -> 구조가 jooq java orm hibernate -> 과연?
