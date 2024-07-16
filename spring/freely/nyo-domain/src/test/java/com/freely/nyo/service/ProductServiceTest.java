@@ -11,21 +11,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.freely.nyocore.core.ProductEntity;
+import com.freely.nyocore.repository.ProductJpaRepository;
 import com.freely.nyodomain.domain.Product;
-import com.freely.nyodomain.repository.ProductRepository;
 import com.freely.nyodomain.service.ProductService;
 
-// SpringExtension.class -> 통합
 @ExtendWith({MockitoExtension.class})
 class ProductServiceTest {
 	@InjectMocks
 	ProductService productService;
 
-	// @Mock // 단위테스트
 	@Mock
-	ProductRepository productRepository;
+	ProductJpaRepository productJpaRepository;
 
 	@DisplayName("상품 저장")
 	@Test
@@ -36,12 +34,9 @@ class ProductServiceTest {
 			.price(1000)
 			.build();
 
-		// when
-		// when(productRepository.save(any(ProductEntity.class))).thenReturn(productEntity);
 		productService.saveProduct(product);
 
 		// then
-		verify(productRepository, times(1)).save(product);
 		// ProductEntity capturedProductEntity = productEntityCaptor.getValue();
 
 		assertThat(product.getName()).isEqualTo(product.getName());
@@ -50,18 +45,17 @@ class ProductServiceTest {
 
 	@DisplayName("상품 조회")
 	@Test
-	void givenProductIdWhenThenReturnProduct() throws InstantiationException, IllegalAccessException {
+	void givenProductIdWhenThenReturnProduct() {
 		//given
 		long productId = 1L;
 
 		//when
-		when(productRepository.findById(productId)).thenReturn(Product.builder().build());
+		when(productJpaRepository.findById(productId)).thenReturn(Optional.of(new ProductEntity()));
 		productService.getProduct(productId);
 
 		//then
-		verify(productRepository, times(1)).findById(productId);
-		// Optional<ProductEntity> product = productJpaRepository.findById(productId);
-		Optional<Product> product = Optional.ofNullable(productRepository.findById(productId));
+		verify(productJpaRepository, times(1)).findById(productId);
+		Optional<Optional<ProductEntity>> product = Optional.of(productJpaRepository.findById(productId));
 		assertThat(product).isPresent();
 	}
 }

@@ -23,10 +23,6 @@ public class ProductEntity extends BaseEntity {
 
 	}
 
-	@PrePersist public void init() {
-		this.name = "체크";
-	}
-
 	public ProductEntity(Long id, String name, int price) {
 		this.name = name;
 		this.price = price;
