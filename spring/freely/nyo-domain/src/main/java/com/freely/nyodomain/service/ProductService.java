@@ -2,28 +2,36 @@ package com.freely.nyodomain.service;
 
 import org.springframework.stereotype.Service;
 
+import com.freely.nyocore.core.ProductEntity;
+import com.freely.nyocore.repository.ProductJpaRepository;
 import com.freely.nyodomain.domain.Product;
-import com.freely.nyodomain.repository.ProductRepository;
 
-import jakarta.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class ProductService {
-	private final ProductRepository productRepository;
+	private final ProductJpaRepository productJpaRepository;
 
 	public Product getProduct(long productId) {
-		return productRepository.findById(productId);
+		ProductEntity productEntity = productJpaRepository.findById(productId)
+			.orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+		return Product.builder()
+			.id(productEntity.getId())
+			.name(productEntity.getName())
+			.price(productEntity.getPrice())
+			.build();
 	}
 
 	public void saveProduct(Product product) {
-		productRepository.save(product);
-	}
-
-	@Transactional
-	public void saveProductWithTransaction(Product product) {
-		productRepository.save(product);
-		// throw new RuntimeException();
+		ProductEntity productEntity = new ProductEntity(
+			product.getId(),
+			product.getName(),
+			product.getPrice()
+		);
+		productJpaRepository.save(productEntity);
 	}
 }
+

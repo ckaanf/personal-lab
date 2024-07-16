@@ -1,4 +1,4 @@
-package com.freely.nyocore.repository.product;
+package com.freely.nyocore.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

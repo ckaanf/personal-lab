@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @Entity(name = "product")
-public class ProductEntity {
+public class ProductEntity extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
