@@ -1,4 +1,4 @@
-package com.freely.nyodomain.domain;
+package com.freely.nyodomain.domain.common;
 
 import lombok.Builder;
 import lombok.Getter;

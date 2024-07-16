@@ -22,7 +22,6 @@ public class Product {
 
 	public static ProductEntity to (Product product) {
 		return new ProductEntity(
-			null,
 			product.name,
 			product.price
 		);

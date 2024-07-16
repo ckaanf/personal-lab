@@ -1,0 +1,15 @@
+tasks.named("bootJar") {
+    enabled = true
+}
+tasks.named("jar") {
+    enabled = false
+}
+
+dependencies {
+    implementation project(":nyo-domain")
+//    implementation project(":nyo-logging")
+
+    runtimeOnly project(":nyo-core")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}

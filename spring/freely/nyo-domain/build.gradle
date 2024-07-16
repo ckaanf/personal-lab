@@ -1,5 +1,6 @@
 dependencies {
     implementation project(":nyo-core")
+    api 'org.springframework.boot:spring-boot-starter-websocket'
 
     compileOnly("org.springframework:spring-context")
 }

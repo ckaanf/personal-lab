@@ -1,5 +1,7 @@
 package com.freely.nyodomain.domain;
 
+import com.freely.nyodomain.domain.common.User;
+
 import lombok.Builder;
 import lombok.Getter;
 @Builder
