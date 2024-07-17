@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class ChatService {
 
 	private Map<String, ChatRoom> chatRooms;
 
+	//TODO 반드시 PostConstruct로
 	@PostConstruct
 	private void init() {
 		chatRooms = new LinkedHashMap<>();
@@ -38,6 +40,7 @@ public class ChatService {
 			.roomId(randomId)
 			.roomName(name)
 			.build();
+
 		chatRooms.put(randomId, chatRoom);
 		return chatRoom;
 	}
