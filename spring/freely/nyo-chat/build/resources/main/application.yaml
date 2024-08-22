@@ -1,0 +1,16 @@
+spring.profiles.active: local
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: nyo-chat
+
+  config:
+    import:
+      - nyo-core.yaml
+#      - logging.yaml //
+logging:
+  level:
+    root: INFO
