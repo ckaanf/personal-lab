@@ -2,7 +2,6 @@ package craft;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,20 +22,22 @@ public class Order {
 	public boolean isValidOrder() {
 		if (itemListIsEmpty()) return false;
 
-		if (isAvailablePrice()) return false;
+		if (isIncorrectPrice()) return false;
 
-		return !isCustomerExist();
+		if (isCustomerNotExist()) return false;
+
+		return true;
 	}
 
 	private boolean itemListIsEmpty() {
 		return validateOutFormatter(items.isEmpty(),"주문 항목이 없습니다.");
 	}
 
-	private boolean isAvailablePrice() {
+	private boolean isIncorrectPrice() {
 		return validateOutFormatter(totalPrice.compareTo(BigDecimal.ZERO) <= 0, "올바르지 않은 총 가격입니다.");
 	}
 
-	private boolean isCustomerExist() {
+	private boolean isCustomerNotExist() {
 		return validateOutFormatter(customerInfo == null, "사용자 정보가 없습니다.");
 	}
 
