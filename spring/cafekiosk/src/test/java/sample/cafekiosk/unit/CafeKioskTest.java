@@ -78,6 +78,20 @@ class CafeKioskTest {
 
 	}
 
+	@Test
+	void calculateTotalPrice() {
+		CafeKiosk cafeKiosk = new CafeKiosk();
+		Americano americano = new Americano();
+		Latte latte = new Latte();
+
+		cafeKiosk.add(americano);
+		cafeKiosk.add(latte);
+
+		int totalPrice = cafeKiosk.calculateTotalPrice();
+		assertThat(totalPrice).isEqualTo(8500);
+
+	}
+
 	// 가게 운영 시간 내에서만 성공
 	// 어떻게 해야하냐?
 	@Test
