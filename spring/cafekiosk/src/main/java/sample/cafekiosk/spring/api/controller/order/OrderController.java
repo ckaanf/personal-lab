@@ -16,7 +16,6 @@ import sample.cafekiosk.spring.api.service.order.response.OrderResponse;
 public class OrderController {
 
 	private final OrderService orderService;
-
 	@PostMapping("/api/v1/orders/new")
 	public OrderResponse createOrder(@RequestBody OrderCreateRequest request) {
 		LocalDateTime registeredDateTime = LocalDateTime.now();
