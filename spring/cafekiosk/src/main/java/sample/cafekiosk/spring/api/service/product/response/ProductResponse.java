@@ -9,12 +9,12 @@ import sample.cafekiosk.spring.domain.product.ProductType;
 @Getter
 public class ProductResponse {
 
-	private Long id;
-	private String productNumber;
-	private ProductType type;
-	private ProductSellingStatus sellingStatus;
-	private String name;
-	private int price;
+	private final Long id;
+	private final String productNumber;
+	private final ProductType type;
+	private final ProductSellingStatus sellingStatus;
+	private final String name;
+	private final int price;
 
 	// 우빈님 빌더 private로 함 주로
 	@Builder
@@ -38,4 +38,5 @@ public class ProductResponse {
 			.price(product.getPrice())
 			.build();
 	}
+
 }
