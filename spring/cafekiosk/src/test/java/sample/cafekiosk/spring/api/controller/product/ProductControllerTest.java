@@ -1,6 +1,6 @@
 package sample.cafekiosk.spring.api.controller.product;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.ProductService;
+import sample.cafekiosk.spring.api.service.product.request.ProductCreateServiceRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
@@ -30,7 +31,6 @@ class ProductControllerTest {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private MockMvc mockMvc;
-
 	@MockBean
 	private ProductService productService;
 
@@ -45,10 +45,22 @@ class ProductControllerTest {
 			.price(4000)
 			.build();
 
-		// when // then
+		ProductCreateServiceRequest serviceRequest = request.toServiceRequest();
+
+		ProductResponse expectedResponse = ProductResponse.builder()
+			.type(ProductType.HANDMADE)
+			.sellingStatus(ProductSellingStatus.SELLING)
+			.name("아메리카노")
+			.price(4000)
+			.build();
+
+		String json = objectMapper.writeValueAsString(request);
+		given(productService.createProduct(serviceRequest)).willReturn(expectedResponse);
+
+		// when && then
 		mockMvc.perform(
 				post("/api/v1/products/new")
-					.content(objectMapper.writeValueAsString(request))
+					.content(json)
 					.contentType(MediaType.APPLICATION_JSON)
 			)
 			.andDo(print())
