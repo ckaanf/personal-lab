@@ -1,6 +1,7 @@
 package craft._20241027;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PlanningPoker {
@@ -13,7 +14,7 @@ public class PlanningPoker {
 			throw new IllegalArgumentException("there has to be more than 1 estimate in the list");
 		}
 
-		Estimate lowerEstimate = null;
+		Estimate lowestEstimate = null;
 		Estimate highestEstimate = null;
 
 		for (Estimate estimate : estimates) {
@@ -21,12 +22,17 @@ public class PlanningPoker {
 			if (highestEstimate == null || estimate.getEstimate() > highestEstimate.getEstimate()) {
 				highestEstimate = estimate;
 			}
-			if (lowerEstimate == null || estimate.getEstimate() < lowerEstimate.getEstimate()) {
-				lowerEstimate = estimate;
+			if (lowestEstimate == null || estimate.getEstimate() < lowestEstimate.getEstimate()) {
+				lowestEstimate = estimate;
 			}
 		}
+
+		if (lowestEstimate.equals(highestEstimate)) {
+			return Collections.emptyList();
+		}
+
 		return Arrays.asList(
-			lowerEstimate.getDeveloper(),
+			lowestEstimate.getDeveloper(),
 			highestEstimate.getDeveloper()
 		);
 	}
