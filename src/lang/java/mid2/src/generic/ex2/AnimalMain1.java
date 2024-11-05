@@ -1,8 +1,8 @@
-package generic.ex2;
+package mid2.src.generic.ex2;
 
-import generic.animal.Animal;
-import generic.animal.Cat;
-import generic.animal.Dog;
+import mid2.src.generic.animal.Animal;
+import mid2.src.generic.animal.Cat;
+import mid2.src.generic.animal.Dog;
 
 public class AnimalMain1 {
 

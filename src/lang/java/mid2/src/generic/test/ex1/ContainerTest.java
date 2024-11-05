@@ -1,4 +1,4 @@
-package generic.test.ex1;
+package mid2.src.generic.test.ex1;
 
 public class ContainerTest {
     public static void main(String[] args) {

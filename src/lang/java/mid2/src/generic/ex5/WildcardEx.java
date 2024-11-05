@@ -1,6 +1,6 @@
-package generic.ex5;
+package mid2.src.generic.ex5;
 
-import generic.animal.Animal;
+import mid2.src.generic.animal.Animal;
 
 public class WildcardEx {
 

@@ -1,4 +1,4 @@
-package generic.test.ex2;
+package mid2.src.generic.test.ex2;
 
 public class Pair<T1, T2> {
 

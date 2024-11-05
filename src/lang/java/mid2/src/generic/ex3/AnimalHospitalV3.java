@@ -1,6 +1,6 @@
-package generic.ex3;
+package mid2.src.generic.ex3;
 
-import generic.animal.Animal;
+import mid2.src.generic.animal.Animal;
 
 public class AnimalHospitalV3<T extends Animal> {
 

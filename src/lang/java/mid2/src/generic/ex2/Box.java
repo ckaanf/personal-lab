@@ -1,4 +1,4 @@
-package generic.ex2;
+package mid2.src.generic.ex2;
 
 public class Box<T> {
 

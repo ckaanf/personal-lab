@@ -1,6 +1,6 @@
-package generic.ex3;
+package mid2.src.generic.ex3;
 
-import generic.animal.Dog;
+import mid2.src.generic.animal.Dog;
 
 public class DogHospital {
 
