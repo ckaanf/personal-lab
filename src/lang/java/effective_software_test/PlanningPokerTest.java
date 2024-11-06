@@ -1,4 +1,4 @@
-package craft._20241027;
+package effective_software_test;
 
 import static org.assertj.core.api.Assertions.*;
 
