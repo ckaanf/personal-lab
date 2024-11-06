@@ -1,4 +1,4 @@
-package generic.animal;
+package mid2.src.generic.animal;
 
 public class Cat extends Animal {
 

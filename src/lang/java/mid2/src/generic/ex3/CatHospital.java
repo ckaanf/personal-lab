@@ -1,6 +1,6 @@
-package generic.ex3;
+package mid2.src.generic.ex3;
 
-import generic.animal.Cat;
+import mid2.src.generic.animal.Cat;
 
 public class CatHospital {
 

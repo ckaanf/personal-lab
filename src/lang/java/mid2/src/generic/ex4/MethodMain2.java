@@ -1,7 +1,7 @@
-package generic.ex4;
+package mid2.src.generic.ex4;
 
-import generic.animal.Cat;
-import generic.animal.Dog;
+import mid2.src.generic.animal.Cat;
+import mid2.src.generic.animal.Dog;
 
 public class MethodMain2 {
 

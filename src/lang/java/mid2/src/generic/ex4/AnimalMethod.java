@@ -1,6 +1,6 @@
-package generic.ex4;
+package mid2.src.generic.ex4;
 
-import generic.animal.Animal;
+import mid2.src.generic.animal.Animal;
 
 public class AnimalMethod {
 

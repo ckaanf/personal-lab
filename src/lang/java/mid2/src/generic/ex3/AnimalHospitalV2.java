@@ -1,4 +1,4 @@
-package generic.ex3;
+package mid2.src.generic.ex3;
 
 public class AnimalHospitalV2<T> {
 
