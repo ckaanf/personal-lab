@@ -1,4 +1,4 @@
-package generic.test.ex3.unit;
+package mid2.src.generic.test.ex3.unit;
 
 public class BioUnit {
 

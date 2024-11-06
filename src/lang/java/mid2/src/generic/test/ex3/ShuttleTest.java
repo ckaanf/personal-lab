@@ -1,8 +1,8 @@
-package generic.test.ex3;
+package mid2.src.generic.test.ex3;
 
-import generic.test.ex3.unit.Marine;
-import generic.test.ex3.unit.Zealot;
-import generic.test.ex3.unit.Zergling;
+import mid2.src.generic.test.ex3.unit.Marine;
+import mid2.src.generic.test.ex3.unit.Zealot;
+import mid2.src.generic.test.ex3.unit.Zergling;
 
 public class ShuttleTest {
 

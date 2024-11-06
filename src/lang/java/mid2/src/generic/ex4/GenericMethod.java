@@ -1,4 +1,4 @@
-package generic.ex4;
+package mid2.src.generic.ex4;
 
 public class GenericMethod {
 
