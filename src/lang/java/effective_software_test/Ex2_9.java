@@ -30,6 +30,13 @@ public class Ex2_9 {
 
 			result.addFirst(sum % 10);
 			carry = sum / 10;
+
+		}
+		if (carry > 0)
+			result.addFirst(carry);
+
+		while (result.size() > 1 && result.getFirst() == 0) {
+			result.removeFirst();
 		}
 		return result;
 	}

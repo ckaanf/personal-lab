@@ -14,6 +14,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 class Ex2_9Test {
 
 	@ParameterizedTest
+	@MethodSource("digitsOutOfRange")
+	void shouldThrowExceptionWhenDigitsAreOutOfRange(List<Integer> left, List<Integer> right) {
+		assertThatThrownBy(() -> new Ex2_9().add(left, right)).isInstanceOf(IllegalArgumentException.class);
+	}
+
+	@ParameterizedTest
 	@MethodSource("testCases")
 	void shouldReturnCorrectResult(List<Integer> left, List<Integer> right, List<Integer> expected) {
 		assertThat(new Ex2_9().add(left, right)).isEqualTo(expected);
@@ -52,6 +58,15 @@ class Ex2_9Test {
 			of(numbers(0,0,0,1,2),numbers(0,2,9), numbers(4,1)),
 
 			of(numbers(9,9), numbers(1), numbers(1,0,0))
+		);
+	}
+
+	static Stream<Arguments> digitsOutOfRange() {
+		return Stream.of(
+			of(numbers(1, -1, 1), numbers(1)),
+			of(numbers(1), numbers(1, -1, 1)),
+			of(numbers(1, 10, 1), numbers(1)),
+			of(numbers(1), numbers(1, 11, 1))
 		);
 	}
 
