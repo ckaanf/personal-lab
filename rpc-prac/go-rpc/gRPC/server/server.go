@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"errors"
 	"go-rpc/config"
 	"go-rpc/gRPC/paseto"
 	auth "go-rpc/gRPC/proto"
@@ -59,9 +60,14 @@ func (s *GRPCServer) VerifyAuth(_ context.Context, request *auth.VerifyTokenRequ
 
 	if authData, ok := s.tokenVerifyMap[token]; !ok {
 		response.Verify.Status = auth.ResponseType_FAILED
+		return response, errors.New("Not Existed At Map")
+	} else if err := s.pasetoMaker.VerifyToken(token); err != nil {
+		log.Println("error", err.Error())
+		return nil, errors.New("Failed Verify token")
 	} else if authData.ExpireDate < time.Now().Unix() {
 		delete(s.tokenVerifyMap, token)
 		response.Verify.Status = auth.ResponseType_EXPIRED_DATE
+		return response, errors.New("Expired Time Over")
 	} else {
 		response.Verify.Status = auth.ResponseType_SUCCESS
 	}
