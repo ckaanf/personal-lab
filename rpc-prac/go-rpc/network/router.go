@@ -14,6 +14,7 @@ type Network struct {
 	engin      *gin.Engine
 }
 
+//   - An error if initialization fails
 func NewNetwork(cfg *config.Config, service *service.Service, gRPCClient *client.GRPCClient) (*Network, error) {
 	r := &Network{cfg: cfg, service: service, engin: gin.New(), gRPCClient: gRPCClient}
 

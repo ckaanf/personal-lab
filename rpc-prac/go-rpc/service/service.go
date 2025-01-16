@@ -12,6 +12,7 @@ type Service struct {
 	repository *repository.Repository
 }
 
+// The function always returns a valid Service instance and a nil error.
 func NewService(cfg *config.Config, repository *repository.Repository) (*Service, error) {
 	r := &Service{cfg: cfg, repository: repository}
 	return r, nil

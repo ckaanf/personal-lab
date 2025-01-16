@@ -11,6 +11,7 @@ type Repository struct {
 	gRPCClient *client.GRPCClient
 }
 
+// The function always returns a valid Repository pointer and a nil error.
 func NewRepository(cfg *config.Config, gRPCClient *client.GRPCClient) (*Repository, error) {
 	r := &Repository{cfg: cfg, gRPCClient: gRPCClient}
 

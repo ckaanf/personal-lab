@@ -35,11 +35,37 @@ public class ClientStreamingGrpcClientCaller implements GrpcClientCaller {
 	private int minAge = 1;
 	private int maxAge = 100;
 
+	/**
+	 * Constructs a new ClientStreamingGrpcClientCaller with the specified gRPC channel.
+	 *
+	 * @param chl the ManagedChannel to be used for gRPC communication
+	 * @throws IllegalArgumentException if the provided channel is null
+	 */
 	public ClientStreamingGrpcClientCaller(ManagedChannel chl) {
 		channel = chl;
 		asyncStub = HelloGrpc.newStub(channel);
 	}
 
+	/**
+	 * Sends a stream of client-side gRPC requests using client streaming.
+	 *
+	 * This method creates a list of {@code HelloRequest} objects with names and random ages,
+	 * then sends them asynchronously to the server using a client streaming RPC.
+	 * It manages the request stream, handles responses, and ensures proper completion.
+	 *
+	 * @throws InterruptedException if the request stream is interrupted during processing
+	 *
+	 * @implNote
+	 * - Generates requests for each name in the predefined names array
+	 * - Uses a {@code CountDownLatch} to manage asynchronous request completion
+	 * - Logs each request and response
+	 * - Stops sending requests if an error occurs during streaming
+	 * - Waits up to 1 minute for the stream to complete
+	 *
+	 * @see StreamObserver
+	 * @see HelloRequest
+	 * @see HelloResponse
+	 */
 	@Override
 	public void send() throws InterruptedException {
 		log.info(">>> Send Call");
@@ -104,6 +130,11 @@ public class ClientStreamingGrpcClientCaller implements GrpcClientCaller {
 		log.info(">>> End.");
 	}
 
+	/**
+	 * Generates a random age within the predefined age range.
+	 *
+	 * @return A random integer representing an age between {@code minAge} and {@code maxAge}, inclusive.
+	 */
 	private int getRandomAge() {
 		return (int) (Math.random() * (maxAge - minAge + 1)) + minAge;
 	}

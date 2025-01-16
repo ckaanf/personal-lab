@@ -25,6 +25,7 @@ func (n *Network) verifyLogin() gin.HandlerFunc {
 	}
 }
 
+// The function assumes the token follows the "Bearer <token>" format.
 func getAuthToken(c *gin.Context) string {
 	var token string
 

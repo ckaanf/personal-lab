@@ -11,6 +11,7 @@ type PasetoMaker struct {
 	Key []byte
 }
 
+// The function returns a pointer to the newly created PasetoMaker.
 func NewPasetoMaker(cfg *config.Config) *PasetoMaker {
 	return &PasetoMaker{
 		Pt:  paseto.NewV2(),

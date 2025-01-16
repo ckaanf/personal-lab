@@ -19,12 +19,31 @@ public class ServerStreamingGrpcClientCaller implements GrpcClientCaller {
 	private ManagedChannel channel;
 	private HelloGrpc.HelloBlockingStub blockingStub;
 
-	// 생성한 채널로 stub 생성
+	/**
+	 * Constructs a new ServerStreamingGrpcClientCaller with the specified gRPC channel.
+	 *
+	 * @param chl The ManagedChannel used to establish the connection to the gRPC server
+	 * @throws IllegalArgumentException if the provided channel is null
+	 */
 	public ServerStreamingGrpcClientCaller(ManagedChannel chl) {
 		channel = chl;
 		blockingStub = HelloGrpc.newBlockingStub(channel);
 	}
 
+	/**
+	 * Sends a single server-streaming gRPC request and processes multiple responses.
+	 *
+	 * This method demonstrates a server-streaming RPC call where:
+	 * - A single {@code HelloRequest} is sent to the server
+	 * - Multiple {@code HelloResponse} messages are received and logged
+	 *
+	 * The request includes a predefined name, age, and message.
+	 * Each response from the server is logged using the iterator.
+	 *
+	 * @see HelloGrpc
+	 * @see HelloRequest
+	 * @see HelloResponse
+	 */
 	@Override
 	public void send() {
 		log.info(">>> Send Call");

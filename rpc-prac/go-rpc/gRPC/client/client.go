@@ -16,6 +16,26 @@ type GRPCClient struct {
 	pasetoMaker *paseto.PasetoMaker
 }
 
+// NewGRPCClient creates a new gRPC client with authentication capabilities. It establishes a connection to the gRPC server specified in the configuration using insecure credentials. The method initializes the authentication service client and a PASETO token maker.
+// 
+// Parameters:
+//   - cfg: A configuration object containing gRPC server connection details
+// 
+// Returns:
+//   - A pointer to the initialized GRPCClient
+//   - An error if the connection or client initialization fails
+// 
+// The function performs the following steps:
+//   1. Creates a new GRPCClient instance
+//   2. Establishes a gRPC connection using the provided URL
+//   3. Initializes the authentication service client
+//   4. Creates a PASETO token maker using the configuration
+// 
+// Example:
+//   client, err := NewGRPCClient(config)
+//   if err != nil {
+//     // Handle connection error
+//   }
 func NewGRPCClient(cfg *config.Config) (*GRPCClient, error) {
 	c := new(GRPCClient)
 

@@ -15,6 +15,7 @@ type Config struct {
 	}
 }
 
+// Panics if the file cannot be opened or the TOML decoding fails
 func NewConfig(path string) *Config {
 	c := new(Config)
 

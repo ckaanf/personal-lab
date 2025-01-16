@@ -20,6 +20,22 @@ type GRPCServer struct {
 	tokenVerifyMap map[string]*auth.AuthData
 }
 
+// NewGRPCServer creates and starts a new gRPC server for authentication services. It configures the server to listen on a specified TCP address, registers the authentication service, and starts serving requests asynchronously.
+// 
+// The function takes a configuration object and sets up a gRPC server with the following features:
+// - Listens on a TCP network address specified in the configuration
+// - Registers an AuthServiceServer with a new PASETO token maker
+// - Initializes an empty token verification map
+// - Enables gRPC reflection for service discovery
+// - Starts the server in a separate goroutine
+//
+// Parameters:
+//   - cfg: A configuration object containing gRPC server settings
+//
+// Returns:
+//   - An error if the server cannot be initialized or started, otherwise nil
+//
+// Note: The server is started asynchronously and will panic if it fails to serve requests
 func NewGRPCServer(cfg *config.Config) error {
 	if listen, err := net.Listen("tcp", cfg.GRPC.URL); err != nil {
 		return err

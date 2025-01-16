@@ -34,11 +34,37 @@ public class BidirectionalStreamingGrpcClientCaller implements GrpcClientCaller 
 	private int minAge = 1;
 	private int maxAge = 100;
 
+	/**
+	 * Constructs a new BidirectionalStreamingGrpcClientCaller with the specified gRPC channel.
+	 *
+	 * @param chl The ManagedChannel used for establishing the gRPC communication channel
+	 * @throws IllegalArgumentException if the provided channel is null
+	 */
 	public BidirectionalStreamingGrpcClientCaller(ManagedChannel chl) {
 		channel = chl;
 		asyncStub = HelloGrpc.newStub(channel);
 	}
 
+	/**
+	 * Performs a bidirectional streaming RPC call to send multiple HelloRequest messages.
+	 *
+	 * This method creates a list of HelloRequest objects using predefined names and randomly generated ages,
+	 * then sends them to the server using a bidirectional streaming RPC. It handles responses and potential
+	 * errors asynchronously using StreamObservers.
+	 *
+	 * @throws InterruptedException if the await operation on the CountDownLatch is interrupted
+	 *
+	 * @implNote
+	 * - Logs the start of the send operation
+	 * - Generates HelloRequest objects with names from the class's names array
+	 * - Uses a CountDownLatch to synchronize the asynchronous streaming operation
+	 * - Handles server responses by logging each response
+	 * - Manages potential errors by logging warning and canceling the RPC if needed
+	 * - Waits up to one minute for the streaming operation to complete
+	 *
+	 * @see StreamObserver
+	 * @see CountDownLatch
+	 */
 	@Override
 	public void send() throws InterruptedException {
 		log.info(">>> Send Call");
@@ -92,6 +118,11 @@ public class BidirectionalStreamingGrpcClientCaller implements GrpcClientCaller 
 		finishLatch.await(1, TimeUnit.MINUTES);
 	}
 
+	/**
+	 * Generates a random integer age within the specified range.
+	 *
+	 * @return A random integer between {@code minAge} and {@code maxAge}, inclusive.
+	 */
 	private int getRandomAge() {
 		return (int) (Math.random() * (maxAge - minAge + 1)) + minAge;
 	}

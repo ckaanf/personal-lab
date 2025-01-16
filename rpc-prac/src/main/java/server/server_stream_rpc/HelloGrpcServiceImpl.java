@@ -21,7 +21,15 @@ public class HelloGrpcServiceImpl extends HelloGrpc.HelloImplBase {
 		"e question"
 	};
 
-	// Server Streaming RPC (서버 스트리밍 RPC)
+	/**
+	 * Implements a server streaming RPC method that sends multiple greeting responses.
+	 *
+	 * This method receives a single request and streams multiple responses back to the client.
+	 * Each response includes a personalized greeting and a different question message.
+	 *
+	 * @param request The incoming hello request containing a name
+	 * @param responseObserver The stream observer used to send multiple responses back to the client
+	 */
 	@Override
 	public void lotsOfReplies(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
 		log.info("=== Get Request");

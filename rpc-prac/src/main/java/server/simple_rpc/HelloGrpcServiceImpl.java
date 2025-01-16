@@ -13,7 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j  // 로그를 사용하기 위해 추가
 public class HelloGrpcServiceImpl extends HelloGrpc.HelloImplBase {
 
-	// Unary RPC (단방향 RPC)
+	/**
+	 * Handles a unary gRPC request to generate a personalized greeting.
+	 *
+	 * @param request The incoming HelloRequest containing the client's name
+	 * @param responseObserver The stream observer used to send back the HelloResponse
+	 */
 	@Override
 	public void sayHello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
 		log.info("=== Get Request");
