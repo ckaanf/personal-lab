@@ -17,6 +17,10 @@ type Network struct {
 func NewNetwork(cfg *config.Config, service *service.Service, gRPCClient *client.GRPCClient) (*Network, error) {
 	r := &Network{cfg: cfg, service: service, engin: gin.New(), gRPCClient: gRPCClient}
 
+	// 1. token 생성
+	r.engin.POST("/login", r.login)
+	// 2. token 검증
+	r.engin.GET("/verify", r.verifyLogin(), r.verify)
 	return r, nil
 }
 

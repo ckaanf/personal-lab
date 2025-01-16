@@ -21,12 +21,11 @@ func NewApp(cfg *config.Config) {
 	a := &App{cfg: cfg}
 
 	var err error
-
-	if a.repository, err = repository.NewRepository(cfg); err != nil {
+	if a.gRPCClient, err = client.NewGRPCClient(cfg); err != nil {
+		panic(err)
+	} else if a.repository, err = repository.NewRepository(cfg, a.gRPCClient); err != nil {
 		panic(err)
 	} else if a.service, err = service.NewService(cfg, a.repository); err != nil {
-		panic(err)
-	} else if a.gRPCClient, err = client.NewGRPCClient(cfg); err != nil {
 		panic(err)
 	} else if a.network, err = network.NewNetwork(cfg, a.service, a.gRPCClient); err != nil {
 		panic(err)

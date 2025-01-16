@@ -22,7 +22,8 @@ func NewPasetoMaker(cfg *config.Config) *PasetoMaker {
 func (m *PasetoMaker) CreateNewToken(auth *auth.AuthData) (string, error) {
 	randomBytes := make([]byte, 16)
 	rand.Read(randomBytes)
-	return m.Pt.Encrypt(m.Key, auth, randomBytes)
+	encrypt, err := m.Pt.Encrypt(m.Key, auth, randomBytes)
+	return encrypt, err
 }
 
 func (m *PasetoMaker) VerifyToken(token string) error {
