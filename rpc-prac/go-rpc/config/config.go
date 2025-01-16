@@ -9,6 +9,10 @@ type Config struct {
 	Paseto struct {
 		Key string
 	}
+
+	GRPC struct {
+		URL string
+	}
 }
 
 func NewConfig(path string) *Config {
