@@ -1,6 +1,4 @@
-package com.example.redis_practice;
-
-import java.util.HashMap;
+package com.example.redis_practice.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
