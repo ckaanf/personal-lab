@@ -1,4 +1,4 @@
-package com.example.redis_practice.service;
+package com.example.redis_practice.session_prac.service;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

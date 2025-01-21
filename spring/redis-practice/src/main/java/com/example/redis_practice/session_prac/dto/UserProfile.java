@@ -1,4 +1,4 @@
-package com.example.redis_practice.dto;
+package com.example.redis_practice.session_prac.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

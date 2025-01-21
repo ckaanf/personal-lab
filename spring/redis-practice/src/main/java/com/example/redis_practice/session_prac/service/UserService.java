@@ -1,4 +1,4 @@
-package com.example.redis_practice.service;
+package com.example.redis_practice.session_prac.service;
 
 import java.util.concurrent.TimeUnit;
 
@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-import com.example.redis_practice.dto.UserProfile;
+import com.example.redis_practice.session_prac.dto.UserProfile;
 
 @Service
 public class UserService {

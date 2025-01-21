@@ -1,4 +1,4 @@
-package com.example.redis_practice.config;
+package com.example.redis_practice.session_prac.config;
 
 import java.time.Duration;
 import java.util.HashMap;
