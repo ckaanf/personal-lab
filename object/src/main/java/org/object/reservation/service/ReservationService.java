@@ -58,12 +58,19 @@ public class ReservationService {
 		for(DiscountCondition condition : conditions) {
 			if (condition.isPeriodCondition()) {
 				if (screening.isPlayedIn(condition.getDayOfWeek(),
-					condition.getStartTime(),
-					condition.getEndTime())) {
+					condition.getInterval().getStartTime(),
+					condition.getInterval().getEndTime())) {
 					return condition;
 				}
-			} else {
+			} else if (condition.isSequenceCondition()) {
 				if (condition.getSequence().equals(screening.getSequence())) {
+					return condition;
+				}
+			} else if (condition.isCombinedCondition()) {
+				if (screening.isPlayedIn(condition.getDayOfWeek(),
+					condition.getInterval().getStartTime(),
+					condition.getInterval().getEndTime()) &&
+					condition.getSequence().equals(screening.getSequence())) {
 					return condition;
 				}
 			}
