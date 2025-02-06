@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import org.object.generic.TimeInterval;
 
 public class DiscountCondition {
+
 	public enum ConditionType {PERIOD_CONDITION, SEQUENCE_CONDITION, COMBINED_CONDITION}
 
 	private Long id;
@@ -33,63 +34,39 @@ public class DiscountCondition {
 		this.sequence = sequence;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public boolean isSatisfiedBy(Screening screening) {
+		if (isPeriodCondition()) {
+			if (screening.isPlayedIn(dayOfWeek, interval.getStartTime(), interval.getEndTime())) {
+				return true;
+			}
+		} else if (isSequenceCondition()) {
+			if (sequence.equals(screening.getSequence())) {
+				return true;
+			}
+		}
+		if (isCombinedCondition()) {
+			if (screening.isPlayedIn(dayOfWeek, interval.getStartTime(), interval.getEndTime()) &&
+				sequence.equals(screening.getSequence())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Long getPolicyId() {
 		return policyId;
 	}
 
-	public void setPolicyId(Long policyId) {
-		this.policyId = policyId;
-	}
-
-	public boolean isPeriodCondition() {
+	private boolean isPeriodCondition() {
 		return ConditionType.PERIOD_CONDITION.equals(conditionType);
 	}
 
-	public boolean isSequenceCondition() {
+	private boolean isSequenceCondition() {
 		return ConditionType.SEQUENCE_CONDITION.equals(conditionType);
 	}
 
-	public boolean isCombinedCondition() {
+	private boolean isCombinedCondition() {
 		return ConditionType.COMBINED_CONDITION.equals(conditionType);
 	}
 
-	public ConditionType getConditionType() {
-		return conditionType;
-	}
-
-	public void setConditionType(ConditionType conditionType) {
-		this.conditionType = conditionType;
-	}
-
-	public DayOfWeek getDayOfWeek() {
-		return dayOfWeek;
-	}
-
-	public void setDayOfWeek(DayOfWeek dayOfWeek) {
-		this.dayOfWeek = dayOfWeek;
-	}
-
-	public TimeInterval getInterval() {
-		return interval;
-	}
-
-	public void setInterval(TimeInterval interval) {
-		this.interval = interval;
-	}
-
-	public Integer getSequence() {
-		return sequence;
-	}
-
-	public void setSequence(Integer sequence) {
-		this.sequence = sequence;
-	}
 }
