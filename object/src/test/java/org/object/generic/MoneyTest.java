@@ -3,6 +3,7 @@ package org.object.generic;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.object.v1.generic.Money;
 
 class MoneyTest {
 

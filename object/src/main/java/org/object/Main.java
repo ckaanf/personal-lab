@@ -1,29 +1,27 @@
 package org.object;
 
 import static java.time.DayOfWeek.*;
-import static org.object.reservation.domain.DiscountCondition.ConditionType.*;
-import static org.object.reservation.domain.DiscountPolicy.PolicyType.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import org.object.generic.Money;
-import org.object.reservation.domain.DiscountCondition;
-import org.object.reservation.domain.DiscountPolicy;
-import org.object.reservation.domain.Movie;
-import org.object.reservation.domain.Reservation;
-import org.object.reservation.domain.Screening;
-import org.object.reservation.persistence.DiscountConditionDAO;
-import org.object.reservation.persistence.DiscountPolicyDAO;
-import org.object.reservation.persistence.MovieDAO;
-import org.object.reservation.persistence.ReservationDAO;
-import org.object.reservation.persistence.ScreeningDAO;
-import org.object.reservation.persistence.memory.DiscountConditionMemoryDAO;
-import org.object.reservation.persistence.memory.DiscountPolicyMemoryDAO;
-import org.object.reservation.persistence.memory.MovieMemoryDAO;
-import org.object.reservation.persistence.memory.ReservationMemoryDAO;
-import org.object.reservation.persistence.memory.ScreeningMemoryDAO;
-import org.object.reservation.service.ReservationService;
+import org.object.v1.generic.Money;
+import org.object.v1.reservation.domain.DiscountCondition;
+import org.object.v1.reservation.domain.DiscountPolicy;
+import org.object.v1.reservation.domain.Movie;
+import org.object.v1.reservation.domain.Reservation;
+import org.object.v1.reservation.domain.Screening;
+import org.object.v1.reservation.persistence.DiscountConditionDAO;
+import org.object.v1.reservation.persistence.DiscountPolicyDAO;
+import org.object.v1.reservation.persistence.MovieDAO;
+import org.object.v1.reservation.persistence.ReservationDAO;
+import org.object.v1.reservation.persistence.ScreeningDAO;
+import org.object.v1.reservation.persistence.memory.DiscountConditionMemoryDAO;
+import org.object.v1.reservation.persistence.memory.DiscountPolicyMemoryDAO;
+import org.object.v1.reservation.persistence.memory.MovieMemoryDAO;
+import org.object.v1.reservation.persistence.memory.ReservationMemoryDAO;
+import org.object.v1.reservation.persistence.memory.ScreeningMemoryDAO;
+import org.object.v1.reservation.service.ReservationService;
 
 public class Main {
 	private ScreeningDAO screeningDAO = new ScreeningMemoryDAO();
