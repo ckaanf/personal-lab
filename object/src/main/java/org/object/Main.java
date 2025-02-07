@@ -1,6 +1,8 @@
 package org.object;
 
 import static java.time.DayOfWeek.*;
+import static org.object.v1.reservation.domain.DiscountCondition.ConditionType.*;
+import static org.object.v1.reservation.domain.DiscountPolicy.PolicyType.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
