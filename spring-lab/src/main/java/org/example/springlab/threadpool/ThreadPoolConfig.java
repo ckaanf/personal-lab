@@ -2,6 +2,7 @@ package org.example.springlab.threadpool;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -9,7 +10,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class ThreadPoolConfig {
 
-	@Bean
+	// @Bean
 	public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setThreadNamePrefix("myThread-");
@@ -17,5 +18,10 @@ public class ThreadPoolConfig {
 		// ....
 		executor.initialize();
 		return executor;
+	}
+
+	@Bean
+	public TaskDecorator myTaskDecorator() {
+		return new ThreadLocalCopyTaskDecorator();
 	}
 }

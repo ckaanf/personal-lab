@@ -1,4 +1,4 @@
-#spring:
-#  task:
-#    execution:
-#      thread-name-prefix: myTask-
+spring:
+  task:
+    execution:
+      thread-name-prefix: myTask-
