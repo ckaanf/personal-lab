@@ -22,7 +22,7 @@ class NaverClientTest {
 
     @Test
     void callNaver() {
-        String sut = naverClient.searchBook("HTTP", 1, 1);
+        String sut = naverClient.searchBook("바보", 1, 1);
 
         System.out.println(sut);
         assertFalse(sut.isEmpty());
