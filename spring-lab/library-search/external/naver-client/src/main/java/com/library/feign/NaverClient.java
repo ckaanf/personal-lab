@@ -1,5 +1,6 @@
 package com.library.feign;
 
+import com.library.NaverBookResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface NaverClient {
 
 	@GetMapping("/v1/search/book.json")
-	String searchBook(@RequestParam("query") String query,
-					  @RequestParam("start") int start,
-					  @RequestParam("display") int display);
+	NaverBookResponse searchBook(@RequestParam("query") String query,
+								 @RequestParam("start") int start,
+								 @RequestParam("display") int display);
 
 }
