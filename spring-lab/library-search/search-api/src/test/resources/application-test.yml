@@ -1,0 +1,11 @@
+spring:
+  config:
+    activate:
+        on-profile: test
+
+external:
+  naver:
+    url: https://openapi.naver.com
+    headers:
+      client-id: 123
+      client-secret: 123

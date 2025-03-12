@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: local
+  config:
+    import: application-naver-client.yml

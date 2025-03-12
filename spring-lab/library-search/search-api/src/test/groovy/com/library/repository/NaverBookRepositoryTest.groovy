@@ -8,8 +8,8 @@ import spock.lang.Specification
 import java.time.LocalDate
 
 class NaverBookRepositoryTest extends Specification {
-    BookRepository bookRepository
 
+    BookRepository bookRepository
     NaverClient naverClient = Mock(NaverClient)
 
     void setup() {
