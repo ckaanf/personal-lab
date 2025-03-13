@@ -52,26 +52,21 @@ class BookControllerTest extends Specification {
         }
     }
 
-    def "findStat"() {
+    def "findStatRank"() {
         given:
-        def givenQuery = "HTTP"
-        def givenDate = LocalDate.of(2025, 3, 13)
+        def givenPage = 0
+        def givenSize = 3
 
         when:
         def response = mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/v1/books/stats?query=${givenQuery}&date=${givenDate}")
+                MockMvcRequestBuilders.get("/api/v1/books/stats/rank")
         ).andReturn().response
 
 
         then:
         response.status == HttpStatus.OK.value()
-        verifyAll {
-            and:
-            1 * bookApplicationService.findQueryCount(*_) >> {
-                String query, LocalDate date ->
-                    assert query == givenQuery
-                    assert date == givenDate
-            }
-        }
+
+        and:
+        1 * bookApplicationService.findTopNQuery(*_)
     }
 }

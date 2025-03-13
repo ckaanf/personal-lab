@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -31,5 +32,9 @@ public class BookApplicationService {
 
     public StatResponse findQueryCount(String query, LocalDate date) {
         return dailyStatQueryService.findQueryCount(query, date);
+    }
+
+    public List<StatResponse> findTopNQuery(int page, int size) {
+        return dailyStatQueryService.findTopNQuery(page, size);
     }
 }

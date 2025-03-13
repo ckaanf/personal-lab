@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,5 +34,11 @@ public class BookController {
                                       @RequestParam(name = "date") LocalDate date) {
         log.info("[BookController] find stats query={}, date={}", query, date);
         return bookApplicationService.findQueryCount(query, date);
+    }
+
+    @GetMapping("/stats/rank")
+    public List<StatResponse> findTopNStats(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
+                                            @RequestParam(name = "size", defaultValue = "3", required = false) int size) {
+        return bookApplicationService.findTopNQuery(page, size);
     }
 }

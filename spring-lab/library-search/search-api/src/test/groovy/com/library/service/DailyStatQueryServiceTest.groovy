@@ -2,6 +2,7 @@ package com.library.service
 
 import com.library.controller.response.StatResponse
 import com.library.repository.DailyStatRepository
+import org.springframework.data.domain.Pageable
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -35,5 +36,17 @@ class DailyStatQueryServiceTest extends Specification {
 
         and:
         response.count() == expectedCount
+    }
+
+    def "findTopNQuery 조회 시 상위 N개가 반환된다."() {
+        when:
+        dailyStatQueryService.findTopNQuery(0,3)
+
+        then:
+        1 * dailyStatRepository.findTopQuery(*_) >> {
+            Pageable pageable ->
+                assert pageable.pageNumber == 0
+                assert pageable.pageSize == 3
+        }
     }
 }
