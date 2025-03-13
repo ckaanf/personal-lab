@@ -1,7 +1,25 @@
 spring:
   config:
     activate:
-        on-profile: test
+      on-profile: test
+
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:lsdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
 
 external:
   naver:
@@ -9,3 +27,4 @@ external:
     headers:
       client-id: 123
       client-secret: 123
+

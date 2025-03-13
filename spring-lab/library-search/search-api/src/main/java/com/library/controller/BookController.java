@@ -3,7 +3,7 @@ package com.library.controller;
 import com.library.controller.request.SearchRequest;
 import com.library.controller.response.PageResult;
 import com.library.controller.response.SearchResponse;
-import com.library.service.BookQueryService;
+import com.library.service.BookApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/books")
 public class BookController {
-    private final BookQueryService bookQueryService;
+    private final BookApplicationService bookApplicationService;
 
     @GetMapping
     public PageResult<SearchResponse> search(@Valid SearchRequest searchRequest) {
-        return bookQueryService.search(searchRequest.getQuery(), searchRequest.getPage(), searchRequest.getSize());
+        return bookApplicationService.search(searchRequest.getQuery(), searchRequest.getPage(), searchRequest.getSize());
     }
 }
