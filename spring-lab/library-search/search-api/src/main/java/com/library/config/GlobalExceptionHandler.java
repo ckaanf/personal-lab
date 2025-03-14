@@ -1,6 +1,7 @@
-package com.library.controller.config;
+package com.library.config;
 
 import com.library.ApiException;
+import com.library.controller.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
