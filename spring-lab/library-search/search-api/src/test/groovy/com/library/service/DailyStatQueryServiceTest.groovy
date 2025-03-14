@@ -1,6 +1,5 @@
 package com.library.service
 
-import com.library.controller.response.StatResponse
 import com.library.repository.DailyStatRepository
 import org.springframework.data.domain.Pageable
 import spock.lang.Specification
