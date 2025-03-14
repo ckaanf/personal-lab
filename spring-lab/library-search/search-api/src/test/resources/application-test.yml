@@ -28,3 +28,13 @@ external:
       client-id: 123
       client-secret: 123
 
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 100
+        minimum-number-of-calls: 10
+        wait-duration-in-open-state:
+          seconds: 20
+        failure-rate-threshold: 50
+        permitted-number-of-calls-in-half-open-state: 10
