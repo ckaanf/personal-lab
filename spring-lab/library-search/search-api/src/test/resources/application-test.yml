@@ -1,0 +1,44 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:lsdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+
+external:
+  naver:
+    url: https://openapi.naver.com
+    headers:
+      client-id: 123
+      client-secret: 123
+  kakao:
+    url: https://dapi.kakao.com
+    headers:
+      rest-api-key: test
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 100
+        minimum-number-of-calls: 10
+        wait-duration-in-open-state:
+          seconds: 20
+        failure-rate-threshold: 50
+        permitted-number-of-calls-in-half-open-state: 10
