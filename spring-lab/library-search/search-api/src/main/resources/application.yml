@@ -2,7 +2,9 @@ spring:
   profiles:
     active: local
   config:
-    import: application-naver-client.yml
+    import:
+    - application-naver-client.yml
+    - application-kakao-client.yml
 
   h2:
     console:

@@ -27,6 +27,10 @@ external:
     headers:
       client-id: 123
       client-secret: 123
+  kakao:
+    url: https://dapi.kakao.com
+    headers:
+      rest-api-key: test
 
 resilience4j:
   circuitbreaker:
