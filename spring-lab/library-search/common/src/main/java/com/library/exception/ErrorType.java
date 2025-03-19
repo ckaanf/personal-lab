@@ -1,4 +1,4 @@
-package com.library;
+package com.library.exception;
 
 import lombok.Getter;
 

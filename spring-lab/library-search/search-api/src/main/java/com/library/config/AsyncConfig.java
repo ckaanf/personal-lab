@@ -23,12 +23,6 @@ public class AsyncConfig implements AsyncConfigurer {
         int cpuCoreCount = Runtime.getRuntime().availableProcessors();
         executor.setCorePoolSize(cpuCoreCount);
         executor.setMaxPoolSize(cpuCoreCount * 2);
-        // 백엔드 threadpool에서 작업이 계속 밀리면 앞단에 작업이 쌓임
-        // thread가 계속 만들어지더라도 앞단의 작업을 계속 빼주기 위해서 이런식으로도 활용한 적이 있음
-        // 대신 전제가 threadpool 안의 작업이 빨리 끝낸다는 점
-        // 서비스 최앞단에서 많은 유저의 작업을 받을 때 이런식으로 설정
-        // 응답이 보장되어있는 요청들 -> rds에 저장한다든지 하는 곳에서는 맞지 않음
-        //executor.setMaxPoolSize(Integer.MAX_VALUE );
         executor.setQueueCapacity(10);
         executor.setKeepAliveSeconds(60);
         executor.setWaitForTasksToCompleteOnShutdown(true);

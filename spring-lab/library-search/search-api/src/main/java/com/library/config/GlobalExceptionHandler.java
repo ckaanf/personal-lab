@@ -1,6 +1,6 @@
 package com.library.config;
 
-import com.library.ApiException;
+import com.library.exception.ApiException;
 import com.library.controller.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.stream.Collectors;
 
-import static com.library.ErrorType.*;
+import static com.library.exception.ErrorType.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 

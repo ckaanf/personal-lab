@@ -1,7 +1,7 @@
 package com.library.feign;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.library.ApiException;
+import com.library.exception.ApiException;
 import com.library.NaverErrorResponse;
 import feign.Response;
 import feign.codec.ErrorDecoder;
@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static com.library.ErrorType.EXTERNAL_API_ERROR;
-import static com.library.ErrorType.UNKNOWN;
+import static com.library.exception.ErrorType.EXTERNAL_API_ERROR;
+import static com.library.exception.ErrorType.UNKNOWN;
 
 @Slf4j
 public class NaverErrorDecoder implements ErrorDecoder {

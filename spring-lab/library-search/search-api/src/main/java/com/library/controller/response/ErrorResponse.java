@@ -1,6 +1,6 @@
 package com.library.controller.response;
 
-import com.library.ErrorType;
+import com.library.exception.ErrorType;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "에러 응답")
