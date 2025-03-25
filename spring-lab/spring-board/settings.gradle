@@ -1,0 +1,10 @@
+rootProject.name = 'spring-board'
+
+include 'common'
+include 'service'
+include 'service:article'
+include 'service:article-read'
+include 'service:hot-article'
+include 'service:comment'
+include 'service:like'
+include 'service:view'
