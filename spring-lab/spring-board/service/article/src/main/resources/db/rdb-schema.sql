@@ -5,5 +5,5 @@ create table article(
     board_id bigint not null,
     writer_id bigint not null,
     created_at datetime not null,
-    modified_at datetime not null,
+    modified_at datetime not null
 );
