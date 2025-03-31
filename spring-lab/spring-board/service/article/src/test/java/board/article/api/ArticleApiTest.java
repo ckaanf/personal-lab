@@ -1,5 +1,6 @@
 package board.article.api;
 
+import board.article.service.response.ArticlePageResponse;
 import board.article.service.response.ArticleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,19 @@ public class ArticleApiTest {
         Long articleId = 1L;
         delete(articleId);
         System.out.println("Article deleted successfully");
+    }
+
+    @Test
+    void readAllTest() {
+        ArticlePageResponse response = restClient.get().uri("/api/v1/articles?boardId=1&pageSize=30&page=50000")
+                .retrieve()
+                .body(ArticlePageResponse.class);
+
+        assert response != null;
+        System.out.println("response.getArticleCount() = " + response.getArticleCount());
+        for (ArticleResponse article : response.getArticles()) {
+            System.out.println("article = " + article.getArticleId());
+        }
     }
 
     ArticleResponse create(ArticleCreateRequest request) {
