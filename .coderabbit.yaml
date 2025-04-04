@@ -1,0 +1,4 @@
+reviews:
+  branches:
+    - ".*"  # 모든 브랜치에서 리뷰 실행
+  drafts: true  # Draft PR도 리뷰 실행
