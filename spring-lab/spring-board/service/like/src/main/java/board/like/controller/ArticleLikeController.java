@@ -16,14 +16,41 @@ public class ArticleLikeController {
         return articleLikeService.read(articleId, userId);
     }
 
-    @PostMapping("/articles/{articleId}/users/{userId}")
-    public void like(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
-        System.out.println("like");
-        articleLikeService.like(articleId, userId);
+    @GetMapping("/articles/{articleId}/count")
+    public Long count(@PathVariable("articleId") Long articleId) {
+        return articleLikeService.count(articleId);
     }
 
-    @DeleteMapping("/articles/{articleId}/users/{userId}")
-    public void unlike(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
-        articleLikeService.unlike(articleId, userId);
+    @PostMapping("/articles/{articleId}/users/{userId}/pessimistic-lock-1")
+    public void likePessimisticLock1(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
+        System.out.println("like");
+        articleLikeService.likePessimisticLock1(articleId, userId);
+    }
+
+    @DeleteMapping("/articles/{articleId}/users/{userId}/pessimistic-lock-1")
+    public void unlikePessimisticLock1(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
+        articleLikeService.unlikePessimisticLock1(articleId, userId);
+    }
+
+    @PostMapping("/articles/{articleId}/users/{userId}/pessimistic-lock-2")
+    public void likePessimisticLock2(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
+        System.out.println("like");
+        articleLikeService.likePessimisticLock2(articleId, userId);
+    }
+
+    @DeleteMapping("/articles/{articleId}/users/{userId}/pessimistic-lock-2")
+    public void unlikePessimisticLock2(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
+        articleLikeService.unlikePessimisticLock2(articleId, userId);
+    }
+
+    @PostMapping("/articles/{articleId}/users/{userId}/optimistic-lock")
+    public void likeOptimisticLock(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
+        System.out.println("like");
+        articleLikeService.likeOptimisticLock(articleId, userId);
+    }
+
+    @DeleteMapping("/articles/{articleId}/users/{userId}/optimistic-lock")
+    public void unlikeOptimisticLock(@PathVariable("articleId") Long articleId, @PathVariable("userId") Long userId) {
+        articleLikeService.unlikeOptimisticLock(articleId, userId);
     }
 }
