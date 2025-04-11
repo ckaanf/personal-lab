@@ -26,6 +26,4 @@ public interface BoardArticleCountRepository extends JpaRepository<BoardArticleC
     )
     @Modifying
     int decrease(@Param("boardId") Long boardId);
-
-
 }
