@@ -5,4 +5,6 @@ dependencies {
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation project(':common:snowflake')
+    implementation project(':common:outbox-message-relay')
+    implementation project(':common:event')
 }
