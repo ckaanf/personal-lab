@@ -1,6 +1,9 @@
 rootProject.name = 'spring-board'
 
 include 'common'
+include 'common:data-serializer'
+include 'common:event'
+include 'common:outbox-message-relay'
 include 'common:snowflake'
 include 'service'
 include 'service:article'

@@ -70,7 +70,7 @@ public class ArticleApiTest {
         System.out.println("secondPage");
         Long lastArticleId = response.getLast().getArticleId();
         List<ArticleResponse> response2 = restClient.get().uri("/api/v1/articles/infinite-scroll?boardId=1&pageSize=5" +
-                        "&lastArticleId=%s".formatted(lastArticleId) )
+                        "&lastArticleId=%s".formatted(lastArticleId))
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<ArticleResponse>>() {
                 });
@@ -79,6 +79,26 @@ public class ArticleApiTest {
         for (ArticleResponse article : response2) {
             System.out.println("article = " + article.getArticleId());
         }
+    }
+
+    @Test
+    void countTest() {
+        ArticleResponse response = create(new ArticleCreateRequest("title", "content", 1L, 2L));
+
+        Long count1 = restClient.get().uri("/api/v1/articles/boards/{boardId}/count", 2L)
+                .retrieve()
+                .body(Long.class);
+        System.out.println("count = " + count1);
+
+        restClient.delete()
+                .uri("/api/v1/articles/{articleId}", response.getArticleId())
+                .retrieve()
+                .body(Void.class);
+
+        Long count2 = restClient.get().uri("/api/v1/articles/boards/{boardId}/count", 2L)
+                .retrieve()
+                .body(Long.class);
+        System.out.println("count = " + count2);
     }
 
     ArticleResponse create(ArticleCreateRequest request) {
