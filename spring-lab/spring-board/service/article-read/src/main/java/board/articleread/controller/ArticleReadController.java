@@ -21,9 +21,9 @@ public class ArticleReadController {
 
     @GetMapping
     public ArticleReadPageResponse readAll(@RequestParam Long boardId,
-                                           @RequestParam Long offset,
+                                           @RequestParam Long page,
                                            @RequestParam Long pageSize) {
-        return articleReadService.readAll(boardId, offset, pageSize);
+        return articleReadService.readAll(boardId, page, pageSize);
     }
 
     @GetMapping("/infinite-scroll")
