@@ -1,6 +1,8 @@
 package board.articleread.service.event.handler;
 
+import board.articleread.repository.ArticleIdListRepository;
 import board.articleread.repository.ArticleQueryModelRepository;
+import board.articleread.repository.BoardArticleCountRepository;
 import board.event.Event;
 import board.event.EventType;
 import board.event.payload.ArticleDeletedEventPayload;
@@ -11,13 +13,17 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ArticleDeletedEventHandler implements EventHandler<ArticleDeletedEventPayload> {
+    private final ArticleIdListRepository articleIdListRepository;
+    private final BoardArticleCountRepository boardArticleCountRepository;
     private final ArticleQueryModelRepository articleQueryModelRepository;
 
     @Override
     public void handle(Event<ArticleDeletedEventPayload> event) {
         ArticleDeletedEventPayload payload = event.getPayload();
-        articleQueryModelRepository.delete(payload.getArticleId());
 
+        articleIdListRepository.delete(payload.getBoardId(), payload.getArticleId());
+        articleQueryModelRepository.delete(payload.getArticleId());
+        boardArticleCountRepository.createOrUpdate(payload.getBoardId(), payload.getBoardArticleCount());
     }
 
     @Override

@@ -23,7 +23,7 @@ public class LikeClient {
     public long count(Long articleId) {
         try {
             return restClient.get()
-                    .uri("/api/v1/article-like/articles/{articleId}/count", articleId)
+                    .uri("/api/v1/article-likes/articles/{articleId}/count", articleId)
                     .retrieve()
                     .body(Long.class);
         } catch (Exception e) {
