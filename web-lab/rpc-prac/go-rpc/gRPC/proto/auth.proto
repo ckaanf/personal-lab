@@ -1,0 +1,42 @@
+syntax = "proto3";
+option go_package = "/auth";
+
+message AuthData {
+  // 필드명에 대해 고유한 숫자값을 지정
+  string name = 1;
+  string token = 2;
+  int64 createDate = 3;
+  int64 expireDate = 4;
+}
+
+message Verify {
+  ResponseType status = 1;
+  AuthData auth = 2;
+}
+
+enum ResponseType {
+  SUCCESS = 0;
+  FAILED = 1;
+  EXPIRED_DATE = 2;
+}
+
+message CreateTokenRequest {
+  AuthData auth = 1;
+}
+
+message CreateTokenResponse {
+  AuthData auth = 1;
+}
+
+message VerifyTokenRequest {
+  string token = 1;
+}
+
+message VerifyTokenResponse {
+  Verify verify = 1;
+}
+
+service AuthService {
+  rpc CreateAuth(CreateTokenRequest) returns (CreateTokenResponse);
+  rpc VerifyAuth(VerifyTokenRequest) returns (VerifyTokenResponse);
+}
