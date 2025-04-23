@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>http range serving</title>
+    <script>
+      function changeQuality(event) {
+        const quality = event.target.getAttribute("data-quality");
+        const video = document.getElementById("videoPlayer")
+        const currentTime = video.currentTime;
+
+        video.src =`video/quality=${quality}.mp4`
+        video.load();
+
+        video.currentTime = currentTime;
+        video.play();
+      }
+    </script>
+  </head>
+  <body>
+    <h1> Video Stream with Q</h1>
+    <video id="videoPlayer" controls>
+      <source src="video/quality=360.mp4" type="video/mp4" data-quality="360" />
+    </video>
+
+    <div>
+      <button type="button" onclick="changeQuality(event)" data-quality="360"> 360p</button>
+      <button type="button" onclick="changeQuality(event)" data-quality="720"> 720p</button>
+      <button type="button" onclick="changeQuality(event)" data-quality="1080"> 1080p</button>
+
+    </div>
+  </body>
+</html>
