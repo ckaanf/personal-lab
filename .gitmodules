@@ -1,3 +1,6 @@
 [submodule "go-lab"]
 	path = go-lab
 	url = https://github.com/ckaanf/go-lab.git
+[submodule "cpp-lab"]
+	path = cpp-lab
+	url = https://github.com/ckaanf/cpp-lab.git
