@@ -1,0 +1,25 @@
+name: Update submodule reference
+
+on:
+  repository_dispatch:
+    types: [submodule-updated]
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout personal-lab with submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update submodules
+        run: |
+          git submodule update --remote --merge
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add go-lab cpp-lab
+          git commit -m "chore: update submodule reference"
+          git push
