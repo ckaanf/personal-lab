@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webcam Recording</title>
+    <style>
+      #myVideo {
+        width: 640px;
+        height: 480px;
+        border: 1px solid black;
+      }
+      button {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Webcam Recording</h1>
+    <div>
+      <video id="myVideo" width="640" height="640" autoplay />
+    </div>
+    <button id="startRecording">녹화 시작</button>
+    <button id="stopRecording" disabled>녹화 중지</button>
+
+    <script>
+      let videoElement = document.getElementById("myVideo");
+      let mediaRecorder;
+      let recordedChunks = [];
+
+      async function startCamera() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+
+          videoElement.srcObject = stream;
+
+          mediaRecorder = new MediaRecorder(stream);
+
+          mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+              recordedChunks.push(event.data);
+            }
+          };
+
+          mediaRecorder.onstop = () => {
+            const b = new Blob(recordedChunks, { type: "video/webm" });
+
+            uploadVideo(b);
+            recordedChunks = [];
+          };
+        } catch (err) {
+          console.log("err occurred during recording", err);
+        }
+      }
+
+      async function uploadVideo(blob) {
+        const formData = new FormData();
+        formData.append("video", blob, "video.webm");
+
+        try {
+          const res = await fetch("/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (res.ok) {
+            const fileBlob = await res.blob();
+            const downloadUrl = URL.createObjectURL(fileBlob);
+            const a = document.createElement("a");
+
+            a.href = downloadUrl;
+            a.download = "recored_video.mp4";
+            a.clock();
+          } else {
+            console.log("Failed to upload video", err);
+          }
+        } catch (err) {
+          console.log("Failed to upload video", err);
+        }
+      }
+
+      document
+        .getElementById("startRecording")
+        .addEventListener("click", () => {
+          if (mediaRecorder && mediaRecorder.state === "inactive") {
+            mediaRecorder.start();
+            console.log("Started recording");
+            document.getElementById("startRecording").disabled = true;
+            document.getElementById("stopRecording").disabled = false;
+          }
+        });
+
+      document.getElementById("stopRecording").addEventListener("click", () => {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+          mediaRecorder.stop();
+          console.log("Stop recording");
+          document.getElementById("startRecording").disabled = false;
+          document.getElementById("stopRecording").disabled = true;
+        }
+      });
+
+      window.onload = startCamera;
+    </script>
+  </body>
+</html>
