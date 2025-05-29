@@ -4,3 +4,6 @@
 [submodule "cpp-lab"]
 	path = cpp-lab
 	url = https://github.com/ckaanf/cpp-lab.git
+[submodule "c-sharp-lab"]
+	path = c-sharp-lab
+	url = https://github.com/ckaanf/c-sharp-lab.git
