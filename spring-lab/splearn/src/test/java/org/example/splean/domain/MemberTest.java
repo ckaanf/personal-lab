@@ -24,7 +24,7 @@ class MemberTest {
             }
         };
 
-        member = Member.create("ckaanf@splearn.app", "ckaanf", "secret", passwordEncoder);
+        member = Member.create(new MemberCreateRequest("ckaanf@splearn.app", "ckaanf", "secret"), passwordEncoder);
     }
 
     @Test
@@ -90,5 +90,26 @@ class MemberTest {
         member.changePassword("newSecret", passwordEncoder);
 
         assertThat(member.verifyPassword("newSecret", passwordEncoder)).isTrue();
+    }
+
+    @Test
+    void isActive() {
+        assertThat(member.isActive()).isFalse();
+
+        member.activate();
+        assertThat(member.isActive()).isTrue();
+
+        member.deactivate();
+        assertThat(member.isActive()).isFalse();
+    }
+
+    @Test
+    void inValidEmail() {
+        assertThatThrownBy(() ->
+                Member.create(new MemberCreateRequest("invalid-email", "ckaanf", "secret"), passwordEncoder)
+        ).isInstanceOf(IllegalArgumentException.class);
+
+        Member.create(new MemberCreateRequest("test_test@gmail.com", "ckaanf", "secret"), passwordEncoder);
+
     }
 }
