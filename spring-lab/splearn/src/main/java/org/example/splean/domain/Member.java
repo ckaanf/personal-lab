@@ -1,32 +1,43 @@
 package org.example.splean.domain;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 import org.springframework.util.Assert;
 
 import static java.util.Objects.requireNonNull;
 
+@Entity
 @Getter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NaturalIdCache
 public class Member {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    @NaturalId
     private Email email;
 
     private String nickname;
 
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-    private Member() {
-
-    }
-
-    public static Member create(MemberCreateRequest memberCreateRequest, PasswordEncoder passwordEncoder) {
+    public static Member register(MemberRegisterRequest memberRegisterRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
-        member.email = new Email(memberCreateRequest.email());
-        member.nickname = requireNonNull(memberCreateRequest.nickname());
-        member.passwordHash = requireNonNull(passwordEncoder.encode(memberCreateRequest.password()));
+        member.email = new Email(memberRegisterRequest.email());
+        member.nickname = requireNonNull(memberRegisterRequest.nickname());
+        member.passwordHash = requireNonNull(passwordEncoder.encode(memberRegisterRequest.password()));
 
         member.status = MemberStatus.PENDING;
         return member;
