@@ -6,7 +6,10 @@ import org.example.splean.application.required.EmailSender;
 import org.example.splean.application.required.MemberRepository;
 import org.example.splean.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Service
 @RequiredArgsConstructor
 public class MemberService implements MemberRegister {
@@ -14,10 +17,11 @@ public class MemberService implements MemberRegister {
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     @Override
     public Member register(MemberRegisterRequest registerRequest) {
         checkDuplicateEmail(registerRequest);
-        
+
         Member member = Member.register(registerRequest, passwordEncoder);
 
         memberRepository.save(member);
