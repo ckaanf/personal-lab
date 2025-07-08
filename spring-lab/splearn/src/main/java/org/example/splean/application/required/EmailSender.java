@@ -6,5 +6,5 @@ import org.example.splean.domain.Email;
  * 이메일을 발송한다
  */
 public interface EmailSender {
-    void Send(Email email, String subject, String body);
+    void send(Email email, String subject, String body);
 }
