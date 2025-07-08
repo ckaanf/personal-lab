@@ -13,7 +13,7 @@ import static org.example.splean.domain.MemberFixture.createMemberRegisterReques
 import static org.example.splean.domain.MemberFixture.createPasswordEncoder;
 
 @DataJpaTest
-class MemberRepositoryTest {
+class MemberRepositoryManualTest {
     @Autowired
     MemberRepository memberRepository;
 
@@ -23,16 +23,16 @@ class MemberRepositoryTest {
     @Test
     void createMember() {
         Member member = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
-        
+
         assertThat(member.getId()).isNull();
-        
+
         memberRepository.save(member);
 
         assertThat(member.getId()).isNotNull();
-        
+
         entityManager.flush();
     }
-    
+
     @Test
     void duplicatedEmailFail() {
         Member member = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
