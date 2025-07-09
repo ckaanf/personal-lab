@@ -13,7 +13,7 @@ import static org.example.splean.domain.MemberFixture.createMemberRegisterReques
 import static org.example.splean.domain.MemberFixture.createPasswordEncoder;
 
 @DataJpaTest
-class MemberRepositoryManualTest {
+class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 

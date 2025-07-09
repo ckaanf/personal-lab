@@ -1,5 +1,6 @@
 package org.example.splean.application.required;
 
+import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import org.example.splean.SplearnTestConfiguration;
 import org.example.splean.application.provided.MemberRegister;
@@ -14,12 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.example.splean.domain.MemberStatus.ACTIVE;
 import static org.example.splean.domain.MemberStatus.PENDING;
 
 @SpringBootTest
 @Transactional
 @Import(SplearnTestConfiguration.class)
-public record MemberRegisterTest(MemberRegister memberRegister) {
+record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
 
     @Test
     void register() {
@@ -27,6 +29,19 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
 
         assertThat(member.getId()).isNotNull();
         assertThat(member.getStatus()).isEqualTo(PENDING);
+    }
+
+    @Test
+    void activate() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.activate(member.getId());
+
+        entityManager.flush();
+
+        assertThat(member.getStatus()).isEqualTo(ACTIVE);
     }
 
     @Test
@@ -38,17 +53,17 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
 
     @Test
     void memberRegisterRequestFail() {
-        extracted(new MemberRegisterRequest("ckaanf@splearn.app", "cka", "ckaanfckaanf"));
-        extracted(new MemberRegisterRequest("ckaanf@splearn.app", "cka".repeat(10), "ckaanfckaanf"));
+        checkValidation(new MemberRegisterRequest("ckaanf@splearn.app", "cka", "ckaanfckaanf"));
+        checkValidation(new MemberRegisterRequest("ckaanf@splearn.app", "cka".repeat(10), "ckaanfckaanf"));
 
-        extracted(new MemberRegisterRequest("ckaanfsplearn.app", "ckaanf", "ckaanfckaanf"));
+        checkValidation(new MemberRegisterRequest("ckaanfsplearn.app", "ckaanf", "ckaanfckaanf"));
 
-        extracted(new MemberRegisterRequest("ckaanf@splearn.app", "ckaanf", "cka"));
-        extracted(new MemberRegisterRequest("ckaanf@splearn.app", "ckaanf", "cka".repeat(100)));
+        checkValidation(new MemberRegisterRequest("ckaanf@splearn.app", "ckaanf", "cka"));
+        checkValidation(new MemberRegisterRequest("ckaanf@splearn.app", "ckaanf", "cka".repeat(100)));
 
     }
 
-    private void extracted(MemberRegisterRequest invalid) {
+    private void checkValidation(MemberRegisterRequest invalid) {
         assertThatThrownBy(() -> memberRegister.register(invalid))
                 .isInstanceOf(ConstraintViolationException.class);
     }

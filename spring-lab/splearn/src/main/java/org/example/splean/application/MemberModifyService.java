@@ -1,6 +1,7 @@
 package org.example.splean.application;
 
 import lombok.RequiredArgsConstructor;
+import org.example.splean.application.provided.MemberFinder;
 import org.example.splean.application.provided.MemberRegister;
 import org.example.splean.application.required.EmailSender;
 import org.example.splean.application.required.MemberRepository;
@@ -12,7 +13,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @Service
 @RequiredArgsConstructor
-public class MemberService implements MemberRegister {
+public class MemberModifyService implements MemberRegister {
+    private final MemberFinder memberFinder;
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
@@ -30,6 +32,16 @@ public class MemberService implements MemberRegister {
 
         return member;
     }
+
+    @Transactional
+    @Override
+    public Member activate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+        member.activate();
+
+        return memberRepository.save(member);
+    }
+
 
     private void sendWelcomeEmail(Member member) {
         emailSender.send(member.getEmail(), "등록을 완료해주세요", "아래 링크를 클릭해서 등록을 완료해주세요");
