@@ -7,3 +7,5 @@ spring:
       hibernate:
         format_sql: true
         highlight_sql: true
+    hibernate:
+      ddl-auto: update
