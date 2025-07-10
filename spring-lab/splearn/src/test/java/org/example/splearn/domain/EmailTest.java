@@ -1,5 +1,6 @@
 package org.example.splearn.domain;
 
+import org.example.splearn.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

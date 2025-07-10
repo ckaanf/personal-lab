@@ -1,5 +1,8 @@
 package org.example.splearn.domain;
 
+import org.example.splearn.domain.member.MemberRegisterRequest;
+import org.example.splearn.domain.member.PasswordEncoder;
+
 public class MemberFixture {
     public static MemberRegisterRequest createMemberRegisterRequest() {
         return createMemberRegisterRequest("ckaanf@test.com");

@@ -1,8 +1,13 @@
 package org.example.splearn.domain;
 
+import org.example.splearn.domain.member.Member;
+import org.example.splearn.domain.member.MemberInfoUpdateRequest;
+import org.example.splearn.domain.member.MemberStatus;
+import org.example.splearn.domain.member.PasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.example.splearn.domain.MemberFixture.createMemberRegisterRequest;
@@ -22,14 +27,17 @@ class MemberTest {
     void registerMember() {
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Test
     void activate() {
+        assertThat(member.getDetail().getActivatedAt()).isNull();
 
         member.activate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
     }
 
     @Test
@@ -48,6 +56,7 @@ class MemberTest {
         member.deactivate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeActivatedAt()).isNotNull();
     }
 
     @Test
@@ -102,6 +111,22 @@ class MemberTest {
 
         Member.register(createMemberRegisterRequest("test_test@gmail.com"), passwordEncoder);
 
+    }
+
+    @Test
+    void updateInfo() {
+        member.activate();
+        var request = new MemberInfoUpdateRequest(
+                "참참",
+                "ckacka",
+                "참참"
+        );
+
+        member.updateInfo(request);
+
+        assertThat(member.getNickname()).isEqualTo("참참");
+        assertThat(member.getDetail().getIntroduction()).isEqualTo("참참");
+        assertThat(member.getDetail().getProfile().address()).isEqualTo("ckacka");
     }
 
 }

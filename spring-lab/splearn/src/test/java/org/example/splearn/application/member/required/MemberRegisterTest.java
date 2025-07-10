@@ -1,13 +1,13 @@
-package org.example.splearn.application.required;
+package org.example.splearn.application.member.required;
 
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import org.example.splearn.SplearnTestConfiguration;
-import org.example.splearn.application.provided.MemberRegister;
-import org.example.splearn.domain.DuplicateEmailException;
-import org.example.splearn.domain.Member;
+import org.example.splearn.application.member.provided.MemberRegister;
+import org.example.splearn.domain.member.DuplicateEmailException;
+import org.example.splearn.domain.member.Member;
 import org.example.splearn.domain.MemberFixture;
-import org.example.splearn.domain.MemberRegisterRequest;
+import org.example.splearn.domain.member.MemberRegisterRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.example.splearn.domain.MemberStatus.ACTIVE;
-import static org.example.splearn.domain.MemberStatus.PENDING;
+import static org.example.splearn.domain.member.MemberStatus.ACTIVE;
+import static org.example.splearn.domain.member.MemberStatus.PENDING;
 
 @SpringBootTest
 @Transactional
