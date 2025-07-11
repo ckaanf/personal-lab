@@ -5,10 +5,7 @@ import org.example.splearn.application.member.provided.MemberFinder;
 import org.example.splearn.application.member.provided.MemberRegister;
 import org.example.splearn.application.member.required.EmailSender;
 import org.example.splearn.application.member.required.MemberRepository;
-import org.example.splearn.domain.member.DuplicateEmailException;
-import org.example.splearn.domain.member.Member;
-import org.example.splearn.domain.member.MemberRegisterRequest;
-import org.example.splearn.domain.member.PasswordEncoder;
+import org.example.splearn.domain.member.*;
 import org.example.splearn.domain.shared.Email;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +41,40 @@ public class MemberModifyService implements MemberRegister {
         member.activate();
 
         return memberRepository.save(member);
+    }
+
+    @Override
+    public Member deactivate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.deactivate();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUpdateRequest) {
+        Member member = memberFinder.find(memberId);
+
+        checkDuplicateProfile(member, memberInfoUpdateRequest.profileAddress());
+
+        member.updateInfo(memberInfoUpdateRequest);
+
+        return memberRepository.save(member);
+    }
+
+    private void checkDuplicateProfile(Member member, String profileAddress) {
+        if (profileAddress.isEmpty()) return;
+
+        Profile currentProfile = member.getDetail().getProfile();
+        if (currentProfile != null && currentProfile.address().equals(profileAddress)) return;
+
+        if (memberRepository.findByProfile(new Profile(profileAddress)).isPresent()) {
+            throw new DuplicateProfileException("이미 등록된 프로필 주소입니다: " + profileAddress);
+
+        }
+
+
     }
 
 

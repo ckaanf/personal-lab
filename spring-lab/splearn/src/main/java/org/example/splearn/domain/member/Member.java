@@ -1,9 +1,6 @@
 package org.example.splearn.domain.member;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +26,6 @@ public class Member extends AbstractEntity {
 
     private MemberStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest memberRegisterRequest, PasswordEncoder passwordEncoder) {
@@ -63,13 +59,10 @@ public class Member extends AbstractEntity {
         return passwordEncoder.matches(password, this.passwordHash);
     }
 
-    public void changeNickname(String nickname) {
-        this.nickname = requireNonNull(nickname);
-    }
-
     public void updateInfo(MemberInfoUpdateRequest updateRequest) {
-        this.nickname = requireNonNull(updateRequest.nickname());
+        Assert.state(status == MemberStatus.ACTIVE, "Member is not in ACTIVE status");
 
+        this.nickname = requireNonNull(updateRequest.nickname());
         this.detail.updateInfo(updateRequest);
     }
 
