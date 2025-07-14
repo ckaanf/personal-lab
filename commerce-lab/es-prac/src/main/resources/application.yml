@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: es-prac
+  datasource:
+    url: jdbc:mysql://localhost:3306/es_prac?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  elasticsearch:
+    uris: https://localhost:9200
+    username: elastic
+    password: elastictest
+    ssl:
+      certificate-validation-mode: none

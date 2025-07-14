@@ -1,0 +1,24 @@
+services:
+  es01:
+    image: elastic/elasticsearch:9.0.3
+    container_name: es01
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD=elastictest
+    ports:
+      - "9200:9200"
+
+  kibana01:
+    image: elastic/kibana:9.0.3
+    container_name: kibana01
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+    depends_on:
+      - es01
+    restart: always
+volumes:
+  esdata:
+    driver: local
