@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://www.hibernate.org/xsd/orm/mapping"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://www.hibernate.org/xsd/orm/mapping
+                                     https://hibernate.org/xsd/orm/mapping/mapping-3.1.0.xsd">
+    <access>FIELD</access>
+
+    <mapped-superclass class="org.example.splearn.domain.AbstractEntity">
+        <attributes>
+            <id name="id">
+                <column name="id"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
+        </attributes>
+    </mapped-superclass>
+
+    <entity class="org.example.splearn.domain.member.Member">
+        <table name="member">
+            <unique-constraint name="UK_MEMBER_EMAIL_ADDRESS">
+                <column-name>email_address</column-name>
+            </unique-constraint>
+            <unique-constraint name="UK_MEMBER_DETAIL_ID">
+                <column-name>detail_id</column-name>
+            </unique-constraint>
+        </table>
+        <attributes>
+            <basic name="nickname">
+                <column name="nickname" nullable="false" length="100"/>
+            </basic>
+            <basic name="passwordHash">
+                <column name="password_hash" nullable="false" length="200"/>
+            </basic>
+            <basic name="status">
+                <column name="status" nullable="false" length="50"/>
+                <enumerated>STRING</enumerated>
+            </basic>
+            <one-to-one name="detail" fetch="LAZY">
+                <join-column name="detail_id" />
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-one>
+            <embedded name="email">
+            </embedded>
+        </attributes>
+    </entity>
+
+    <entity class="org.example.splearn.domain.member.MemberDetail">
+        <table name="member_detail">
+            <unique-constraint name="UK_MEMBER_DETAIL_PROFILE_ADDRESS">
+                <column-name>profile_address</column-name>
+            </unique-constraint>
+        </table>
+        <attributes>
+            <basic name="introduction">
+                <column name="introduction" column-definition="TEXT"/>
+            </basic>
+            <basic name="registeredAt">
+                <column name="registered_at" nullable="false"/>
+            </basic>
+            <basic name="activatedAt">
+                <column name="activated_at"/>
+            </basic>
+            <basic name="deactivatedAt">
+                <column name="deactivated_at"/>
+            </basic>
+            <embedded name="profile"/>
+        </attributes>
+    </entity>
+
+    <embeddable class="org.example.splearn.domain.member.Profile">
+        <attributes>
+            <basic name="address">
+                <column name="profile_address" length="20"/>
+            </basic>
+        </attributes>
+    </embeddable>
+
+    <embeddable class="org.example.splearn.domain.shared.Email">
+        <attributes>
+            <basic name="address">
+                <column name="email_address" nullable="false" length="150"/>
+            </basic>
+        </attributes>
+    </embeddable>
+</entity-mappings>
