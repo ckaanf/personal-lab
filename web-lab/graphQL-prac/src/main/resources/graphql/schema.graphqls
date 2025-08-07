@@ -10,11 +10,18 @@ type Lecture {
     enrolled: Boolean!
 }
 
+type LectureStats {
+    title: String!
+    enrolledCount: Int!
+}
+
 type Query {
     lectures: [Lecture!]!
+    lectureStats: [LectureStats!]!
 }
 
 type Mutation {
     addLecture(input: LectureInput!): Lecture!
     enrollLecture(id: ID!): Lecture!
 }
+

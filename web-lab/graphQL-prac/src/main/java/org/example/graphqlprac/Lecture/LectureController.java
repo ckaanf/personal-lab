@@ -12,14 +12,21 @@ import java.util.List;
 @Controller
 public class LectureController {
     private final LectureService lectureService;
+    private final LectureStatService lectureStatService;
 
-    public LectureController(LectureService lectureService) {
+    public LectureController(LectureService lectureService, LectureStatService lectureStatService) {
         this.lectureService = lectureService;
+        this.lectureStatService = lectureStatService;
     }
 
     @QueryMapping
     public List<LectureResponse> lectures() {
         return lectureService.getAll();
+    }
+
+    @QueryMapping
+    public List<LectureStats> lectureStats() {
+        return lectureStatService.getEnrollmentStats();
     }
 
     @MutationMapping
