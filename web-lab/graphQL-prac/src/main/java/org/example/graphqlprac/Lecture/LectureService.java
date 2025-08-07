@@ -1,8 +1,8 @@
 package org.example.graphqlprac.Lecture;
 
+import org.example.graphqlprac.Lecture.output.LectureResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,22 +12,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LectureService {
     private final Map<String, Lecture> lectures = new ConcurrentHashMap<>();
 
-    public List<Lecture> getAll() {
-        return new ArrayList<>(lectures.values());
+    public List<LectureResponse> getAll() {
+        return lectures.values().stream().map(LectureResponse::from).toList();
     }
 
-    public Lecture add(String title, String description) {
+    public LectureResponse add(String title, String description) {
         String id = UUID.randomUUID().toString();
-        Lecture lecture = Lecture.of(id,title, description, false);
+        Lecture lecture = Lecture.of(id, title, description, false);
         lectures.put(id, lecture);
-        return lecture;
+        return LectureResponse.from(lecture);
     }
 
-    public Lecture enroll(String id) {
+    public LectureResponse enroll(String id) {
         Lecture lecture = lectures.get(id);
         if (lecture != null) {
             lecture.activeEnrolled();
         }
-        return lecture;
+        return LectureResponse.from(lecture);
     }
 }

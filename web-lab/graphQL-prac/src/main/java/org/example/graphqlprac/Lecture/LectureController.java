@@ -1,10 +1,11 @@
 package org.example.graphqlprac.Lecture;
 
+import org.example.graphqlprac.Lecture.output.LectureResponse;
+import org.example.graphqlprac.Lecture.request.LectureInput;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -17,17 +18,17 @@ public class LectureController {
     }
 
     @QueryMapping
-    public List<Lecture> lectures() {
+    public List<LectureResponse> lectures() {
         return lectureService.getAll();
     }
 
     @MutationMapping
-    public Lecture addLecture(@Argument String title, @Argument String description) {
-        return lectureService.add(title, description);
+    public LectureResponse addLecture(@Argument("input") LectureInput request) {
+        return lectureService.add(request.getTitle(), request.getDescription());
     }
 
     @MutationMapping
-    public Lecture enrollLecture(@Argument String id) {
+    public LectureResponse enrollLecture(@Argument String id) {
         return lectureService.enroll(id);
     }
 }

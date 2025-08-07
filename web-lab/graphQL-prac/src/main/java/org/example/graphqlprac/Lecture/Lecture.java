@@ -20,4 +20,20 @@ public class Lecture {
     public void activeEnrolled() {
         this.enrolled = true;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isEnrolled() {
+        return enrolled;
+    }
 }
