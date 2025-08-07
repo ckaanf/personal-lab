@@ -1,20 +1,24 @@
 package org.example.graphqlprac.Lecture;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "lectures")
 public class Lecture {
+    @Id
     private String id;
     private String title;
     private String description;
     private boolean enrolled;
 
-    private Lecture(String id, String title, String description, boolean enrolled) {
-        this.id = id;
+    private Lecture(String title, String description, boolean enrolled) {
         this.title = title;
         this.description = description;
         this.enrolled = enrolled;
     }
 
-    public static Lecture of(String id, String title, String description, boolean enrolled) {
-        return new Lecture(id, title, description, enrolled);
+    public static Lecture of(String title, String description, boolean enrolled) {
+        return new Lecture(title, description, enrolled);
     }
 
     public void activeEnrolled() {

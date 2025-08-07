@@ -23,6 +23,8 @@ dependencies {
 
     implementation("org.projectlombok:lombok")
 
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
