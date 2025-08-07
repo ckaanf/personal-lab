@@ -1,4 +1,4 @@
-package org.example.graphqlprac.Lecture.domain;
+package org.example.graphqlprac.lecture;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

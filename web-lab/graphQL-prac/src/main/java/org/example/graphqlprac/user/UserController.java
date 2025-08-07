@@ -1,9 +1,7 @@
-package org.example.graphqlprac.Lecture.controller;
+package org.example.graphqlprac.user;
 
-import org.example.graphqlprac.Lecture.domain.User;
-import org.example.graphqlprac.Lecture.dto.output.LectureResponse;
-import org.example.graphqlprac.Lecture.dto.request.UserInput;
-import org.example.graphqlprac.Lecture.service.UserService;
+import graphql.GraphQLContext;
+import org.example.graphqlprac.lecture.LectureResponse;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -24,6 +22,12 @@ public class UserController {
         return userService.getEnrolledLectures(userId);
     }
 
+    @QueryMapping
+    public List<LectureResponse> myLectures(GraphQLContext context) {
+        String userId = context.get("userId");
+        return userService.getEnrolledLectures(userId);
+    }
+
     @MutationMapping
     public User registerUser(@Argument("input") UserInput request) {
         return userService.register(request);
@@ -31,6 +35,12 @@ public class UserController {
 
     @MutationMapping
     public User enrollUserToLecture(@Argument String userId, @Argument String lectureId) {
+        return userService.enrollLecture(userId, lectureId);
+    }
+
+    @MutationMapping
+    public User enrollMyselfToLecture(@Argument String lectureId, GraphQLContext contenxt) {
+        String userId = contenxt.get("userId");
         return userService.enrollLecture(userId, lectureId);
     }
 }

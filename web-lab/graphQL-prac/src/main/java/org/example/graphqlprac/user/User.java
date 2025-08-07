@@ -1,6 +1,5 @@
-package org.example.graphqlprac.Lecture.domain;
+package org.example.graphqlprac.user;
 
-import org.example.graphqlprac.Lecture.dto.request.UserInput;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

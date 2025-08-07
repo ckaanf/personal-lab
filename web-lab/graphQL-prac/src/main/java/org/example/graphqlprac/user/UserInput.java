@@ -1,4 +1,4 @@
-package org.example.graphqlprac.Lecture.dto.request;
+package org.example.graphqlprac.user;
 
 public class UserInput {
     private String name;

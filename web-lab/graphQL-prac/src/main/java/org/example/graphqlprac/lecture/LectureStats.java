@@ -1,4 +1,4 @@
-package org.example.graphqlprac.Lecture.domain;
+package org.example.graphqlprac.lecture;
 
 public class LectureStats {
     private String title;

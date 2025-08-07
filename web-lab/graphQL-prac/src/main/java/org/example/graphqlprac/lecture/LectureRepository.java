@@ -1,6 +1,5 @@
-package org.example.graphqlprac.Lecture.repository;
+package org.example.graphqlprac.lecture;
 
-import org.example.graphqlprac.Lecture.domain.Lecture;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;

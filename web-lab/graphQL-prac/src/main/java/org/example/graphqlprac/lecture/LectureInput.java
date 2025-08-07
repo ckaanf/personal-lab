@@ -1,6 +1,4 @@
-package org.example.graphqlprac.Lecture.dto.request;
-
-import lombok.Setter;
+package org.example.graphqlprac.lecture;
 
 public class LectureInput {
     private String title;

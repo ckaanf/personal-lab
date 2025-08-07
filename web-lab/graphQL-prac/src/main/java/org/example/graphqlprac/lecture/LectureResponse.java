@@ -1,6 +1,4 @@
-package org.example.graphqlprac.Lecture.dto.output;
-
-import org.example.graphqlprac.Lecture.domain.Lecture;
+package org.example.graphqlprac.lecture;
 
 public class LectureResponse {
     private String id;

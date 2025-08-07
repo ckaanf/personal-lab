@@ -5,3 +5,5 @@ spring:
   graphql:
     schema:
       locations: classpath:graphql/
+jwt:
+  secret: rlfdlsmsrlfrpwnjdigkqslekchlth200dltkddmswnjdigksmsrjrkxdmsep200dms200wksmsdkslqslek
