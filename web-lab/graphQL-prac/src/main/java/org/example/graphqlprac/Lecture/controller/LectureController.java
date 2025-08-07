@@ -1,7 +1,10 @@
-package org.example.graphqlprac.Lecture;
+package org.example.graphqlprac.Lecture.controller;
 
-import org.example.graphqlprac.Lecture.output.LectureResponse;
-import org.example.graphqlprac.Lecture.request.LectureInput;
+import org.example.graphqlprac.Lecture.service.LectureService;
+import org.example.graphqlprac.Lecture.service.LectureStatService;
+import org.example.graphqlprac.Lecture.domain.LectureStats;
+import org.example.graphqlprac.Lecture.dto.output.LectureResponse;
+import org.example.graphqlprac.Lecture.dto.request.LectureInput;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;

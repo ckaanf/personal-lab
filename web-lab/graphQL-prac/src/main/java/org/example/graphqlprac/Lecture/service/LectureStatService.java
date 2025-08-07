@@ -1,5 +1,6 @@
-package org.example.graphqlprac.Lecture;
+package org.example.graphqlprac.Lecture.service;
 
+import org.example.graphqlprac.Lecture.domain.LectureStats;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;

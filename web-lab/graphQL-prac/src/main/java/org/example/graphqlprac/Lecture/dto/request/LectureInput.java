@@ -1,4 +1,4 @@
-package org.example.graphqlprac.Lecture.request;
+package org.example.graphqlprac.Lecture.dto.request;
 
 import lombok.Setter;
 

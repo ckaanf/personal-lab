@@ -1,7 +1,6 @@
-package org.example.graphqlprac.Lecture.output;
+package org.example.graphqlprac.Lecture.dto.output;
 
-import lombok.Data;
-import org.example.graphqlprac.Lecture.Lecture;
+import org.example.graphqlprac.Lecture.domain.Lecture;
 
 public class LectureResponse {
     private String id;

@@ -1,10 +1,11 @@
-package org.example.graphqlprac.Lecture;
+package org.example.graphqlprac.Lecture.repository;
 
-import org.example.graphqlprac.Lecture.output.LectureResponse;
+import org.example.graphqlprac.Lecture.domain.Lecture;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface LectureRepository extends Repository<Lecture, String> {
     Lecture save(Lecture lecture);
@@ -12,4 +13,6 @@ public interface LectureRepository extends Repository<Lecture, String> {
     List<Lecture> findAll();
 
     Optional<Lecture> findById(String id);
+
+    List<Lecture> findAllByIdIn(Set<String> enrolledLectureIds);
 }
