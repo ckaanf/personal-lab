@@ -1,0 +1,15 @@
+type Lecture {
+    id: ID!
+    title: String!
+    description: String!
+    enrolled: Boolean!
+}
+
+type Query {
+    lectures: [Lecture!]!
+}
+
+type Mutation {
+    addLecture(title: String!, description: String!): Lecture!
+    enrollLecture(id: ID!): Lecture!
+}

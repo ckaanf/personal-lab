@@ -1,0 +1,4 @@
+spring:
+  graphql:
+    schema:
+      locations: classpath:graphql/
