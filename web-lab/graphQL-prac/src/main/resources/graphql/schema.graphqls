@@ -1,0 +1,47 @@
+input LectureInput {
+    title: String!
+    description: String!
+}
+
+input UserInput {
+    name: String!
+}
+
+type Lecture {
+    id: ID!
+    title: String!
+    description: String!
+    enrolled: Boolean!
+}
+
+type LectureStats {
+    title: String!
+    enrolledCount: Int!
+}
+
+type User {
+    id: ID!
+    name: String!
+    enrolledLectureIds: [ID!]!
+}
+
+type Query {
+    lectures: [Lecture!]!
+    lectureStats: [LectureStats!]!
+
+    userLectures(userId: String!): [Lecture!]!
+    myLectures: [Lecture!]!
+
+}
+
+type Mutation {
+    addLecture(input: LectureInput!): Lecture!
+    enrollLecture(id: ID!): Lecture!
+
+    registerUser(input: UserInput!): User!
+    enrollUserToLecture(userId: ID!, lectureId: ID!): User!
+
+    login(userId: ID!): String!
+    enrollMyselfToLecture(lectureId: ID!): User!
+}
+
