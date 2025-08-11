@@ -42,7 +42,6 @@ type User {
 
 type Query {
     lectures: [LectureResponse!]!
-    instructor: [Instructor!]!
     lectureStats: [LectureStats!]!
 
     userLectures(userId: String!): [Lecture!]!

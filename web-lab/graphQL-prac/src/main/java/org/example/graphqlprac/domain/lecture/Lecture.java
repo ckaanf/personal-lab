@@ -1,11 +1,11 @@
 package org.example.graphqlprac.domain.lecture;
 
-import lombok.Getter;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
 @Document(collection = "lectures")
-@Getter
 public class Lecture {
     @Id
     private String id;
