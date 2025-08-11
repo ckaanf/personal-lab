@@ -1,8 +1,11 @@
-package org.example.graphqlprac.domain.lecture;
+package org.example.graphqlprac.domain.lecture.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.graphqlprac.domain.instructor.Instructor;
-import org.example.graphqlprac.domain.instructor.InstructorService;
+import org.example.graphqlprac.domain.instructor.model.Instructor;
+import org.example.graphqlprac.domain.instructor.service.InstructorService;
+import org.example.graphqlprac.domain.lecture.model.Lecture;
+import org.example.graphqlprac.domain.lecture.model.LectureResponse;
+import org.example.graphqlprac.domain.lecture.repository.LectureRepository;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.stereotype.Service;
 

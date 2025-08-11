@@ -1,13 +1,13 @@
-package org.example.graphqlprac.domain.instructor;
+package org.example.graphqlprac.domain.instructor.service;
 
 import lombok.RequiredArgsConstructor;
 import org.dataloader.BatchLoaderWithContext;
-import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderFactory;
 import org.dataloader.DataLoaderRegistry;
+import org.example.graphqlprac.domain.instructor.repository.InstructorRepository;
+import org.example.graphqlprac.domain.instructor.model.Instructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

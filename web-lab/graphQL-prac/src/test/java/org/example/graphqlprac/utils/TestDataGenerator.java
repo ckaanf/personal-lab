@@ -1,9 +1,9 @@
 package org.example.graphqlprac.utils;
 
-import org.example.graphqlprac.domain.instructor.Instructor;
-import org.example.graphqlprac.domain.instructor.InstructorRepository;
-import org.example.graphqlprac.domain.lecture.Lecture;
-import org.example.graphqlprac.domain.lecture.LectureRepository;
+import org.example.graphqlprac.domain.instructor.model.Instructor;
+import org.example.graphqlprac.domain.instructor.repository.InstructorRepository;
+import org.example.graphqlprac.domain.lecture.model.Lecture;
+import org.example.graphqlprac.domain.lecture.repository.LectureRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

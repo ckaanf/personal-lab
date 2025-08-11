@@ -1,4 +1,4 @@
-package org.example.graphqlprac.domain.lecture;
+package org.example.graphqlprac.domain.lecture.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

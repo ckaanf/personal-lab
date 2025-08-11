@@ -1,5 +1,6 @@
-package org.example.graphqlprac.domain.instructor;
+package org.example.graphqlprac.domain.instructor.repository;
 
+import org.example.graphqlprac.domain.instructor.model.Instructor;
 import org.springframework.data.repository.Repository;
 
 import java.util.Collection;

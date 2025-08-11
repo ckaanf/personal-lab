@@ -1,5 +1,10 @@
-package org.example.graphqlprac.domain.lecture;
+package org.example.graphqlprac.domain.lecture.api;
 
+import org.example.graphqlprac.domain.lecture.service.LectureService;
+import org.example.graphqlprac.domain.lecture.service.LectureStatService;
+import org.example.graphqlprac.domain.lecture.model.LectureInput;
+import org.example.graphqlprac.domain.lecture.model.LectureResponse;
+import org.example.graphqlprac.domain.lecture.model.LectureStats;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -8,11 +13,11 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class LectureController {
+public class LectureResolver {
     private final LectureService lectureService;
     private final LectureStatService lectureStatService;
 
-    public LectureController(LectureService lectureService, LectureStatService lectureStatService) {
+    public LectureResolver(LectureService lectureService, LectureStatService lectureStatService) {
         this.lectureService = lectureService;
         this.lectureStatService = lectureStatService;
     }
