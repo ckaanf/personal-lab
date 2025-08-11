@@ -1,4 +1,4 @@
-package org.example.graphqlprac.lecture;
+package org.example.graphqlprac.domain.lecture;
 
 import org.springframework.data.repository.Repository;
 
@@ -14,4 +14,5 @@ public interface LectureRepository extends Repository<Lecture, String> {
     Optional<Lecture> findById(String id);
 
     List<Lecture> findAllByIdIn(Set<String> enrolledLectureIds);
+
 }

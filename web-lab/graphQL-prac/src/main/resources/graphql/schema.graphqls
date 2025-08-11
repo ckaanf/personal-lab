@@ -12,6 +12,21 @@ type Lecture {
     title: String!
     description: String!
     enrolled: Boolean!
+    instructor: Instructor!
+}
+
+type LectureResponse {
+    id: ID!
+    title: String!
+    description: String!
+    enrolled: Boolean!
+    instructor: Instructor!
+}
+
+type Instructor {
+    id: ID!
+    name: String!
+    email: String!
 }
 
 type LectureStats {
@@ -26,12 +41,12 @@ type User {
 }
 
 type Query {
-    lectures: [Lecture!]!
+    lectures: [LectureResponse!]!
+    instructor: [Instructor!]!
     lectureStats: [LectureStats!]!
 
     userLectures(userId: String!): [Lecture!]!
     myLectures: [Lecture!]!
-
 }
 
 type Mutation {
