@@ -19,10 +19,9 @@ public class InstructorService {
    }
 
    public Instructor findById(String id) {
-       log.info("[InstructorService] findById called for id = {}", id);
        return instructorRepository.findById(id).orElseThrow(() -> new RuntimeException());
    }
-    
+
    public List<Instructor> findAll() {
        return instructorRepository.findAll();
    }
