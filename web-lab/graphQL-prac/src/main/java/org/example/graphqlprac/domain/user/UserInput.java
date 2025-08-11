@@ -1,4 +1,4 @@
-package org.example.graphqlprac.user;
+package org.example.graphqlprac.domain.user;
 
 public class UserInput {
     private String name;

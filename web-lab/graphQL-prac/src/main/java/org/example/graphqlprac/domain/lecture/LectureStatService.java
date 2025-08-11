@@ -1,4 +1,4 @@
-package org.example.graphqlprac.lecture;
+package org.example.graphqlprac.domain.lecture;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

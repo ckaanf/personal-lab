@@ -1,6 +1,6 @@
 package org.example.graphqlprac.auth;
 
-import org.example.graphqlprac.user.UserRepository;
+import org.example.graphqlprac.domain.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service

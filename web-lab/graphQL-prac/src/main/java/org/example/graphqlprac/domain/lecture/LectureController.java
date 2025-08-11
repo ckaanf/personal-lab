@@ -1,4 +1,4 @@
-package org.example.graphqlprac.lecture;
+package org.example.graphqlprac.domain.lecture;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;

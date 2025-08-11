@@ -1,8 +1,10 @@
-package org.example.graphqlprac.lecture;
+package org.example.graphqlprac.domain.lecture;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
 @Document(collection = "lectures")
 public class Lecture {
     @Id
@@ -10,31 +12,21 @@ public class Lecture {
     private String title;
     private String description;
     private boolean enrolled;
+    private String instructorId;
 
-    private Lecture(String title, String description, boolean enrolled) {
+    private Lecture(String title, String description, boolean enrolled, String instructorId) {
         this.title = title;
         this.description = description;
         this.enrolled = enrolled;
+        this.instructorId = instructorId;
     }
 
-    public static Lecture of(String title, String description, boolean enrolled) {
-        return new Lecture(title, description, enrolled);
+    public static Lecture of(String title, String description, boolean enrolled, String instructorId) {
+        return new Lecture(title, description, enrolled, instructorId);
     }
 
     public void activeEnrolled() {
         this.enrolled = true;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public boolean isEnrolled() {

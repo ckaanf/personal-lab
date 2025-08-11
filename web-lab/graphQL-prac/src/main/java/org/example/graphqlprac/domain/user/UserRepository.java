@@ -1,4 +1,4 @@
-package org.example.graphqlprac.user;
+package org.example.graphqlprac.domain.user;
 
 import org.springframework.data.repository.Repository;
 

@@ -1,8 +1,8 @@
-package org.example.graphqlprac.user;
+package org.example.graphqlprac.domain.user;
 
-import org.example.graphqlprac.lecture.Lecture;
-import org.example.graphqlprac.lecture.LectureResponse;
-import org.example.graphqlprac.lecture.LectureRepository;
+import org.example.graphqlprac.domain.lecture.Lecture;
+import org.example.graphqlprac.domain.lecture.LectureResponse;
+import org.example.graphqlprac.domain.lecture.LectureRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
