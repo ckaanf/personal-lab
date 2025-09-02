@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC P2P Demo</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        video { width: 48%; background: #222; border: 1px solid #444; }
+        .container { display: flex; justify-content: space-between; }
+        #status { margin-top: 10px; padding: 10px; background-color: #f0f0f0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+<h1>1주차 최종 테스트</h1>
+<div class="container">
+    <video id="localVideo" autoplay playsinline muted></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+</div>
+<div>
+    <button id="startButton">Start</button>
+    <button id="hangupButton">Hang Up</button>
+</div>
+<div id="status">
+    <h3>Connection Status:</h3>
+    <p><strong>Signaling:</strong> <span id="signalingStatus">Disconnected</span></p>
+    <p><strong>ICE Connection:</strong> <span id="iceStatus">New</span></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
