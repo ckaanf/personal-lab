@@ -1,5 +1,13 @@
+// nyo-core는 라이브러리 모듈이므로 bootJar를 비활성화
+tasks.named("bootJar") {
+    enabled = false
+}
+
+tasks.named("jar") {
+    enabled = true
+}
+
 dependencies {
-    //TODO api 와 implementation 확인
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
 }

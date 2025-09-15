@@ -1,0 +1,28 @@
+services:
+  signaling:
+    build:
+      context: .
+      dockerfile: ./nyo-chat/Dockerfile
+    container_name: signaling_server
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    environment:
+      - SPRING_REDIS_HOST=redis
+
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  # 3. SFU 서버 (Mediasoup)
+  # 2주차의 주인공입니다. 지금은 비워두고, 곧 채워나갈 예정입니다.
+  # sfu:
+  #   build:
+  #     context: ./sfu-server
+  #     dockerfile: Dockerfile
+  #   container_name: sfu_server
+  #   ports:
+  #     - "3000:3000"

@@ -1,3 +1,12 @@
+// nyo-domain도 라이브러리 모듈이므로 bootJar를 비활성화
+tasks.named("bootJar") {
+    enabled = false
+}
+
+tasks.named("jar") {
+    enabled = true
+}
+
 dependencies {
     implementation project(":nyo-core")
     api 'org.springframework.boot:spring-boot-starter-websocket'
@@ -8,6 +17,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-//JPA 에 최대한 의존적이지 않게 <--
-// 구현체만 바꾸는게 ORM -> 구조가 jooq java orm hibernate -> 과연?
