@@ -1,0 +1,15 @@
+{
+  "name": "sfu-server",
+  "version": "1.0.0",
+  "description": "Mediasoup SFU Server for our streaming project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mediasoup": "^3.12.5",
+    "socket.io": "^4.7.2"
+  }
+}
