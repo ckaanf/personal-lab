@@ -12,9 +12,6 @@ public class RedisConfig {
 
     @PostConstruct
     public void clearRedisOnStartup() {
-        assert redisTemplate.getConnectionFactory() != null;
-
-        // 학습용 캐시 클리어
         redisTemplate.getConnectionFactory()
                 .getConnection()
                 .serverCommands()

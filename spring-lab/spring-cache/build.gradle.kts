@@ -25,22 +25,27 @@ repositories {
 }
 
 
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("com.google.guava:guava:33.4.8-jre")
 
-
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.testcontainers:testcontainers:2.0.2")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter:2.0.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+
+
+
