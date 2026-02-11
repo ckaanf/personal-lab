@@ -1,9 +1,6 @@
-package ckaanf.cache.service.strategy.none;
+package ckaanf.cache.service.strategy.springcacheannotation;
 
 import ckaanf.cache.common.cache.CacheStrategy;
-import ckaanf.cache.common.cache.CustomCacheEvict;
-import ckaanf.cache.common.cache.CustomCachePut;
-import ckaanf.cache.common.cache.CustomCacheable;
 import ckaanf.cache.model.ItemCreateRequest;
 import ckaanf.cache.model.ItemUpdateRequest;
 import ckaanf.cache.service.ItemCacheService;
@@ -11,44 +8,30 @@ import ckaanf.cache.service.ItemService;
 import ckaanf.cache.service.response.ItemPageResponse;
 import ckaanf.cache.service.response.ItemResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
-public class ItemNoneCacheService implements ItemCacheService {
+public class ItemSpringCacheAnnotationCacheService implements ItemCacheService {
     private final ItemService itemService;
 
     @Override
-    @CustomCacheable(
-            cacheStrategy = CacheStrategy.NONE,
-            cacheName = "item",
-            key = "#itemId",
-            ttlSeconds = 5
-    )
+    @Cacheable(cacheNames = "item", key = "#itemId")
     public ItemResponse read(Long itemId) {
         return itemService.read(itemId);
     }
 
     @Override
-    @CustomCacheable(
-            cacheStrategy = CacheStrategy.NONE,
-            cacheName = "itemList",
-            key = "#page + ':' + #size",
-            ttlSeconds = 5
-    )
+    @Cacheable(cacheNames = "itemList", key = "#page + ':' + #size")
     public ItemPageResponse readAll(Long page, Long size) {
         return itemService.readAll(page, size);
     }
 
     @Override
-    @CustomCacheable(
-            cacheStrategy = CacheStrategy.NONE,
-            cacheName = "itemListInfiniteScroll",
-            key = "#lastItemId + ':' + #size",
-            ttlSeconds = 5
-    )
+    @Cacheable(cacheNames = "itemListInfiniteScroll", key = "#lastItemId + ':' + #size")
     public ItemPageResponse readAllInfiniteScroll(Long lastItemId, Long size) {
         return itemService.readAllInfiniteScroll(lastItemId, size);
     }
@@ -59,28 +42,19 @@ public class ItemNoneCacheService implements ItemCacheService {
     }
 
     @Override
-    @CustomCachePut(
-            cacheStrategy = CacheStrategy.NONE,
-            cacheName = "item",
-            key = "#itemId",
-            ttlSeconds = 5
-    )
+    @CachePut(cacheNames = "item", key = "#itemId")
     public ItemResponse update(Long itemId, ItemUpdateRequest request) {
         return itemService.update(itemId, request);
     }
 
     @Override
-    @CustomCacheEvict(
-            cacheStrategy = CacheStrategy.NONE,
-            cacheName = "item",
-            key = "#itemId"
-    )
+    @CacheEvict(cacheNames = "item", key = "#itemId")
     public void delete(Long itemId) {
         itemService.delete(itemId);
     }
 
     @Override
     public boolean supports(CacheStrategy cacheStrategy) {
-        return CacheStrategy.NONE == cacheStrategy;
+        return CacheStrategy.SPRING_CACHE_ANNOTATION == cacheStrategy;
     }
 }
