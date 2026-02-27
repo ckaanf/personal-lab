@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Data Source
@@ -21,6 +22,11 @@ public class ItemRepository {
 
     public Optional<Item> read(Long itemId) {
         log.info("[ItemRepository.read] itemId = {} ", itemId);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return Optional.ofNullable(database.get(itemId));
     }
 
