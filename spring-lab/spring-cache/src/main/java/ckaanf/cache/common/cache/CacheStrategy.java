@@ -10,4 +10,5 @@ public enum CacheStrategy {
     JITTER,
     PROBABILISTIC_EARLY_RECOMPUTATION,
     REQUEST_COLLAPSING,
+    RATE_LIMIT,
 }
