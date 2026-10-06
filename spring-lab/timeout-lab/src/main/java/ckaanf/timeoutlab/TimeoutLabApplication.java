@@ -1,0 +1,12 @@
+package ckaanf.timeoutlab;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class TimeoutLabApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(TimeoutLabApplication.class, args);
+    }
+}

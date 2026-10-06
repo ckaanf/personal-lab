@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: timeout-lab
+  docker:
+    compose:
+      lifecycle-management: start_only
+  datasource:
+    hikari:
+      # 실험할 때 바꿀 값 ----------------------------------------
+      maximum-pool-size: 5        # 작게 둬야 변화가 눈에 보인다
+      connection-timeout: 30000   # 커넥션을 얻을 때까지 기다리는 시간(ms)
+  # jdbc:
+  #   template:
+  #     query-timeout: 1s         # 실험 2에서 켠다
