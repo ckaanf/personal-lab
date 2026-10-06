@@ -33,6 +33,11 @@ public class LabController {
         return "slept " + sec + "s";
     }
 
+    @GetMapping("/heavy")
+    public Long heavy(@RequestParam(defaultValue = "30000000") long n) {
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM generate_series(1, ?)", Long.class, n);
+    }
+
     @GetMapping("/fast")
     public Integer fast() {
         return jdbcTemplate.queryForObject("SELECT 1", Integer.class);
