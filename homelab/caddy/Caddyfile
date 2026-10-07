@@ -2,7 +2,7 @@
 	admin off
 }
 
-# 여자친구와 같이 보는 공간. 비밀번호 보호.
+# 같이 보는 공간. 비밀번호 보호.
 http://hwjs.ckaanf.com:8080 {
 	bind 127.0.0.1
 	root * /var/www/hwjs
