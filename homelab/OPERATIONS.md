@@ -31,7 +31,7 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 | --- | --- | --- |
 | Caddy 설정 | `/etc/caddy/Caddyfile` | 저장소의 `caddy/Caddyfile`과 같음 (해시만 다름) |
 | Caddy 백업 | `/etc/caddy/Caddyfile.orig`, `.bak-20261007`, `.bak-20261007-js` | 설치 직후, 도메인 분리 직전, js tailnet 전환 직전 |
-| Caddy 서비스 | `caddy` (systemd), 127.0.0.1:8080 | 관리 API 꺼짐(`admin off`) |
+| Caddy 서비스 | `caddy` (systemd), 127.0.0.1:8080 | v2.11 + Cloudflare DNS 모듈(공식 빌드), `apt-mark hold caddy`. apt판 2.6.2는 `/usr/local/lib/caddy-2.6.2-apt`에 보관. 관리 API 꺼짐(`admin off`) |
 | Tunnel 커넥터 | `cloudflared` (systemd) | Tunnel 이름 `oracle-arm`, 토큰은 `/etc/cloudflared/token` |
 | 관리 도구 | `~/uptime-kuma`, `~/portainer` (docker compose) | tailnet 전용 |
 | 식단 서비스 | `meal-api`(127.0.0.1:8083), `meal-publish.path`, `meal-backup.timer` | 코드 `~/project/ckaanf-rooms/js/meal`, DB `~/meal-data/meal.db`, 백업 `~/backups/meal` |
@@ -131,6 +131,7 @@ sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<�
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-10-07 | Caddy를 Cloudflare DNS 모듈 포함 2.11로 교체, apt 고정 | DNS 인증으로 tailnet 전용 주소에도 인증서를 받으려고 |
 | 2026-10-07 | 개인 공간 코드(식단 동기화)를 비공개 `ckaanf-rooms`로 이전 | 서버 인프라 설정이 아니라 개인 앱이라서 |
 | 2026-10-07 | js 공간을 Tailscale 전용(:8444)으로 전환, 식단표 월별 배포·기록 동기화(SQLite) 추가 | 개인 기록을 여러 기기에서 쓰되 인터넷에는 열지 않으려고 |
 | 2026-10-07 | 운영 문서 원본을 이 파일로 이전 | Claude 아티팩트는 다른 에이전트가 읽을 수 없어서 |

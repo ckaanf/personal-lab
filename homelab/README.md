@@ -55,7 +55,7 @@ ckaanf.com(허브)은 이 서버가 아니라 Cloudflare Workers가 서빙한다
 1. Ubuntu 24.04 인스턴스를 만들고, OCI Security List에서 들어오는 규칙을 모두 지운다 (처음 SSH용 22번만 잠시 허용).
 2. Tailscale을 설치하고 tailnet에 붙인 뒤, SSH 접속을 tailnet 주소로 바꾸고 Security List의 22번 규칙을 지운다.
 3. fail2ban을 설치하고 `fail2ban/jail.local`을 넣는다.
-4. Caddy를 설치하고 `caddy/Caddyfile`을 넣는다. `{$HWJS_BASICAUTH_HASH}` 자리에 `caddy hash-password`로 만든 해시를 넣고 `sudo systemctl restart caddy`.
+4. Caddy를 apt로 설치한 뒤, Cloudflare DNS 모듈이 들어간 공식 빌드로 실행 파일을 바꾸고 apt가 덮어쓰지 않게 고정한다 (`curl -fL -o caddy 'https://caddyserver.com/api/download?os=linux&arch=arm64&p=github.com%2Fcaddy-dns%2Fcloudflare'` → `/usr/bin/caddy`, `sudo apt-mark hold caddy`). `caddy/Caddyfile`을 넣는다. `{$HWJS_BASICAUTH_HASH}` 자리에 `caddy hash-password`로 만든 해시를 넣고 `sudo systemctl restart caddy`.
 5. `/var/www/hwjs`, `/var/www/js`에 사이트 파일을 넣고 `sudo chmod -R a+rX /var/www`.
 6. `cloudflared/README.md` 순서대로 Tunnel을 연결한다.
 7. `docker/` 아래 compose를 올리고, `tailscale/README.md` 명령으로 tailnet에 노출한다.

@@ -6,7 +6,7 @@
 http://hwjs.ckaanf.com:8080 {
 	bind 127.0.0.1
 	root * /var/www/hwjs
-	basicauth {
+	basic_auth {
 		ckaanf {$HWJS_BASICAUTH_HASH}
 	}
 	file_server
