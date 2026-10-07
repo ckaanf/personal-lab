@@ -1,0 +1,7 @@
+[Unit]
+Description=볼트의 식단표 HTML을 /var/www/js/meal로 배포
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/usr/bin/python3 /home/ubuntu/project/personal-lab/homelab/meal/publish.py

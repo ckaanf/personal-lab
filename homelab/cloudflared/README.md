@@ -27,7 +27,6 @@ sudo cloudflared service install <토큰>
 | Hostname | Service |
 | --- | --- |
 | hwjs.ckaanf.com | `http://127.0.0.1:8080` |
-| js.ckaanf.com | `http://127.0.0.1:8080` |
 
 - `localhost` 대신 `127.0.0.1`을 쓴다. Caddy는 IPv4에만 바인딩하는데 `localhost`는 IPv6(`::1`)로 먼저 연결될 수 있다.
 - 새 서브도메인은 여기에 추가하고, Caddyfile에도 같은 도메인 블록을 추가해야 한다. 블록이 없으면 404가 난다.

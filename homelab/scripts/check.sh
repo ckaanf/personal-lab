@@ -14,7 +14,7 @@ expect() {  # expect <설명> <기대 코드> <curl 인자...>
 }
 
 echo "서비스"
-for s in caddy cloudflared tailscaled fail2ban docker; do
+for s in caddy cloudflared tailscaled fail2ban docker meal-api meal-publish.path meal-backup.timer; do
   systemctl is-active --quiet "$s" && ok "$s" || bad "$s"
 done
 
@@ -25,13 +25,14 @@ done
 
 echo "Caddy (로컬, 도메인별 분리)"
 expect "hwjs 비밀번호 없이 차단" 401 -H 'Host: hwjs.ckaanf.com' http://127.0.0.1:8080/
-expect "js 공개"                200 -H 'Host: js.ckaanf.com'   http://127.0.0.1:8080/
+expect "공개 쪽 js 도메인 거절"   404 -H 'Host: js.ckaanf.com'   http://127.0.0.1:8080/
+expect "js (tailnet 전용 :8082)" 200 http://127.0.0.1:8082/meal/
+expect "식단 API"               200 http://127.0.0.1:8083/meal/api/doc/meal-2026-10-v2
 expect "모르는 도메인 거절"      404 -H 'Host: example.com'     http://127.0.0.1:8080/
 
 echo "공개 주소"
 expect "ckaanf.com (허브)"       200 https://ckaanf.com/
 expect "hwjs.ckaanf.com"         401 https://hwjs.ckaanf.com/
-expect "js.ckaanf.com"           200 https://js.ckaanf.com/
 expect "http → https 리다이렉트" 301 http://ckaanf.com/
 
 echo "노출 점검 (127.0.0.1과 tailnet 밖으로 열린 포트가 없어야 함)"

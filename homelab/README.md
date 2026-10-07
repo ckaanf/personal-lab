@@ -15,10 +15,10 @@
                                    ┌─ 오라클 서버 · 공개 포트 없음 ──────────────────────┐
 [외부 사람] ──▶ [Cloudflare] ─Tunnel─▶ [cloudflared] ──▶ [Caddy 127.0.0.1:8080]          │
                                    │                         ├─ hwjs.ckaanf.com (비밀번호) │
-                                   │                         ├─ js.ckaanf.com   (공개)    │
                                    │                         └─ 그 외            404      │
                                    │                                                     │
 [내 기기] ───▶ [Tailscale] ────────▶ [Uptime Kuma · Portainer · SSH]                     │
+                                   │  [js 개인 공간 · 식단표 + 기록 API(SQLite)]          │
                                    └─────────────────────────────────────────────────────┘
 ```
 
@@ -27,7 +27,7 @@ ckaanf.com(허브)은 이 서버가 아니라 Cloudflare Workers가 서빙한다
 | 주소 | 용도 | 접근 |
 | --- | --- | --- |
 | hwjs.ckaanf.com | 같이 보는 공간 | 비밀번호 (Caddy basicauth) |
-| js.ckaanf.com | 개인 공간 | 공개, 검색엔진 차단 |
+| tailnet :8444 | 개인 공간 (식단표) | tailnet 전용 |
 | tailnet :443 | Uptime Kuma | tailnet 전용 |
 | tailnet :8443 | Portainer | tailnet 전용 |
 
@@ -40,6 +40,7 @@ ckaanf.com(허브)은 이 서버가 아니라 Cloudflare Workers가 서빙한다
 | `tailscale/` | — | tailnet 전용 서비스 노출 명령 |
 | `docker/` | `~/uptime-kuma`, `~/portainer` | 관리 도구 compose 파일 |
 | `fail2ban/jail.local` | `/etc/fail2ban/jail.local` | SSH 무차별 대입 차단 |
+| `meal/` | `/etc/systemd/system/meal-*` | 식단표 배포·기록 동기화 API ([README](meal/README.md)) |
 | `scripts/check.sh` | — | 전체 상태 점검 |
 
 ## 저장소에 넣지 않는 것
@@ -47,6 +48,7 @@ ckaanf.com(허브)은 이 서버가 아니라 Cloudflare Workers가 서빙한다
 - **비밀 값:** Caddy 비밀번호 해시, Tunnel 토큰. Caddyfile에는 `{$HWJS_BASICAUTH_HASH}` 자리만 남겨 두었다.
 - **사이트 내용:** `/var/www/*` 아래 페이지들은 개인 정보가 있어 따로 보관한다.
 - **관리 도구 데이터:** Uptime Kuma의 `data/`, Portainer 볼륨.
+- **식단 기록 DB:** `~/meal-data/meal.db`. 매일 `~/backups/meal`에 백업된다.
 
 ## 서버를 새로 만들 때
 
@@ -57,7 +59,8 @@ ckaanf.com(허브)은 이 서버가 아니라 Cloudflare Workers가 서빙한다
 5. `/var/www/hwjs`, `/var/www/js`에 사이트 파일을 넣고 `sudo chmod -R a+rX /var/www`.
 6. `cloudflared/README.md` 순서대로 Tunnel을 연결한다.
 7. `docker/` 아래 compose를 올리고, `tailscale/README.md` 명령으로 tailnet에 노출한다.
-8. `scripts/check.sh`로 확인한다.
+8. `meal/README.md` 순서대로 식단표 서비스를 설치하고, 백업한 `meal.db`를 `~/meal-data/`에 되돌린다.
+9. `scripts/check.sh`로 확인한다.
 
 ## 원칙
 

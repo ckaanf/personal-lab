@@ -1,0 +1,9 @@
+[Unit]
+Description=볼트 재정 폴더가 바뀌면 식단표 배포
+
+[Path]
+PathChanged=/home/ubuntu/vault/Vault/재정
+Unit=meal-publish.service
+
+[Install]
+WantedBy=multi-user.target

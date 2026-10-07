@@ -12,11 +12,12 @@ http://hwjs.ckaanf.com:8080 {
 	file_server
 }
 
-# 개인 공간. 공개지만 검색엔진에는 노출하지 않는다.
-http://js.ckaanf.com:8080 {
+# 개인 공간. Tailscale 전용 (tailscale serve :8444 → 여기). 인터넷에는 열지 않는다.
+http://:8082 {
 	bind 127.0.0.1
 	root * /var/www/js
-	header X-Robots-Tag "noindex, nofollow"
+	header /meal/* Cache-Control "no-cache"
+	reverse_proxy /meal/api/* 127.0.0.1:8083
 	file_server
 }
 

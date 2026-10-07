@@ -1,0 +1,7 @@
+[Unit]
+Description=식단 기록 DB 백업 (~/backups/meal, 30개 보관)
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/usr/bin/python3 /home/ubuntu/project/personal-lab/homelab/meal/backup.py

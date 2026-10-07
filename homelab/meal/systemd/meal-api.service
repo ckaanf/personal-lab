@@ -1,0 +1,11 @@
+[Unit]
+Description=식단표 기록 저장 API (127.0.0.1:8083)
+After=network.target
+
+[Service]
+User=ubuntu
+ExecStart=/usr/bin/python3 /home/ubuntu/project/personal-lab/homelab/meal/server.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

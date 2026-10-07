@@ -12,29 +12,30 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 | --- | --- | --- | --- |
 | ckaanf.com | 허브(포트폴리오) | Cloudflare Workers | 공개 |
 | hwjs.ckaanf.com | 같이 보는 공간 | 서버 Caddy | 비밀번호 (basicauth) |
-| js.ckaanf.com | 개인 공간 | 서버 Caddy | 공개, 검색엔진 차단 |
+| tailnet :8444 | 개인 공간 (식단표) | 서버 Caddy :8082 | Tailscale 전용 |
 
-서버의 두 공간은 같은 방식으로 운영한다.
-
-| 항목 | hwjs | js |
+| 항목 | hwjs | js (개인 공간) |
 | --- | --- | --- |
 | 파일 | `/var/www/hwjs/` | `/var/www/js/` |
 | 목록 페이지 | `index.html` (noindex) | `index.html` (noindex) |
-| 페이지 | `/jeonse/` | `/meal/` |
-| 접근 제어 | Caddy `basicauth` (bcrypt) | `robots.txt` 전체 차단 + `X-Robots-Tag: noindex, nofollow` |
+| 페이지 | `/jeonse/` | `/meal/` → 이번 달 식단표 (`/meal/YYYY-MM/`) |
+| 접근 제어 | Caddy `basicauth` (bcrypt) | tailnet 전용 (`tailscale serve :8444` → Caddy `127.0.0.1:8082`) |
 
 폴더 하나가 페이지 하나다. 사이트 내용은 이 저장소에 넣지 않는다.
+
+식단표는 볼트(`재정/*식단표*.html`)가 원본이고, 바뀌면 자동으로 배포된다. 기록은 SQLite에 저장되어 기기끼리 동기화된다. 자세한 구조는 [meal/README.md](meal/README.md).
 
 ## 구성 요소
 
 | 구성 요소 | 위치 | 비고 |
 | --- | --- | --- |
 | Caddy 설정 | `/etc/caddy/Caddyfile` | 저장소의 `caddy/Caddyfile`과 같음 (해시만 다름) |
-| Caddy 백업 | `/etc/caddy/Caddyfile.orig`, `/etc/caddy/Caddyfile.bak-20261007` | 설치 직후 원본, 도메인 분리 직전 |
+| Caddy 백업 | `/etc/caddy/Caddyfile.orig`, `.bak-20261007`, `.bak-20261007-js` | 설치 직후, 도메인 분리 직전, js tailnet 전환 직전 |
 | Caddy 서비스 | `caddy` (systemd), 127.0.0.1:8080 | 관리 API 꺼짐(`admin off`) |
 | Tunnel 커넥터 | `cloudflared` (systemd) | Tunnel 이름 `oracle-arm`, 토큰은 `/etc/cloudflared/token` |
 | 관리 도구 | `~/uptime-kuma`, `~/portainer` (docker compose) | tailnet 전용 |
-| 상태 점검 | `scripts/check.sh` | 서비스, 공개 주소, 외부 바인딩 15개 항목 |
+| 식단 서비스 | `meal-api`(127.0.0.1:8083), `meal-publish.path`, `meal-backup.timer` | DB `~/meal-data/meal.db`, 백업 `~/backups/meal` |
+| 상태 점검 | `scripts/check.sh` | 서비스, 공개 주소, 외부 바인딩 |
 | 서버 저장소 사본 | `~/project/personal-lab` | Deploy key로 push |
 
 ## 자주 하는 작업
@@ -54,6 +55,10 @@ scp -i ~/.ssh/<OCI 키> page.html ubuntu@oracle-arm:/tmp/page.html
 ```bash
 sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<폴더>/index.html && sudo chmod -R a+rX /var/www/hwjs
 ```
+
+### 새 달 식단표
+
+볼트 `재정/`에 새 식단표 HTML(저장 키 `meal-YYYY-MM-...`)을 넣으면 끝이다. 배포와 목록 갱신은 자동이고, 지난 달 기록은 남는다. 배포 로그는 `journalctl -u meal-publish`.
 
 ### 새 공간(서브도메인) 추가
 
@@ -126,6 +131,7 @@ sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<�
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-10-07 | js 공간을 Tailscale 전용(:8444)으로 전환, 식단표 월별 배포·기록 동기화(SQLite) 추가 | 개인 기록을 여러 기기에서 쓰되 인터넷에는 열지 않으려고 |
 | 2026-10-07 | 운영 문서 원본을 이 파일로 이전 | Claude 아티팩트는 다른 에이전트가 읽을 수 없어서 |
 | 2026-10-07 | rpcbind(111번) 비활성화 | 점검 스크립트가 모든 주소에 열린 것을 발견, NFS 미사용 |
 | 2026-10-07 | 서버 설정을 personal-lab/homelab에 백업 | 서버가 사라져도 재구성할 수 있게 |
