@@ -7,6 +7,8 @@
 - 나만 쓸 것은 Tailscale(tailnet) 안에서만 접근한다.
 - OCI Security List에는 들어오는 포트가 없다 (ICMP만 허용).
 
+일상 운영(페이지 추가, 새 공간, Cloudflare 관리, 문제 해결)은 [OPERATIONS.md](OPERATIONS.md).
+
 ## 구성
 
 ```
