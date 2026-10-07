@@ -1,9 +1,0 @@
-[Unit]
-Description=매일 04:00 식단 기록 백업
-
-[Timer]
-OnCalendar=*-*-* 04:00:00 Asia/Seoul
-Persistent=true
-
-[Install]
-WantedBy=timers.target

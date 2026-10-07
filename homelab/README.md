@@ -40,7 +40,7 @@ ckaanf.com(허브)은 이 서버가 아니라 Cloudflare Workers가 서빙한다
 | `tailscale/` | — | tailnet 전용 서비스 노출 명령 |
 | `docker/` | `~/uptime-kuma`, `~/portainer` | 관리 도구 compose 파일 |
 | `fail2ban/jail.local` | `/etc/fail2ban/jail.local` | SSH 무차별 대입 차단 |
-| `meal/` | `/etc/systemd/system/meal-*` | 식단표 배포·기록 동기화 API ([README](meal/README.md)) |
+| (비공개) `ckaanf-rooms` | `~/project/ckaanf-rooms` | 개인 공간(hwjs, js)의 목록 페이지와 식단표 배포·기록 동기화 앱 |
 | `scripts/check.sh` | — | 전체 상태 점검 |
 
 ## 저장소에 넣지 않는 것
@@ -59,7 +59,7 @@ ckaanf.com(허브)은 이 서버가 아니라 Cloudflare Workers가 서빙한다
 5. `/var/www/hwjs`, `/var/www/js`에 사이트 파일을 넣고 `sudo chmod -R a+rX /var/www`.
 6. `cloudflared/README.md` 순서대로 Tunnel을 연결한다.
 7. `docker/` 아래 compose를 올리고, `tailscale/README.md` 명령으로 tailnet에 노출한다.
-8. `meal/README.md` 순서대로 식단표 서비스를 설치하고, 백업한 `meal.db`를 `~/meal-data/`에 되돌린다.
+8. 비공개 저장소 `ckaanf-rooms`를 `~/project/`에 받고, `js/meal/README.md` 순서대로 식단표 서비스를 설치한다. 백업한 `meal.db`는 `~/meal-data/`에 되돌린다.
 9. `scripts/check.sh`로 확인한다.
 
 ## 원칙

@@ -23,7 +23,7 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 
 폴더 하나가 페이지 하나다. 사이트 내용은 이 저장소에 넣지 않는다.
 
-식단표는 볼트(`재정/*식단표*.html`)가 원본이고, 바뀌면 자동으로 배포된다. 기록은 SQLite에 저장되어 기기끼리 동기화된다. 자세한 구조는 [meal/README.md](meal/README.md).
+식단표는 볼트(`재정/*식단표*.html`)가 원본이고, 바뀌면 자동으로 배포된다. 기록은 SQLite에 저장되어 기기끼리 동기화된다. 개인 공간의 코드는 비공개 저장소 `ckaanf-rooms`(서버 사본 `~/project/ckaanf-rooms`)에 있다.
 
 ## 구성 요소
 
@@ -34,7 +34,7 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 | Caddy 서비스 | `caddy` (systemd), 127.0.0.1:8080 | 관리 API 꺼짐(`admin off`) |
 | Tunnel 커넥터 | `cloudflared` (systemd) | Tunnel 이름 `oracle-arm`, 토큰은 `/etc/cloudflared/token` |
 | 관리 도구 | `~/uptime-kuma`, `~/portainer` (docker compose) | tailnet 전용 |
-| 식단 서비스 | `meal-api`(127.0.0.1:8083), `meal-publish.path`, `meal-backup.timer` | DB `~/meal-data/meal.db`, 백업 `~/backups/meal` |
+| 식단 서비스 | `meal-api`(127.0.0.1:8083), `meal-publish.path`, `meal-backup.timer` | 코드 `~/project/ckaanf-rooms/js/meal`, DB `~/meal-data/meal.db`, 백업 `~/backups/meal` |
 | 상태 점검 | `scripts/check.sh` | 서비스, 공개 주소, 외부 바인딩 |
 | 서버 저장소 사본 | `~/project/personal-lab` | Deploy key로 push |
 
@@ -131,6 +131,7 @@ sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<�
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-10-07 | 개인 공간 코드(식단 동기화)를 비공개 `ckaanf-rooms`로 이전 | 서버 인프라 설정이 아니라 개인 앱이라서 |
 | 2026-10-07 | js 공간을 Tailscale 전용(:8444)으로 전환, 식단표 월별 배포·기록 동기화(SQLite) 추가 | 개인 기록을 여러 기기에서 쓰되 인터넷에는 열지 않으려고 |
 | 2026-10-07 | 운영 문서 원본을 이 파일로 이전 | Claude 아티팩트는 다른 에이전트가 읽을 수 없어서 |
 | 2026-10-07 | rpcbind(111번) 비활성화 | 점검 스크립트가 모든 주소에 열린 것을 발견, NFS 미사용 |
