@@ -1,0 +1,27 @@
+{
+	admin off
+}
+
+# 여자친구와 같이 보는 공간. 비밀번호 보호.
+http://hwjs.ckaanf.com:8080 {
+	bind 127.0.0.1
+	root * /var/www/hwjs
+	basicauth {
+		ckaanf {$HWJS_BASICAUTH_HASH}
+	}
+	file_server
+}
+
+# 개인 공간. 공개지만 검색엔진에는 노출하지 않는다.
+http://js.ckaanf.com:8080 {
+	bind 127.0.0.1
+	root * /var/www/js
+	header X-Robots-Tag "noindex, nofollow"
+	file_server
+}
+
+# 위에 없는 도메인으로 들어온 요청은 거절한다.
+http://:8080 {
+	bind 127.0.0.1
+	respond 404
+}
