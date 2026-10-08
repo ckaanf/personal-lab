@@ -39,6 +39,7 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 | Cloudflare API 토큰 | Caddy용 `/etc/caddy/cloudflare.env`, 에이전트용 `~/.config/cloudflare/agent.env` | Caddy용은 ckaanf.com DNS만, 에이전트용은 DNS·Tunnel·Workers·규칙(결제·Registrar·토큰 관리 제외). 둘 다 서버 IP 제한 |
 | 식단 서비스 | `meal-api`(127.0.0.1:8083), `meal-publish.path`, `meal-backup.timer` | 코드 `~/project/ckaanf-rooms/js/meal`, DB `~/meal-data/meal.db`, 백업 `~/backups/meal` |
 | 상태 점검 | `scripts/check.sh` | 서비스, 공개 주소, 외부 바인딩 |
+| 화면 확인용 브라우저 | 이미지 `playwright-shot:1.63.0` (`docker/playwright/Dockerfile`) | 상시 실행 안 함. 필요할 때 `docker run --rm`. 서버에 브라우저를 설치하지 않으려고 |
 | 서버 저장소 사본 | `~/project/personal-lab` | Deploy key로 push |
 
 ## 자주 하는 작업
@@ -92,6 +93,20 @@ sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<�
 ```bash
 ~/project/personal-lab/homelab/scripts/check.sh
 ```
+
+### 화면 확인 (스크린샷)
+
+서버에는 브라우저가 없다. 페이지를 폰 크기로 열어 보려면 Playwright 컨테이너를 그때만 띄운다.
+
+```bash
+# 이미지 만들기 (처음 한 번, 버전 올릴 때)
+docker build -t playwright-shot:1.63.0 ~/project/personal-lab/homelab/docker/playwright
+# 실행 예: 식단표 (스크립트는 ckaanf-rooms/js/meal/screenshot.py, 기록 API는 가짜로 응답)
+docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/work" -w /work \
+  playwright-shot:1.63.0 python screenshot.py --out shots
+```
+
+`--network host`는 tailnet 전용 주소(js.ckaanf.com 등)에 닿기 위해서다. 다 쓴 뒤 지우려면 `docker rmi playwright-shot:1.63.0 mcr.microsoft.com/playwright/python:v1.63.0-noble`.
 
 ## Cloudflare
 
@@ -149,6 +164,7 @@ sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<�
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-10-08 | 화면 확인용 Playwright 이미지 추가 (docker, 상시 실행 없음) | 서버에 브라우저·시스템 패키지를 설치하지 않고 페이지를 스크린샷으로 확인하려고 |
 | 2026-10-07 | tailnet 입구를 `tailscale serve`에서 Caddy(tailnet IP:443)로 전환. js·kuma·portainer.ckaanf.com A 레코드(DNS 전용), `*.ckaanf.com` 와일드카드 인증서 | 내 도메인으로 tailnet 서비스를 부르고, 새 서비스를 블록 하나로 추가하려고 |
 | 2026-10-07 | Caddy 서비스 설정에서 `--environ` 제거, Cloudflare 토큰 연결 | `--environ`이 토큰을 로그에 찍기 때문 |
 | 2026-10-07 | Caddy를 Cloudflare DNS 모듈 포함 2.11로 교체, apt 고정 | DNS 인증으로 tailnet 전용 주소에도 인증서를 받으려고 |
