@@ -1,0 +1,15 @@
+[Unit]
+Description=Claude Code Remote Control (tmux session "cc")
+After=network-online.target
+
+[Service]
+Type=forking
+WorkingDirectory=%h/project
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/tmux new-session -d -s cc -c %h/project %h/.local/bin/claude remote-control
+ExecStop=/usr/bin/tmux kill-session -t cc
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target

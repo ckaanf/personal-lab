@@ -40,6 +40,7 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 | 식단 서비스 | `meal-api`(127.0.0.1:8083), `meal-publish.path`, `meal-backup.timer` | 코드 `~/project/ckaanf-rooms/js/meal`, DB `~/meal-data/meal.db`, 백업 `~/backups/meal` |
 | 상태 점검 | `scripts/check.sh` | 서비스, 공개 주소, 외부 바인딩 |
 | 화면 확인용 브라우저 | 이미지 `playwright-shot:1.63.0` (`docker/playwright/Dockerfile`) | 상시 실행 안 함. 필요할 때 `docker run --rm`. 서버에 브라우저를 설치하지 않으려고 |
+| Claude Code Remote Control | `claude-rc` (systemd **사용자** 서비스, linger 켬), 설정 `~/.config/systemd/user/claude-rc.service` | tmux 세션 `cc`에서 `claude remote-control` 실행, 작업 폴더 `~/project`. 폰·웹(claude.ai/code)에서 맥 없이 서버로 바로 붙는다. CLI는 `~/.local/bin/claude` |
 | 서버 저장소 사본 | `~/project/personal-lab` | Deploy key로 push |
 
 ## 자주 하는 작업
@@ -93,6 +94,20 @@ sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<�
 ```bash
 ~/project/personal-lab/homelab/scripts/check.sh
 ```
+
+### Claude Code Remote Control
+
+폰 Claude 앱의 Code 탭이나 claude.ai/code에서 서버 세션을 고르면 된다. 서버 쪽 화면은 `tmux attach -t cc`로 보고 `Ctrl-b d`로 빠져나온다.
+
+```bash
+systemctl --user status claude-rc    # 상태
+systemctl --user restart claude-rc   # 재시작
+journalctl --user -u claude-rc       # 로그
+```
+
+- 작업 폴더는 `~`가 아니라 `~/project`다. 홈 폴더는 신뢰 승인이 저장되지 않아 재시작마다 `Trust ...? [y/N]`에서 멈추기 때문이다.
+- 자동 메모리는 작업 폴더 경로별로 저장된다(`~/.claude/projects/-home-ubuntu-project/memory`). 홈 폴더 세션의 메모리를 2026-10-12에 복사해 두었고, 이후로는 따로 쌓인다.
+- 로그인이 풀리면 서버에서 `claude auth login`을 다시 하고 서비스를 재시작한다.
 
 ### 화면 확인 (스크린샷)
 
@@ -158,12 +173,14 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 | tailnet 주소(js, kuma, portainer)가 안 열림 | 기기의 Tailscale이 꺼짐, 또는 A 레코드 IP가 서버 tailnet IP와 다름 | 기기에서 Tailscale 연결 확인, `tailscale ip -4`와 DNS 비교 |
 | 인증서 오류 / Caddy 로그에 `obtaining certificate` 실패 | Caddy용 토큰이 없거나 권한·IP 제한이 맞지 않음 | `/etc/caddy/cloudflare.env` 확인, `journalctl -u caddy` |
 | Caddy가 부팅 직후 실패 | tailnet IP가 아직 안 붙음 | override의 `Restart=on-failure`가 5초 뒤 다시 시도 |
+| 폰에서 서버 세션이 안 보임 | `claude-rc`가 신뢰 질문이나 로그인에서 멈춤 | `tmux attach -t cc`로 화면 확인, 필요하면 `claude auth login` 후 `systemctl --user restart claude-rc` |
 | 맥 터미널 scp/ssh가 `Permission denied (publickey)` | 기본 키를 씀. 서버는 OCI 키만 허용 | 맥 `~/.ssh/config`에 `Host oracle-arm`, `User ubuntu`, `IdentityFile` 지정 |
 
 ## 변경 기록
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-10-12 | Claude Code Remote Control을 서버에서 상시 실행 (`claude-rc` 사용자 서비스 + tmux, linger 켬) | 폰에서 맥을 거치지 않고 서버로 바로 붙으려고. 맥이 잠들어도 끊기지 않게 |
 | 2026-10-08 | 화면 확인용 Playwright 이미지 추가 (docker, 상시 실행 없음) | 서버에 브라우저·시스템 패키지를 설치하지 않고 페이지를 스크린샷으로 확인하려고 |
 | 2026-10-07 | tailnet 입구를 `tailscale serve`에서 Caddy(tailnet IP:443)로 전환. js·kuma·portainer.ckaanf.com A 레코드(DNS 전용), `*.ckaanf.com` 와일드카드 인증서 | 내 도메인으로 tailnet 서비스를 부르고, 새 서비스를 블록 하나로 추가하려고 |
 | 2026-10-07 | Caddy 서비스 설정에서 `--environ` 제거, Cloudflare 토큰 연결 | `--environ`이 토큰을 로그에 찍기 때문 |

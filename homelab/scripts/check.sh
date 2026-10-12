@@ -17,6 +17,7 @@ echo "서비스"
 for s in caddy cloudflared tailscaled fail2ban docker meal-api meal-publish.path meal-backup.timer; do
   systemctl is-active --quiet "$s" && ok "$s" || bad "$s"
 done
+systemctl --user is-active --quiet claude-rc && ok "claude-rc (user)" || bad "claude-rc (user)"
 
 echo "컨테이너"
 for c in uptime-kuma portainer; do
