@@ -1,0 +1,11 @@
+# ~/.config/systemd/user/kuma-push.timer — kuma-push를 1분마다
+[Unit]
+Description=kuma-push 1분마다
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1min
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target

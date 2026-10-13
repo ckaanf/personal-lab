@@ -1,0 +1,12 @@
+[Unit]
+Description=Obsidian Sync (headless) - ~/vault/Vault
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=%h/.local/bin/ob sync --continuous --path %h/vault/Vault
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target

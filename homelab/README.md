@@ -46,6 +46,8 @@ tailnet 전용 주소는 공개 DNS에 A 레코드(DNS 전용, 프록시 없음)
 | `tailscale/` | — | tailnet 연결과 주의할 점 |
 | `docker/` | `~/uptime-kuma`, `~/portainer` | 관리 도구 compose 파일 |
 | `claude/claude-rc.service` | `~/.config/systemd/user/claude-rc.service` | Claude Code Remote Control 상시 실행 (tmux 세션 `cc`) |
+| `obsidian/obsidian-sync.service` | `~/.config/systemd/user/obsidian-sync.service` | 볼트 Obsidian Sync 상시 실행 |
+| `kuma/kuma-push.service`, `kuma/kuma-push.timer` | `~/.config/systemd/user/` | 1분마다 `scripts/kuma-push.sh`로 Uptime Kuma Push 모니터에 상태 전송 |
 | `fail2ban/jail.local` | `/etc/fail2ban/jail.local` | SSH 무차별 대입 차단 |
 | (비공개) `ckaanf-rooms` | `~/project/ckaanf-rooms` | 개인 공간(hwjs, js)의 목록 페이지와 식단표 배포·기록 동기화 앱 |
 | `scripts/check.sh` | — | 전체 상태 점검 |
@@ -73,7 +75,9 @@ tailnet 전용 주소는 공개 DNS에 A 레코드(DNS 전용, 프록시 없음)
 8. `docker/` 아래 compose를 올린다.
 9. 비공개 저장소 `ckaanf-rooms`를 `~/project/`에 받고, `js/meal/README.md` 순서대로 식단표 서비스를 설치한다. 백업한 `meal.db`는 `~/meal-data/`에 되돌린다.
 10. Claude Code를 설치하고(`curl -fsSL https://claude.ai/install.sh | bash`) `claude auth login`으로 로그인한 뒤, `claude/claude-rc.service`를 `~/.config/systemd/user/`에 넣는다. `sudo loginctl enable-linger ubuntu`, `systemctl --user enable --now claude-rc`, 처음 한 번 `tmux attach -t cc`에서 폴더 신뢰에 `y`.
-11. `scripts/check.sh`로 확인한다.
+11. Obsidian Sync: `ob login` → `ob sync-setup --vault vault --path ~/vault/Vault --device-name oracle-arm`(종단 암호화 비밀번호 필요) → `ob sync-config --path ~/vault/Vault --file-types image,audio,video,pdf,unsupported` → `obsidian/obsidian-sync.service`를 넣고 `systemctl --user enable --now obsidian-sync`.
+12. Uptime Kuma에 Push 모니터(claude-rc, tmux cc, obsidian-sync, 간격 120초)를 만들고 Push URL을 `~/.config/kuma-push.env`(600)에 `이름="URL"`로 넣는다. `kuma/`의 두 파일을 넣고 `systemctl --user enable --now kuma-push.timer`.
+13. `scripts/check.sh`로 확인한다.
 
 ## 원칙
 

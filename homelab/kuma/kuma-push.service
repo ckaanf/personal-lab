@@ -1,0 +1,7 @@
+# ~/.config/systemd/user/kuma-push.service — Uptime Kuma Push 모니터에 상태 보내기
+[Unit]
+Description=Uptime Kuma Push 모니터에 상태 보내기
+
+[Service]
+Type=oneshot
+ExecStart=%h/project/personal-lab/homelab/scripts/kuma-push.sh

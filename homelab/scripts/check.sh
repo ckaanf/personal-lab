@@ -18,6 +18,7 @@ for s in caddy cloudflared tailscaled fail2ban docker meal-api meal-publish.path
   systemctl is-active --quiet "$s" && ok "$s" || bad "$s"
 done
 systemctl --user is-active --quiet claude-rc && ok "claude-rc (user)" || bad "claude-rc (user)"
+systemctl --user is-active --quiet obsidian-sync && ok "obsidian-sync (user)" || bad "obsidian-sync (user)"
 
 echo "컨테이너"
 for c in uptime-kuma portainer; do
