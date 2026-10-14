@@ -14,7 +14,7 @@ expect() {  # expect <설명> <기대 코드> <curl 인자...>
 }
 
 echo "서비스"
-for s in caddy cloudflared tailscaled fail2ban docker meal-api meal-publish.path meal-backup.timer; do
+for s in caddy cloudflared tailscaled fail2ban docker meal-api meal-publish.path meal-backup.timer fin-api fin-publish.path fin-backup.timer; do
   systemctl is-active --quiet "$s" && ok "$s" || bad "$s"
 done
 systemctl --user is-active --quiet claude-rc && ok "claude-rc (user)" || bad "claude-rc (user)"
@@ -30,12 +30,14 @@ expect "hwjs 비밀번호 없이 차단" 401 -H 'Host: hwjs.ckaanf.com' http://1
 expect "공개 쪽 js 도메인 거절"   404 -H 'Host: js.ckaanf.com'   http://127.0.0.1:8080/
 expect "모르는 도메인 거절"      404 -H 'Host: example.com'     http://127.0.0.1:8080/
 expect "식단 API (로컬)"          200 http://127.0.0.1:8083/meal/api/doc/meal-2026-10-v2
+expect "재정 API (로컬)"          200 http://127.0.0.1:8084/fin/api/doc/fin-main
 
 echo "tailnet 입구 (Caddy tailnet IP:443, 와일드카드 인증서)"
 TS=$(tailscale ip -4 2>/dev/null)
 tn() { expect "$1" "$2" --resolve "$3:443:$TS" "https://$3$4"; }
 tn "js 식단표"                  200 js.ckaanf.com        /meal/
 tn "js 식단 API"                200 js.ckaanf.com        /meal/api/doc/meal-2026-10-v2
+tn "js 재정 앱"                200 js.ckaanf.com        /fin/
 tn "kuma"                      302 kuma.ckaanf.com      /
 tn "portainer"                 200 portainer.ckaanf.com /
 tn "모르는 이름 거절"            404 nope.ckaanf.com      /

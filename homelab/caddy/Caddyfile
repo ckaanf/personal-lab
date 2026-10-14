@@ -32,8 +32,10 @@ http://:8080 {
 	handle @js {
 		root * /var/www/js
 		header /meal/* Cache-Control "no-cache"
+		header /fin/* Cache-Control "no-cache"
 		header /manifest.webmanifest Content-Type "application/manifest+json"
 		reverse_proxy /meal/api/* 127.0.0.1:8083
+		reverse_proxy /fin/api/* 127.0.0.1:8084
 		file_server
 	}
 

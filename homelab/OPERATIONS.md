@@ -38,6 +38,7 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 | 관리 도구 | `~/uptime-kuma`(127.0.0.1:3001), `~/portainer`(127.0.0.1:9443) (docker compose) | Caddy를 거쳐 tailnet 전용 |
 | Cloudflare API 토큰 | Caddy용 `/etc/caddy/cloudflare.env`, 에이전트용 `~/.config/cloudflare/agent.env` | Caddy용은 ckaanf.com DNS만, 에이전트용은 DNS·Tunnel·Workers·규칙(결제·Registrar·토큰 관리 제외). 둘 다 서버 IP 제한 |
 | 식단 서비스 | `meal-api`(127.0.0.1:8083), `meal-publish.path`, `meal-backup.timer` | 코드 `~/project/ckaanf-rooms/js/meal`, DB `~/meal-data/meal.db`, 백업 `~/backups/meal` |
+| 재정 서비스 | `fin-api`(127.0.0.1:8084), `fin-publish.path`, `fin-backup.timer` | 코드 `~/project/ckaanf-rooms/js/fin`·`js/shared`, DB `~/fin-data/fin.db`, 백업 `~/backups/fin`. `js.ckaanf.com/fin/` (tailnet 전용) |
 | 서비스 감시 (Kuma Push) | `kuma-push.timer`(사용자, 1분) → `scripts/kuma-push.sh` | claude-rc, tmux 세션 `cc`, obsidian-sync 상태를 Kuma Push 모니터로 보낸다(127.0.0.1:3001). 신호가 120초 없으면 Kuma가 장애로 표시. Push URL은 `~/.config/kuma-push.env`(저장소에 넣지 않음) |
 | 볼트 동기화 | `obsidian-sync` 사용자 서비스 (`ob sync --continuous`) | 볼트 `~/vault/Vault` ↔ Obsidian Sync(종단 암호화). `ob`는 `~/.local/bin/ob` → 사용자 영역 Node 22. 숨김 폴더와 5MB 넘는 파일은 동기화되지 않는다. 로그 `journalctl --user -u obsidian-sync` |
 | 상태 점검 | `scripts/check.sh` | 서비스, 공개 주소, 외부 바인딩 |
@@ -182,6 +183,7 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-10-14 | 재정 앱 추가: `fin-api`·`fin-publish.path`·`fin-backup.timer`, Caddy `js` 블록에 `/fin/api/*` → 8084 | 월말 결산을 폰·맥에서 같이 보려고. 식단표와 같은 구성(볼트 원본 → 배포, SQLite 동기화) |
 | 2026-10-13 | Uptime Kuma Push 모니터 3개(claude-rc, tmux cc, obsidian-sync)와 `kuma-push.timer` 추가, `check.sh`에 obsidian-sync 추가 | Kuma는 컨테이너 안이라 서버의 사용자 서비스·tmux를 직접 못 본다. 서버가 멈춰도 신호가 끊겨 잡힌다 |
 | 2026-10-13 | 볼트 동기화를 맥 Mutagen에서 Obsidian Sync(headless 클라이언트, `obsidian-sync` 사용자 서비스)로 전환. 한글 파일 이름을 NFC로 통일 | 동기화 도구를 하나로 모으려고. 같은 폴더에 두 동기화를 붙이면 충돌 |
 | 2026-10-12 | Claude Code Remote Control을 서버에서 상시 실행 (`claude-rc` 사용자 서비스 + tmux, linger 켬) | 폰에서 맥을 거치지 않고 서버로 바로 붙으려고. 맥이 잠들어도 끊기지 않게 |
