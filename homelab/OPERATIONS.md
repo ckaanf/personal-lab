@@ -25,7 +25,7 @@ ckaanf.com과 오라클 서버를 운영하는 방법. **이 파일이 운영 �
 
 폴더 하나가 페이지 하나다. 사이트 내용은 이 저장소에 넣지 않는다.
 
-식단표는 볼트(`재정/*식단표*.html`)가 원본이고, 바뀌면 자동으로 배포된다. 기록은 SQLite에 저장되어 기기끼리 동기화된다. 개인 공간의 코드는 비공개 저장소 `ckaanf-rooms`(서버 사본 `~/project/ckaanf-rooms`)에 있다.
+식단표는 볼트(`Projects/js/meal/*식단표*.html`)가 원본이고, 바뀌면 자동으로 배포된다. 기록은 SQLite에 저장되어 기기끼리 동기화된다. 개인 공간의 코드는 비공개 저장소 `ckaanf-rooms`(서버 사본 `~/project/ckaanf-rooms`)에 있다.
 
 ## 구성 요소
 
@@ -66,7 +66,7 @@ sudo mkdir -p /var/www/hwjs/<폴더> && sudo mv /tmp/page.html /var/www/hwjs/<�
 
 ### 새 달 식단표
 
-볼트 `재정/`에 새 식단표 HTML(저장 키 `meal-YYYY-MM-...`)을 넣으면 끝이다. 배포와 목록 갱신은 자동이고, 지난 달 기록은 남는다. 배포 로그는 `journalctl -u meal-publish`.
+볼트 `Projects/js/meal/`에 새 식단표 HTML(저장 키 `meal-YYYY-MM-...`)을 넣으면 끝이다. 배포와 목록 갱신은 자동이고, 지난 달 기록은 남는다. 배포 로그는 `journalctl -u meal-publish`.
 
 ### tailnet 전용 서비스 추가
 
@@ -183,6 +183,7 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-10-14 | 앱 원본 위치를 볼트 `재정/`에서 `Projects/js/meal`·`Projects/js/fin`으로 옮김. `meal-publish.path`·`fin-publish.path`가 각자 폴더를 감시 | 앱 문서와 범용 재정 문서를 나누려고. 저장소 `js/` 구조와 맞춤 |
 | 2026-10-14 | 재정 앱 추가: `fin-api`·`fin-publish.path`·`fin-backup.timer`, Caddy `js` 블록에 `/fin/api/*` → 8084 | 월말 결산을 폰·맥에서 같이 보려고. 식단표와 같은 구성(볼트 원본 → 배포, SQLite 동기화) |
 | 2026-10-13 | Uptime Kuma Push 모니터 3개(claude-rc, tmux cc, obsidian-sync)와 `kuma-push.timer` 추가, `check.sh`에 obsidian-sync 추가 | Kuma는 컨테이너 안이라 서버의 사용자 서비스·tmux를 직접 못 본다. 서버가 멈춰도 신호가 끊겨 잡힌다 |
 | 2026-10-13 | 볼트 동기화를 맥 Mutagen에서 Obsidian Sync(headless 클라이언트, `obsidian-sync` 사용자 서비스)로 전환. 한글 파일 이름을 NFC로 통일 | 동기화 도구를 하나로 모으려고. 같은 폴더에 두 동기화를 붙이면 충돌 |
