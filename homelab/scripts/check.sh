@@ -14,7 +14,7 @@ expect() {  # expect <설명> <기대 코드> <curl 인자...>
 }
 
 echo "서비스"
-for s in caddy cloudflared tailscaled fail2ban docker meal-api meal-publish.path meal-backup.timer fin-api fin-publish.path fin-backup.timer; do
+for s in caddy cloudflared tailscaled fail2ban docker meal-api meal-publish.path meal-backup.timer fin-api fin-backup.timer; do
   systemctl is-active --quiet "$s" && ok "$s" || bad "$s"
 done
 systemctl --user is-active --quiet claude-rc && ok "claude-rc (user)" || bad "claude-rc (user)"
@@ -38,6 +38,7 @@ tn() { expect "$1" "$2" --resolve "$3:443:$TS" "https://$3$4"; }
 tn "js 식단표"                  200 js.ckaanf.com        /meal/
 tn "js 식단 API"                200 js.ckaanf.com        /meal/api/doc/meal-2026-10-v2
 tn "js 재정 앱"                200 js.ckaanf.com        /fin/
+tn "js 재정 도구"              200 js.ckaanf.com        /fin/map/
 tn "kuma"                      302 kuma.ckaanf.com      /
 tn "portainer"                 200 portainer.ckaanf.com /
 tn "모르는 이름 거절"            404 nope.ckaanf.com      /
