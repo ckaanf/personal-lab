@@ -24,12 +24,17 @@ created: 2026-10-29
 ```query
 "library:"
 ```''')
-for line in (LIB / 'README.md').read_text(encoding='utf-8').splitlines():
+readme = (LIB / 'README.md').read_text(encoding='utf-8')
+shelves = readme[readme.index('## 서가\n'):readme.index('## 카드 모양')]  # 서가 표 부분만
+for line in shelves.splitlines():
+    if line.startswith('### '):  # 서가 묶음
+        print(f"\n## {line[4:]}")
+        continue
     if not (line.startswith('| ') and '](shelves/' in line):
         continue
     c = [x.strip() for x in line.strip().strip('|').split('|')]
     shelf = re.search(r'\[(.*?)\]\((.*?)\)', c[1]); lab = re.search(r'\[(.*?)\]\((.*?)\)', c[3])
-    print(f"\n## {c[0]} · {shelf.group(1)}" + (f" — 깊게: [{lab.group(1)}]({url(lab.group(2))})" if lab else ''))
+    print(f"\n### {c[0]} · {shelf.group(1)}" + (f" — 깊게: [{lab.group(1)}]({url(lab.group(2))})" if lab else ''))
     print('| ID | 카드 | 장면 |\n|---|---|---|')
     text = (LIB / shelf.group(2)).read_text(encoding='utf-8')
     for cid, title, scene in re.findall(r'^### (\S+) · (.+)\n- 장면: (.+)$', text, re.M):

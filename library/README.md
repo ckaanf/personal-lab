@@ -22,6 +22,8 @@
 - 회사 정보·개인 재정·구매 내역은 이 레포에 넣지 않는다 (공개 레포).
 
 ## 서가
+
+### 백엔드 핵심
 | 코드 | 서가 | 카드 | 깊게(lab) |
 |---|---|---|---|
 | TX | [정합성·트랜잭션](shelves/TX-consistency.md) | 6 | [결제 정합성 실험실](../spring-lab/payment-consistency/README.md) |
@@ -31,13 +33,46 @@
 | MQ | [메시징·이벤트](shelves/MQ-messaging.md) | 5 | — |
 | CA | [캐시](shelves/CA-cache.md) | 4 | — |
 | PF | [성능·부하](shelves/PF-performance.md) | 5 | — |
-| OP | [운영·관측·장애](shelves/OP-operations.md) | 7 | [운영·복구 실험실](labs/ops-recovery/README.md) |
-| NW | [네트워크·프로토콜](shelves/NW-network.md) | 5 | — |
-| MD | [미디어 지연](shelves/MD-media.md) | 5 | [미디어 지연 실험실](labs/media-latency/README.md) |
 | API | [API 설계·호환성](shelves/API-design.md) | 4 | — |
 | TS | [테스트 전략](shelves/TS-testing.md) | 4 | — |
 | SEC | [보안 기초](shelves/SEC-security.md) | 4 | — |
+| SR | [검색](shelves/SR-search.md) | 4 | — |
+| BAT | [배치·대량 처리](shelves/BAT-batch.md) | 4 | — |
+
+### 근본 (원리까지)
+| 코드 | 서가 | 카드 | 깊게(lab) |
+|---|---|---|---|
+| ST | [스토리지 내부](shelves/ST-storage.md) | 4 | — |
+| OS | [백엔드를 위한 운영체제](shelves/OS-system.md) | 4 | — |
+| JVM | [JVM 내부](shelves/JVM-internals.md) | 4 | — |
+| NW | [네트워크·프로토콜](shelves/NW-network.md) | 5 | — |
+| K8 | [컨테이너·쿠버네티스](shelves/K8-containers.md) | 4 | — |
+
+### 운영·실무 (시스템으로 보장)
+| 코드 | 서가 | 카드 | 깊게(lab) |
+|---|---|---|---|
+| OP | [운영·관측·장애](shelves/OP-operations.md) | 7 | [운영·복구 실험실](labs/ops-recovery/README.md) |
+| PE | [플랫폼 엔지니어링·개발 환경](shelves/PE-platform.md) | 5 | — |
+| DOC | [인수인계·문서화](shelves/DOC-handover.md) | 4 | — |
+| MIG | [레거시·마이그레이션](shelves/MIG-legacy.md) | 4 | — |
+
+### 방향: 미디어·인터랙션
+| 코드 | 서가 | 카드 | 깊게(lab) |
+|---|---|---|---|
+| MD | [미디어 지연](shelves/MD-media.md) | 5 | [미디어 지연 실험실](labs/media-latency/README.md) |
+| MS | [미디어 서버 구조](shelves/MS-media-server.md) | 4 | — |
+| RT | [실시간 상태 동기화](shelves/RT-realtime-sync.md) | 4 | — |
+| MC | [모션캡처 신호 처리](shelves/MC-motion.md) | 4 | — |
+| AV | [A/V 기초](shelves/AV-basics.md) | 4 | — |
+| FO | [대규모 실시간 팬아웃](shelves/FO-fanout.md) | 4 | — |
+
+### 커리어·도구
+| 코드 | 서가 | 카드 | 깊게(lab) |
+|---|---|---|---|
 | AI | [AI 하네스](shelves/AI-harness.md) | 5 | [AI 하네스 실험실](labs/ai-harness/README.md) |
+| SD | [시스템 설계 연습](shelves/SD-system-design.md) | 4 | — |
+| WR | [기술 글쓰기](shelves/WR-writing.md) | 3 | — |
+서가 30개 · 카드 134개.
 
 ## 카드 모양
 ```
