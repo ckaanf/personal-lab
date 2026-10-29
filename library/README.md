@@ -31,7 +31,7 @@
 | MQ | [메시징·이벤트](shelves/MQ-messaging.md) | 5 | — |
 | CA | [캐시](shelves/CA-cache.md) | 4 | — |
 | PF | [성능·부하](shelves/PF-performance.md) | 5 | — |
-| OP | [운영·관측·장애](shelves/OP-operations.md) | 6 | [운영·복구 실험실](labs/ops-recovery/README.md) |
+| OP | [운영·관측·장애](shelves/OP-operations.md) | 7 | [운영·복구 실험실](labs/ops-recovery/README.md) |
 | NW | [네트워크·프로토콜](shelves/NW-network.md) | 5 | — |
 | MD | [미디어 지연](shelves/MD-media.md) | 5 | [미디어 지연 실험실](labs/media-latency/README.md) |
 | API | [API 설계·호환성](shelves/API-design.md) | 4 | — |
