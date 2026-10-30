@@ -323,6 +323,11 @@ window.DS_TOKENS = {
      "value": "20px"
     },
     {
+     "name": "fs-stat",
+     "label": "큰 숫자",
+     "value": "38px"
+    },
+    {
      "name": "fw-normal",
      "label": "보통 굵기",
      "value": "400"
@@ -434,6 +439,11 @@ window.DS_TOKENS = {
      "value": "-apple-system, \"Apple SD Gothic Neo\", \"Pretendard\", \"Malgun Gothic\", sans-serif"
     },
     {
+     "name": "font-title",
+     "label": "제목 글꼴",
+     "value": "var(--font)"
+    },
+    {
      "name": "font-mono",
      "label": "고정폭 글꼴",
      "value": "ui-monospace, Menlo, monospace"
@@ -442,3 +452,4 @@ window.DS_TOKENS = {
   }
  ]
 };
+window.DS_PRESET = {"id": "mk1", "fontCss": []};

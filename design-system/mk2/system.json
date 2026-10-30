@@ -1,11 +1,16 @@
 {
   "id": "mk2",
   "name": "mk2",
-  "desc": "개인 앱 견본 (js/shared)",
-  "status": "옮겨 오기 전",
+  "desc": "mk1 뼈대 + 개인 앱 값(종이 · 남색 · 모서리 20)",
+  "status": "프리셋",
+  "base": "mk1",
+  "fontCss": [
+    "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css",
+    "https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+  ],
   "cats": {
     "P": "원칙", "W": "문구", "T": "토큰", "C": "부품",
     "L": "틀", "F": "동작", "X": "도구", "Q": "함정"
   },
-  "swatches": []
+  "swatches": ["c-primary", "c-ink", "c-ok", "c-wait", "c-danger", "c-bg"]
 }

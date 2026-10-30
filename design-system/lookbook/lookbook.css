@@ -16,7 +16,7 @@
 .lb-bar { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-3); }
 .lb-bar h2 { font-size: var(--fs-lg); margin: 0; }
 .lb-bar .sp { flex: 1; }
-.lb-bar .seg { max-width: 100%; overflow-x: auto; }
+.lb-bar .ds-seg { max-width: 100%; overflow-x: auto; }
 .lb-q { font-size: var(--fs-sm); color: var(--c-ink-2); }
 
 .blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--sp-3); }
@@ -52,9 +52,9 @@
 .lb-pager { display: flex; gap: var(--sp-2); margin-top: var(--sp-4); }
 .lb-pager .sp { flex: 1; }
 .news-pop { position: absolute; right: 56px; top: 52px; z-index: 50; }
-.menu-pop .opt { display: grid; gap: 6px; padding: 8px 10px; border-top: 1px solid var(--c-line-2); }
-.menu-pop .opt span { font-size: var(--fs-xs); color: var(--c-ink-3); }
+.ds-menu-pop .opt { display: grid; gap: 6px; padding: 8px 10px; border-top: 1px solid var(--c-line-2); }
+.ds-menu-pop .opt span { font-size: var(--fs-xs); color: var(--c-ink-3); }
 @media (max-width: 1100px) { .lb-detail { grid-template-columns: 1fr; } }
-.menu-pop .seg button { display: inline-flex; width: auto; height: var(--h-control-sm); padding: 0 10px; border-radius: 0; font-size: var(--fs-sm); }
+.ds-menu-pop .ds-seg button { display: inline-flex; width: auto; height: var(--h-control-sm); padding: 0 10px; border-radius: 0; font-size: var(--fs-sm); }
 .blk .pv.none { flex-direction: column; gap: 2px; }
 .blk .pv.none .lb-mark { font-family: var(--font-mono); font-size: 28px; color: var(--c-line-strong); letter-spacing: .02em; }

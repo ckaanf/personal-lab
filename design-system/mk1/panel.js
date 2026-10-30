@@ -2,7 +2,7 @@
    #panel 이 있는 페이지(kit.html)에서만 패널을 그리고, 다른 페이지는 기억한 값만 덮는다. 복사는 tokens.json 전체 */
 (function () {
   'use strict';
-  var KEY = 'mk1-token-edits', data = window.DS_TOKENS, root = document.documentElement;
+  var data = window.DS_TOKENS, KEY = (data ? data.system : 'mk1') + '-token-edits', root = document.documentElement;
   if (!data) return;
   var edits = { light: {}, dark: {} };
   try { var s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.light && s.dark) edits = s; } catch (e) { /* 기억 못 해도 된다 */ }
@@ -87,13 +87,13 @@
   function draw() {
     panel = document.getElementById('panel'); if (!panel) return;
     var n = Object.keys(edits.light).length + Object.keys(edits.dark).length, mode = curMode();
-    panel.innerHTML = '<div class="panel-h"><div class="top"><b>값 고치기</b><button class="btn sm" id="pn-reset">처음 값으로</button><button class="btn sm primary" id="pn-copy">tokens.json 복사</button></div>' +
-      '<div class="top"><span class="muted">고치는 모드</span><span class="seg"><button aria-pressed="' + (mode === 'light') + '" data-mode-set="light">밝게</button><button aria-pressed="' + (mode === 'dark') + '" data-mode-set="dark">어둡게</button></span><span class="muted">바꾼 값 ' + n + '</span></div>' +
-      '<div class="msg" id="pn-msg"></div></div>' +
+    panel.innerHTML = '<div class="panel-h"><div class="top"><b>값 고치기</b><button class="ds-btn sm" id="pn-reset">처음 값으로</button><button class="ds-btn sm primary" id="pn-copy">tokens.json 복사</button></div>' +
+      '<div class="top"><span class="ds-muted">고치는 모드</span><span class="ds-seg"><button aria-pressed="' + (mode === 'light') + '" data-mode-set="light">밝게</button><button aria-pressed="' + (mode === 'dark') + '" data-mode-set="dark">어둡게</button></span><span class="ds-muted">바꾼 값 ' + n + '</span></div>' +
+      '<div class="ds-msg" id="pn-msg"></div></div>' +
       data.groups.map(function (g) {
         return '<div class="panel-g' + (closed[g.name] ? ' closed' : '') + '" data-g="' + esc(g.name) + '"><button>' + esc(g.name) + '<span class="cv">▾</span></button><div class="panel-rows">' + g.tokens.map(function (t) {
           var wide = kind(orig(t)) === 'text', ch = edits[bucket(t)][t.name] != null;
-          return '<div class="panel-r' + (wide ? ' wide' : '') + (ch ? ' changed' : '') + '" data-row="' + t.name + '"><label><span>' + esc(t.label) + (moded(t) ? '' : ' <small class="muted">공통</small>') + '</span><code>--' + t.name + '</code></label><div class="ctl">' + ctl(t) + '</div>' + crHtml(t) + '</div>';
+          return '<div class="panel-r' + (wide ? ' wide' : '') + (ch ? ' changed' : '') + '" data-row="' + t.name + '"><label><span>' + esc(t.label) + (moded(t) ? '' : ' <small class="ds-muted">공통</small>') + '</span><code>--' + t.name + '</code></label><div class="ctl">' + ctl(t) + '</div>' + crHtml(t) + '</div>';
         }).join('') + '</div></div>';
       }).join('');
   }

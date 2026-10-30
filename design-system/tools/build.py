@@ -72,18 +72,21 @@ def main():
         if tj.exists():
             data = json.loads(tj.read_text(encoding="utf-8"))
             (folder / "tokens.css").write_text(token_css(data), encoding="utf-8")
+            preset = {"id": meta["id"], "fontCss": meta.get("fontCss", [])}
             (folder / "tokens.js").write_text(
-                "/* tools/build.py 가 만든다 */\nwindow.DS_TOKENS = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n",
+                "/* tools/build.py 가 만든다 */\nwindow.DS_TOKENS = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n"
+                + "window.DS_PRESET = " + json.dumps(preset, ensure_ascii=False) + ";\n",
                 encoding="utf-8")
             values = {t["name"]: t.get("value", t.get("light")) for g in data["groups"] for t in g["tokens"]}
             swatches = [values[n] for n in meta.get("swatches", []) if n in values]
-        cards = parse_cards(folder / "cards", meta.get("cats", {}))
-        examples = example_ids(folder / "examples.js")
+        src = ROOT / meta["base"] if meta.get("base") else folder  # 프리셋은 기반 시스템의 카드·예시·한 장 보기를 쓴다
+        cards = parse_cards(src / "cards", meta.get("cats", {}))
+        examples = example_ids(src / "examples.js")
         for c in cards:
             c["example"] = c["id"] in examples
         systems.append({**meta, "swatches": swatches, "cards": cards,
-                        "hasExamples": (folder / "examples.html").exists(), "hasKit": (folder / "kit.html").exists()})
-        print(f"{meta['id']}: 카드 {len(cards)} · 예시 {len(examples)}" + (" · 토큰" if tj.exists() else ""))
+                        "home": src.name, "hasExamples": (src / "examples.html").exists(), "hasKit": (src / "kit.html").exists()})
+        print(f"{meta['id']}: 카드 {len(cards)} · 예시 {len(examples)}" + (" · 토큰" if tj.exists() else "") + (f" · {meta['base']} 프리셋" if meta.get("base") else ""))
     out = {"built": date.today().isoformat(), "systems": systems}
     (ROOT / "lookbook" / "catalog.js").write_text(
         "/* tools/build.py 가 만든다. 손으로 고치지 않는다 */\nwindow.DS_CATALOG = " + json.dumps(out, ensure_ascii=False, indent=1) + ";\n",

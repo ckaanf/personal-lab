@@ -1,0 +1,455 @@
+/* tools/build.py 가 만든다 */
+window.DS_TOKENS = {
+ "system": "mk2",
+ "note": "mk2 = mk1 뼈대 위의 프리셋(개인 앱 공통 디자인 v0.1 의 값: 종이 · 남색 · 모서리 20 · 제목 글꼴). 여기 없는 값은 mk1 과 같다. tokens.css·tokens.js 는 tools/build.py 가 만든다.",
+ "groups": [
+  {
+   "name": "글자색",
+   "tokens": [
+    {
+     "name": "c-ink",
+     "label": "글자",
+     "light": "#26231F",
+     "dark": "#EDE8DF"
+    },
+    {
+     "name": "c-ink-2",
+     "label": "보조 글자",
+     "light": "#57524A",
+     "dark": "#C9C2B6"
+    },
+    {
+     "name": "c-ink-3",
+     "label": "가장 흐린 글자",
+     "light": "#6E685F",
+     "dark": "#A39C91"
+    },
+    {
+     "name": "c-on-fill",
+     "label": "채운 면 위 글자",
+     "light": "#FFFFFF",
+     "dark": "#1C1A17"
+    }
+   ]
+  },
+  {
+   "name": "면",
+   "tokens": [
+    {
+     "name": "c-bg",
+     "label": "바탕",
+     "light": "#FAF8F3",
+     "dark": "#1C1A17"
+    },
+    {
+     "name": "c-surface",
+     "label": "카드 면",
+     "light": "#FFFFFF",
+     "dark": "#26231F"
+    },
+    {
+     "name": "c-sunken",
+     "label": "들어간 면",
+     "light": "#F3F0E9",
+     "dark": "#211F1B"
+    },
+    {
+     "name": "c-neutral-soft",
+     "label": "회색 면",
+     "light": "#ECE7DE",
+     "dark": "#36322C"
+    }
+   ]
+  },
+  {
+   "name": "선",
+   "tokens": [
+    {
+     "name": "c-line",
+     "label": "선",
+     "light": "#ECE7DE",
+     "dark": "#36322C"
+    },
+    {
+     "name": "c-line-2",
+     "label": "옅은 선",
+     "light": "#F3EFE7",
+     "dark": "#2E2B26"
+    },
+    {
+     "name": "c-line-strong",
+     "label": "진한 선",
+     "light": "#D9D2C5",
+     "dark": "#4A453D"
+    }
+   ]
+  },
+  {
+   "name": "주 색",
+   "tokens": [
+    {
+     "name": "c-primary",
+     "label": "주 색",
+     "light": "#3E5C8A",
+     "dark": "#8FA9D4"
+    },
+    {
+     "name": "c-primary-hover",
+     "label": "주 색 올렸을 때",
+     "light": "#314A70",
+     "dark": "#A9BFE2"
+    },
+    {
+     "name": "c-primary-soft",
+     "label": "고른 것 면",
+     "light": "#E4EAF3",
+     "dark": "#26324A"
+    },
+    {
+     "name": "c-focus",
+     "label": "초점 테두리",
+     "light": "rgba(62, 92, 138, .25)",
+     "dark": "rgba(143, 169, 212, .30)"
+    }
+   ]
+  },
+  {
+   "name": "뜻 색",
+   "tokens": [
+    {
+     "name": "c-ok",
+     "label": "완료",
+     "light": "#356C41",
+     "dark": "#7FC08D"
+    },
+    {
+     "name": "c-hold",
+     "label": "보류",
+     "light": "#4a5578",
+     "dark": "#a3add0"
+    },
+    {
+     "name": "c-wait",
+     "label": "기다림 · 되묻기",
+     "light": "#975A12",
+     "dark": "#EBA95A"
+    },
+    {
+     "name": "c-danger",
+     "label": "내 할 일 · 오류",
+     "light": "#c0271b",
+     "dark": "#ff7b70"
+    },
+    {
+     "name": "c-info",
+     "label": "진행 · 검토",
+     "light": "#2b5c9a",
+     "dark": "#7fb0ec"
+    },
+    {
+     "name": "c-accent",
+     "label": "특별 기능",
+     "light": "#6b3fa0",
+     "dark": "#c3a2f0"
+    },
+    {
+     "name": "c-muted",
+     "label": "끝 · 제외",
+     "light": "#8b919c",
+     "dark": "#8b919c"
+    }
+   ]
+  },
+  {
+   "name": "뜻 면",
+   "tokens": [
+    {
+     "name": "c-ok-soft",
+     "label": "완료 면",
+     "light": "#DDEEDF",
+     "dark": "#1F3626"
+    },
+    {
+     "name": "c-hold-soft",
+     "label": "보류 면",
+     "light": "#eef0f6",
+     "dark": "#22273a"
+    },
+    {
+     "name": "c-wait-soft",
+     "label": "기다림 면",
+     "light": "#F8E6CF",
+     "dark": "#3D2B16"
+    },
+    {
+     "name": "c-danger-soft",
+     "label": "내 할 일 면",
+     "light": "#fdeeed",
+     "dark": "#3a1f1d"
+    },
+    {
+     "name": "c-info-soft",
+     "label": "진행 면",
+     "light": "#ecf2fa",
+     "dark": "#18263a"
+    },
+    {
+     "name": "c-accent-soft",
+     "label": "특별 기능 면",
+     "light": "#f4effb",
+     "dark": "#2a2038"
+    }
+   ]
+  },
+  {
+   "name": "뜻 선",
+   "tokens": [
+    {
+     "name": "c-ok-line",
+     "label": "완료 선",
+     "light": "#B9DCBF",
+     "dark": "#2F5236"
+    },
+    {
+     "name": "c-hold-line",
+     "label": "보류 선",
+     "light": "#c3cadf",
+     "dark": "#3c4560"
+    },
+    {
+     "name": "c-wait-line",
+     "label": "기다림 선",
+     "light": "#EBC796",
+     "dark": "#5E4220"
+    },
+    {
+     "name": "c-danger-line",
+     "label": "내 할 일 선",
+     "light": "#f1b0a8",
+     "dark": "#6a302b"
+    },
+    {
+     "name": "c-info-line",
+     "label": "진행 선",
+     "light": "#c2d4ec",
+     "dark": "#2f4a6e"
+    },
+    {
+     "name": "c-accent-line",
+     "label": "특별 기능 선",
+     "light": "#d8ccef",
+     "dark": "#4c3a68"
+    }
+   ]
+  },
+  {
+   "name": "쪽",
+   "tokens": [
+    {
+     "name": "c-side-them",
+     "label": "상대 말풍선",
+     "light": "#f8efe2",
+     "dark": "#2c261d"
+    },
+    {
+     "name": "c-side-me",
+     "label": "내 말풍선",
+     "light": "#e9eef6",
+     "dark": "#1f2733"
+    },
+    {
+     "name": "c-code-bg",
+     "label": "코드 상자",
+     "light": "#1d2129",
+     "dark": "#0b0d10"
+    },
+    {
+     "name": "c-code-ink",
+     "label": "코드 글자",
+     "light": "#d9dee6",
+     "dark": "#d9dee6"
+    }
+   ]
+  },
+  {
+   "name": "유리",
+   "tokens": [
+    {
+     "name": "glass",
+     "label": "유리 면",
+     "light": "rgba(255, 255, 255, .58)",
+     "dark": "rgba(30, 33, 40, .62)"
+    },
+    {
+     "name": "glass-drop",
+     "label": "유리 방울",
+     "light": "rgba(255, 255, 255, .78)",
+     "dark": "rgba(255, 255, 255, .14)"
+    },
+    {
+     "name": "glass-edge",
+     "label": "유리 테두리",
+     "light": "rgba(255, 255, 255, .65)",
+     "dark": "rgba(255, 255, 255, .12)"
+    }
+   ]
+  },
+  {
+   "name": "글자 크기",
+   "tokens": [
+    {
+     "name": "fs-xs",
+     "label": "가장 작은 글자",
+     "value": "13px"
+    },
+    {
+     "name": "fs-sm",
+     "label": "작은 글자",
+     "value": "14px"
+    },
+    {
+     "name": "fs-md",
+     "label": "기본 글자",
+     "value": "16px"
+    },
+    {
+     "name": "fs-lg",
+     "label": "소제목",
+     "value": "19px"
+    },
+    {
+     "name": "fs-xl",
+     "label": "제목",
+     "value": "24px"
+    },
+    {
+     "name": "fs-stat",
+     "label": "큰 숫자",
+     "value": "38px"
+    },
+    {
+     "name": "fw-normal",
+     "label": "보통 굵기",
+     "value": "400"
+    },
+    {
+     "name": "fw-strong",
+     "label": "강조 굵기",
+     "value": "600"
+    },
+    {
+     "name": "fw-title",
+     "label": "제목 굵기",
+     "value": "700"
+    },
+    {
+     "name": "lh",
+     "label": "줄 간격",
+     "value": "1.5"
+    }
+   ]
+  },
+  {
+   "name": "둥글기",
+   "tokens": [
+    {
+     "name": "r-control",
+     "label": "버튼 · 입력",
+     "value": "12px"
+    },
+    {
+     "name": "r-box",
+     "label": "카드 · 상자 · 창",
+     "value": "20px"
+    },
+    {
+     "name": "r-round",
+     "label": "동그라미",
+     "value": "999px"
+    }
+   ]
+  },
+  {
+   "name": "간격",
+   "tokens": [
+    {
+     "name": "sp-1",
+     "label": "간격 1",
+     "value": "4px"
+    },
+    {
+     "name": "sp-2",
+     "label": "간격 2",
+     "value": "8px"
+    },
+    {
+     "name": "sp-3",
+     "label": "간격 3",
+     "value": "12px"
+    },
+    {
+     "name": "sp-4",
+     "label": "간격 4",
+     "value": "16px"
+    },
+    {
+     "name": "sp-5",
+     "label": "간격 5",
+     "value": "24px"
+    },
+    {
+     "name": "sp-6",
+     "label": "간격 6",
+     "value": "32px"
+    }
+   ]
+  },
+  {
+   "name": "높이 · 그림자",
+   "tokens": [
+    {
+     "name": "h-control",
+     "label": "버튼 높이",
+     "value": "32px"
+    },
+    {
+     "name": "h-control-sm",
+     "label": "작은 버튼 높이",
+     "value": "28px"
+    },
+    {
+     "name": "h-touch",
+     "label": "폰 누르는 곳",
+     "value": "44px"
+    },
+    {
+     "name": "shadow-pop",
+     "label": "뜨는 창 그림자",
+     "light": "0 4px 14px rgba(15, 20, 30, .10)",
+     "dark": "0 4px 14px rgba(0, 0, 0, .45)"
+    }
+   ]
+  },
+  {
+   "name": "글꼴",
+   "tokens": [
+    {
+     "name": "font",
+     "label": "글꼴",
+     "value": "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif"
+    },
+    {
+     "name": "font-title",
+     "label": "제목 글꼴",
+     "value": "\"Do Hyeon\", var(--font)"
+    },
+    {
+     "name": "font-mono",
+     "label": "고정폭 글꼴",
+     "value": "ui-monospace, Menlo, monospace"
+    }
+   ]
+  }
+ ]
+};
+window.DS_PRESET = {"id": "mk2", "fontCss": ["https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css", "https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"]};

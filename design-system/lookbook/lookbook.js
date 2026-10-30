@@ -10,6 +10,8 @@
   function sysById(id) { return CAT.systems.filter(function (s) { return s.id === id; })[0]; }
   function cardById(sys, id) { return sys.cards.filter(function (c) { return c.id === id; })[0]; }
   function field(c, k) { var f = c.fields.filter(function (x) { return x[0] === k; })[0]; return f ? f[1] : ''; }
+  function home(s) { return s.home || s.id; }
+  function pre(s, j) { return s.base ? (j || '&') + 'preset=' + s.id : ''; }
   function ask(sys, c) { return sys.id + '_' + c.id + ' 구현해줘'; }
   // 카드 글 → 짧은 HTML: `코드`, **굵게**, "- " 줄은 목록, 카드 ID 는 링크
   function md(text, sys) {
@@ -39,17 +41,17 @@
     var where = '<a href="#/' + (s ? s.id : '') + '"><b>디자인 시스템</b></a>' + (s ? '<span class="hide-phone">›</span><a class="hide-phone" href="#/' + s.id + '">' + esc(s.name) + '</a>' : '') +
       (c ? '<span>›</span><b>' + esc(c.id + ' ' + c.name) + '</b>' : '');
     $('#top').innerHTML =
-      '<button class="icon-btn" data-act="nav" aria-label="메뉴 접기·펴기" title="메뉴 ( [ )">' + I('menu') + '</button>' +
+      '<button class="ds-icon-btn" data-act="nav" aria-label="메뉴 접기·펴기" title="메뉴 ( [ )">' + I('menu') + '</button>' +
       '<div class="where">' + where + '</div>' +
       '<label class="find">' + I('search') + '<input id="q" placeholder="카드 ID나 이름으로 찾기" aria-label="찾기" value="' + esc(state.q) + '"><kbd>/</kbd></label>' +
-      '<button class="icon-btn find-btn" data-act="find" aria-label="찾기">' + I('search') + '</button>' +
-      '<button class="icon-btn" id="add" aria-label="새 시스템" title="새 시스템">' + I('plus') + '</button>' +
-      '<button class="icon-btn" data-act="pop" data-target="news" aria-label="새 소식" title="새 소식">' + I('bell') + '<span class="dot"></span></button>' +
-      '<div class="news news-pop" id="news" hidden><div class="news-h">새 소식</div><ul>' + CAT.systems.map(function (x) {
+      '<button class="ds-icon-btn find-btn" data-act="find" aria-label="찾기">' + I('search') + '</button>' +
+      '<button class="ds-icon-btn" id="add" aria-label="새 시스템" title="새 시스템">' + I('plus') + '</button>' +
+      '<button class="ds-icon-btn" data-act="pop" data-target="news" aria-label="새 소식" title="새 소식">' + I('bell') + '<span class="dot"></span></button>' +
+      '<div class="ds-news news-pop" id="news" hidden><div class="news-h">새 소식</div><ul>' + CAT.systems.map(function (x) {
         return '<li><span class="dot"></span><div class="body"><div class="kind">' + esc(x.name) + '</div><div class="text">' + esc(x.status || '') + ' · 카드 ' + x.cards.length + ' · 예시 ' + x.cards.filter(function (c) { return c.example; }).length + '</div><div class="time">빌드 ' + esc(CAT.built) + '</div></div></li>';
       }).join('') + '</ul></div>' +
       '<button class="me" data-act="pop" data-target="me" aria-label="내 계정과 보기 설정">진</button>' +
-      '<div class="menu-pop" id="me" hidden><div class="who"><b>진수</b><small>personal-lab</small></div>' +
+      '<div class="ds-menu-pop" id="me" hidden><div class="who"><b>진수</b><small>personal-lab</small></div>' +
       opt('모드', 'mode', [['system', '시스템'], ['light', '밝게'], ['dark', '어둡게']]) +
       opt('보기', 'density', [['compact', '촘촘하게'], ['comfy', '편하게']]) +
       opt('폰 탭 줄', 'reduce', [['false', '유리'], ['true', '투명도 줄이기']]) + '</div>';
@@ -63,7 +65,7 @@
   }
   function opt(label, key, vals) {
     var cur = String(P[key] == null ? '' : P[key]);
-    return '<div class="opt"><span>' + label + '</span><span class="seg">' + vals.map(function (v) {
+    return '<div class="opt"><span>' + label + '</span><span class="ds-seg">' + vals.map(function (v) {
       return '<button data-act="pref" data-key="' + key + '" data-val="' + v[0] + '" aria-pressed="' + (cur === v[0]) + '">' + v[1] + '</button>';
     }).join('') + '</span></div>';
   }
@@ -71,11 +73,11 @@
   function drawNav() {
     var s = state.sys, onList = !state.id && state.cat === '*';
     function it(href, ic, full, short, n, cur) {
-      return '<a class="nav-it" href="' + href + '"' + (cur ? ' aria-current="page"' : '') + '>' + I(ic) + '<span class="full">' + full + '</span><span class="short">' + short + '</span>' + (n != null ? '<span class="n">' + n + '</span>' : '') + '</a>';
+      return '<a class="ds-nav-it" href="' + href + '"' + (cur ? ' aria-current="page"' : '') + '>' + I(ic) + '<span class="full">' + full + '</span><span class="short">' + short + '</span>' + (n != null ? '<span class="n">' + n + '</span>' : '') + '</a>';
     }
     var html = '<div class="grp" data-grp="lb-view"><button class="grp-h">보기<span class="cv">▾</span></button><div class="items">' +
       it('#/' + s.id, 'grid', '블록 목록', '블록', null, onList) +
-      (s.hasKit ? it(s.id + '/kit.html', 'palette', '부품 한 장 · 조종 패널', '한 장') : '') + '</div></div>' +
+      (s.hasKit ? it(home(s) + '/kit.html' + pre(s, '?'), 'palette', '부품 한 장 · 조종 패널', '한 장') : '') + '</div></div>' +
       '<div class="grp" data-grp="lb-sys"><button class="grp-h">시스템<span class="cv">▾</span></button><div class="items">' +
       CAT.systems.map(function (x) { return it('#/' + x.id, 'layers', esc(x.name), esc(x.name), x.cards.length, false); }).join('') + '</div></div>';
     var cats = Object.keys(s.cats || {}).filter(function (k) { return s.cards.some(function (c) { return c.cat === k; }); });
@@ -91,10 +93,10 @@
   }
   function drawTabs() {
     var s = state.sys;
-    var tabs = [['#/' + s.id, 'grid', '블록', !state.id], [s.hasKit ? s.id + '/kit.html' : '#/' + s.id, 'palette', '한 장', false], ['#find', 'search', '찾기', false], ['#more', 'more', '더보기', false]];
+    var tabs = [['#/' + s.id, 'grid', '블록', !state.id], [s.hasKit ? home(s) + '/kit.html' + pre(s, '?') : '#/' + s.id, 'palette', '한 장', false], ['#find', 'search', '찾기', false], ['#more', 'more', '더보기', false]];
     $('#tabs').innerHTML = tabs.map(function (t) {
       var a = t[0] === '#find' ? ' data-act="find-tab"' : t[0] === '#more' ? ' data-act="nav"' : '';
-      return '<a class="tab" href="' + (a ? '#' : t[0]) + '"' + a + (t[3] ? ' aria-current="page"' : '') + '>' + I(t[1]) + '<span>' + t[2] + '</span></a>';
+      return '<a class="ds-tab" href="' + (a ? '#' : t[0]) + '"' + a + (t[3] ? ' aria-current="page"' : '') + '>' + I(t[1]) + '<span>' + t[2] + '</span></a>';
     }).join('');
   }
 
@@ -109,14 +111,14 @@
   }
   function drawHome() {
     var s = state.sys;
-    $('#main').innerHTML = '<h1 class="lb-h1">디자인 시스템</h1><p class="lb-sub">시스템 ' + CAT.systems.length + ' · 블록 ' + CAT.systems.reduce(function (n, x) { return n + x.cards.length; }, 0) + ' · 빌드 ' + esc(CAT.built) + '</p>' +
+    $('#main').innerHTML = '<h1 class="lb-h1">디자인 시스템</h1><p class="lb-sub">시스템 ' + CAT.systems.filter(function (x) { return !x.base; }).length + ' · 프리셋 ' + CAT.systems.filter(function (x) { return x.base; }).length + ' · 블록 ' + CAT.systems.reduce(function (n, x) { return n + (x.base ? 0 : x.cards.length); }, 0) + ' · 빌드 ' + esc(CAT.built) + '</p>' +
       '<div class="systems">' + CAT.systems.map(function (x) {
         var ex = x.cards.filter(function (c) { return c.example; }).length;
         return '<a class="sys-card" href="#/' + x.id + '"' + (x.id === s.id ? ' aria-current="page"' : '') + '><div class="hd"><b>' + esc(x.name) + '</b><span>' + esc(x.desc) + '</span></div>' +
           '<div class="swatches">' + (x.swatches || []).map(function (c) { return '<i style="background:' + esc(c) + '"></i>'; }).join('') + '</div>' +
-          '<div class="meta"><span>카드 ' + x.cards.length + '</span><span>예시 ' + ex + '</span><span class="st ' + (x.cards.length ? 'info' : '') + '">' + esc(x.status || '') + '</span></div></a>';
+          '<div class="meta">' + (x.base ? '<span>' + esc(x.base) + ' 뼈대</span>' : '') + '<span>카드 ' + x.cards.length + '</span><span>예시 ' + ex + '</span><span class="ds-st ' + (x.cards.length ? 'info' : '') + '">' + esc(x.status || '') + '</span></div></a>';
       }).join('') + '</div>' +
-      '<div class="lb-bar"><h2>' + esc(s.name) + ' 블록</h2><span class="seg" id="cats"></span><span class="sp"></span><span class="lb-q" id="qinfo"></span></div><div id="blocks"></div>';
+      '<div class="lb-bar"><h2>' + esc(s.name) + ' 블록</h2><span class="ds-seg" id="cats"></span><span class="sp"></span><span class="lb-q" id="qinfo"></span></div><div id="blocks"></div>';
     var cats = Object.keys(s.cats || {}).filter(function (k) { return s.cards.some(function (c) { return c.cat === k; }); });
     $('#cats').innerHTML = cats.length ? '<button data-c="*" aria-pressed="' + (state.cat === '*') + '">전체</button>' + cats.map(function (k) { return '<button data-c="' + k + '" aria-pressed="' + (state.cat === k) + '">' + esc(s.cats[k]) + '</button>'; }).join('') : '';
     $('#cats').onclick = function (e) { var b = e.target.closest('button'); if (b) location.hash = '#/' + s.id + (b.dataset.c === '*' ? '' : '?c=' + b.dataset.c); };
@@ -130,10 +132,10 @@
     box.className = 'blocks';
     box.innerHTML = list.map(function (c) {
       var id = s.id + '_' + c.id;
-      var pv = c.example ? '<div class="pv"><iframe loading="lazy" tabindex="-1" aria-hidden="true" src="' + s.id + '/examples.html?id=' + c.id + '&mode=' + previewMode() + '"></iframe></div>'
+      var pv = c.example ? '<div class="pv"><iframe loading="lazy" tabindex="-1" aria-hidden="true" src="' + home(s) + '/examples.html?id=' + c.id + pre(s) + '&mode=' + previewMode() + '"></iframe></div>'
         : '<div class="pv none"><span class="lb-mark">' + esc(c.id) + '</span><span>' + esc((s.cats || {})[c.cat] || '') + '</span></div>';
       return '<article class="blk">' + pv + '<a class="body" href="#/' + s.id + '/' + c.id + '"><span class="id">' + id + '</span><span class="nm">' + esc(c.name) + '</span><span class="ds">' + esc(field(c, '하는 일') || field(c, '증상') || '') + '</span></a>' +
-        '<div class="ft"><span class="st ' + (c.example ? 'ok' : '') + '">' + (c.example ? '예시 있음' : '카드만') + '</span><span class="sp"></span><button class="btn sm" data-copy="' + esc(ask(s, c)) + '">부탁 복사</button></div></article>';
+        '<div class="ft"><span class="ds-st ' + (c.example ? 'ok' : '') + '">' + (c.example ? '예시 있음' : '카드만') + '</span><span class="sp"></span><button class="ds-btn sm" data-copy="' + esc(ask(s, c)) + '">부탁 복사</button></div></article>';
     }).join('') || '<div class="lb-empty">찾는 블록이 없습니다.</div>';
   }
   function previewMode() {
@@ -150,25 +152,25 @@
     var prev = same[i - 1], next = same[i + 1];
     var skip = ['하는 일'];
     $('#main').innerHTML =
-      '<div class="detail-head" style="position:static"><a class="btn sm quiet" href="#/' + s.id + '?c=' + c.cat + '">' + esc(s.cats[c.cat] || c.cat) + ' 목록</a>' +
-      '<span class="no">' + s.id + '_' + c.id + '</span><h1>' + esc(c.name) + '</h1><span class="st ' + (c.example ? 'ok' : '') + '">' + (c.example ? '예시 있음' : '카드만') + '</span></div>' +
+      '<div class="ds-detail-head" style="position:static"><a class="ds-btn sm quiet" href="#/' + s.id + '?c=' + c.cat + '">' + esc(s.cats[c.cat] || c.cat) + ' 목록</a>' +
+      '<span class="no">' + s.id + '_' + c.id + '</span><h1>' + esc(c.name) + '</h1><span class="ds-st ' + (c.example ? 'ok' : '') + '">' + (c.example ? '예시 있음' : '카드만') + '</span></div>' +
       '<p class="lb-sub" style="margin-top:4px">' + esc(field(c, '하는 일')) + '</p>' +
       '<div class="lb-detail"><div style="display:grid;gap:var(--sp-4);min-width:0">' +
-      (c.example ? '<section class="card"><div class="card-h">예시<span class="sp"></span><div class="ctrls">' +
+      (c.example ? '<section class="ds-card"><div class="card-h">예시<span class="sp"></span><div class="ctrls">' +
         seg('mode', [['light', '밝게'], ['dark', '어둡게']]) + seg('w', [['desk', '데스크톱'], ['phone', '폰']]) + seg('density', [['compact', '촘촘하게'], ['comfy', '편하게']]) +
-        '</div></div><div class="card-b"><div class="stage' + (v.w === 'phone' ? ' phone' : '') + '"><iframe id="exf" title="' + esc(c.name) + ' 예시" src="' + s.id + '/examples.html?id=' + c.id + '&mode=' + v.mode + '&density=' + v.density + '&reduce=' + (P.reduce ? 1 : 0) + '"></iframe></div></div></section>'
-        : '<section class="card"><div class="card-h">예시</div><div class="card-b"><div class="lb-empty">이 블록은 카드만 있습니다. 부탁하면 예시와 함께 만듭니다.</div></div></section>') +
-      '</div><section class="card"><div class="card-h">카드<span class="sp"></span><a class="btn sm quiet" href="' + s.id + '/cards/' + esc(c.file) + '" target="_blank">원문</a></div><div class="card-b" style="display:grid;gap:14px">' +
-      '<div class="lb-ask"><code>' + esc(ask(s, c)) + '</code><button class="btn sm primary" data-copy="' + esc(ask(s, c)) + '">' + I('copy') + '복사</button></div>' +
+        '</div></div><div class="card-b"><div class="stage' + (v.w === 'phone' ? ' phone' : '') + '"><iframe id="exf" title="' + esc(c.name) + ' 예시" src="' + home(s) + '/examples.html?id=' + c.id + pre(s) + '&mode=' + v.mode + '&density=' + v.density + '&reduce=' + (P.reduce ? 1 : 0) + '"></iframe></div></div></section>'
+        : '<section class="ds-card"><div class="card-h">예시</div><div class="card-b"><div class="lb-empty">이 블록은 카드만 있습니다. 부탁하면 예시와 함께 만듭니다.</div></div></section>') +
+      '</div><section class="ds-card"><div class="card-h">카드<span class="sp"></span><a class="ds-btn sm quiet" href="' + home(s) + '/cards/' + esc(c.file) + '" target="_blank">원문</a></div><div class="card-b" style="display:grid;gap:14px">' +
+      '<div class="lb-ask"><code>' + esc(ask(s, c)) + '</code><button class="ds-btn sm primary" data-copy="' + esc(ask(s, c)) + '">' + I('copy') + '복사</button></div>' +
       '<dl class="lb-spec">' + c.fields.filter(function (f) { return skip.indexOf(f[0]) < 0; }).map(function (f) { return '<div><dt>' + esc(f[0]) + '</dt><dd>' + md(f[1], s) + '</dd></div>'; }).join('') + '</dl></div></section></div>' +
-      '<div class="lb-pager">' + (prev ? '<a class="btn" href="#/' + s.id + '/' + prev.id + '">◀ ' + esc(prev.id + ' ' + prev.name) + '</a>' : '') + '<span class="sp"></span>' +
-      (next ? '<a class="btn" href="#/' + s.id + '/' + next.id + '">' + esc(next.id + ' ' + next.name) + ' ▶</a>' : '') + '</div>';
+      '<div class="lb-pager">' + (prev ? '<a class="ds-btn" href="#/' + s.id + '/' + prev.id + '">◀ ' + esc(prev.id + ' ' + prev.name) + '</a>' : '') + '<span class="sp"></span>' +
+      (next ? '<a class="ds-btn" href="#/' + s.id + '/' + next.id + '">' + esc(next.id + ' ' + next.name) + ' ▶</a>' : '') + '</div>';
     $('#main').querySelectorAll('[data-view]').forEach(function (b) {
       b.addEventListener('click', function () { state.view[b.dataset.view] = b.dataset.val; drawDetail(); });
     });
   }
   function seg(k, vals) {
-    return '<span class="seg">' + vals.map(function (x) { return '<button data-view="' + k + '" data-val="' + x[0] + '" aria-pressed="' + ((k === 'mode' ? state.view.mode || previewMode() : state.view[k]) === x[0]) + '">' + x[1] + '</button>'; }).join('') + '</span>';
+    return '<span class="ds-seg">' + vals.map(function (x) { return '<button data-view="' + k + '" data-val="' + x[0] + '" aria-pressed="' + ((k === 'mode' ? state.view.mode || previewMode() : state.view[k]) === x[0]) + '">' + x[1] + '</button>'; }).join('') + '</span>';
   }
   window.addEventListener('message', function (e) {
     var f = document.getElementById('exf');
@@ -179,14 +181,14 @@
     parse();
     if (!state.sys) { $('#main').innerHTML = '<div class="lb-empty">시스템이 없습니다. <code>python3 tools/build.py</code></div>'; return; }
     document.title = state.id ? state.sys.id + '_' + state.id + ' · 룩북' : state.sys.name + ' · 룩북';
-    document.body.classList.remove('drawer-open');
+    document.body.classList.remove('ds-drawer-open');
     drawTop(); drawNav(); drawTabs();
     if (state.id) drawDetail(); else drawHome();
     window.scrollTo(0, 0);
   }
   document.addEventListener('click', function (e) {
     var ft = e.target.closest('[data-act="find-tab"]');
-    if (ft) { e.preventDefault(); var bar = $('.topbar'); bar.classList.add('searching'); $('#q').focus(); }
+    if (ft) { e.preventDefault(); var bar = $('.ds-topbar'); bar.classList.add('searching'); $('#q').focus(); }
     var pref = e.target.closest('[data-act="pref"]');
     if (pref && pref.dataset.key === 'mode') { state.view.mode = null; setTimeout(route, 0); }
     if (pref && pref.dataset.key === 'density') setTimeout(route, 0);

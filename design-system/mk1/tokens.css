@@ -57,6 +57,7 @@
   --fs-md: 14px;
   --fs-lg: 16px;
   --fs-xl: 20px;
+  --fs-stat: 38px;
   --fw-normal: 400;
   --fw-strong: 600;
   --fw-title: 700;
@@ -79,6 +80,7 @@
   --shadow-pop: 0 4px 14px rgba(15, 20, 30, .10);
   /* 글꼴 */
   --font: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+  --font-title: var(--font);
   --font-mono: ui-monospace, Menlo, monospace;
 }
 [data-mode="dark"] {
