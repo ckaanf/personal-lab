@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>디자인 시스템 룩북 — 시안 1</title>
+<style>
+/* 시안 전용. 승인되면 mk1/tokens.css · mk1/components.css · lookbook/ 으로 나눈다 */
+:root {
+  --c-ink: #1b1f27; --c-ink-2: #4a5160; --c-ink-3: #636b79;
+  --c-bg: #f4f5f7; --c-surface: #ffffff; --c-sunken: #f0f2f5; --c-neutral-soft: #eceef2;
+  --c-line: #dde1e7; --c-line-2: #eceef2; --c-line-strong: #c3c9d2; --c-on-fill: #ffffff;
+  --c-primary: #1d2533; --c-primary-hover: #000000; --c-primary-soft: #eceef1; --c-focus: rgba(29, 37, 51, .25);
+  --c-ok: #1f7a45; --c-hold: #4a5578; --c-wait: #8a5a00; --c-danger: #c0271b; --c-info: #2b5c9a; --c-accent: #6b3fa0; --c-muted: #8b919c;
+  --c-danger-soft: #fdeeed; --c-ok-soft: #e8f4ec;
+  --fs-xs: 12px; --fs-sm: 13px; --fs-md: 14px; --fs-lg: 16px; --fs-xl: 20px;
+  --fw-normal: 400; --fw-strong: 600; --fw-title: 700; --lh: 1.55;
+  --r-control: 6px; --r-box: 8px; --r-round: 999px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+  --h-control: 32px; --h-control-sm: 28px;
+  --shadow-pop: 0 4px 14px rgba(15, 20, 30, .10);
+  --glass: color-mix(in srgb, var(--c-surface) 55%, transparent);
+  --glass-drop: color-mix(in srgb, #fff 72%, transparent);
+  --font: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+  --font-mono: ui-monospace, Menlo, monospace;
+}
+[data-mode="dark"] {
+  --c-ink: #eceef2; --c-ink-2: #b6bcc7; --c-ink-3: #959cab;
+  --c-bg: #101216; --c-surface: #1a1d23; --c-sunken: #15171c; --c-neutral-soft: #23272f;
+  --c-line: #2d323b; --c-line-2: #242830; --c-line-strong: #414855;
+  --c-primary: #e9ebef; --c-primary-hover: #ffffff; --c-primary-soft: #262a32; --c-focus: rgba(233, 235, 239, .30); --c-on-fill: #12151a;
+  --c-ok: #5cc98a; --c-hold: #a3add0; --c-wait: #e2b04f; --c-danger: #ff7b70; --c-info: #7fb0ec; --c-accent: #c3a2f0; --c-muted: #8b919c;
+  --c-danger-soft: #3a1f1d; --c-ok-soft: #17301f;
+  --shadow-pop: 0 8px 24px rgba(0, 0, 0, .45);
+  --glass-drop: color-mix(in srgb, #fff 14%, transparent);
+}
+[data-density="comfy"] { --fs-md: 16px; --fs-sm: 14px; --fs-xs: 13px; }
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font); background: #e6e8ec; color: #1b1f27; }
+.mk-ctl { position: sticky; top: 0; z-index: 50; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 10px 16px; background: #fff; border-bottom: 1px solid #d5d9df; font-size: 13px; }
+.mk-ctl b { font-size: 14px; margin-right: 8px; }
+.mk-seg { display: inline-flex; border: 1px solid #d5d9df; border-radius: 6px; overflow: hidden; }
+.mk-seg button { border: 0; background: #fff; padding: 5px 10px; font: inherit; color: #4a5160; cursor: pointer; }
+.mk-seg button + button { border-left: 1px solid #d5d9df; }
+.mk-seg button.on { background: #eceef1; color: #1d2533; font-weight: 600; }
+.mk-stage { padding: 20px 16px 60px; display: grid; gap: 28px; justify-items: center; }
+.mk-cap { width: min(1280px, 100%); font-size: 13px; color: #4a5160; margin: 0 0 6px; }
+.mk-cap b { color: #1b1f27; }
+.mk-notes { width: min(1280px, 100%); background: #fff; border: 1px solid #d5d9df; border-radius: 10px; padding: 14px 18px; font-size: 13px; line-height: 1.7; color: #4a5160; }
+.mk-notes h3 { margin: 0 0 6px; font-size: 14px; color: #1b1f27; }
+.mk-notes ul { margin: 0; padding-left: 18px; }
+
+/* ── 앱 틀 (mk1 로 그린 룩북) ── */
+.app { width: min(1280px, 100%); height: 760px; display: flex; flex-direction: column; background: var(--c-bg); color: var(--c-ink); font-family: var(--font); font-size: var(--fs-md); line-height: var(--lh);
+  border: 1px solid #c9ced6; border-radius: 12px; overflow: hidden; position: relative; }
+.phone { width: 390px; height: 800px; border-radius: 36px; border: 10px solid #1b1f27; }
+
+/* L-01 윗줄 */
+.top { height: 56px; flex: none; display: flex; align-items: center; gap: var(--sp-2); padding: 0 var(--sp-3); background: var(--c-surface); border-bottom: 1px solid var(--c-line); }
+.icon-btn { position: relative; width: 40px; height: 40px; border: 0; border-radius: var(--r-round); background: none; color: var(--c-ink-2); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+.icon-btn:hover { background: var(--c-sunken); }
+.icon-btn:focus-visible, .btn:focus-visible, .nav-it:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--c-focus); }
+.icon-btn svg { width: 22px; height: 22px; }
+.icon-btn .dot { position: absolute; top: 8px; right: 9px; width: 9px; height: 9px; border-radius: var(--r-round); background: var(--c-danger); box-shadow: 0 0 0 2px var(--c-surface); }
+.crumb { display: flex; align-items: center; gap: 6px; font-size: var(--fs-md); color: var(--c-ink-2); white-space: nowrap; min-width: 0; }
+.crumb b { color: var(--c-ink); font-weight: var(--fw-strong); }
+.crumb .sys { font-family: var(--font-mono); font-size: var(--fs-sm); padding: 1px 6px; border: 1px solid var(--c-line); border-radius: var(--r-control); }
+.find { margin-left: auto; display: flex; align-items: center; gap: 8px; width: min(360px, 34%); height: 38px; padding: 0 10px; border: 1px solid var(--c-line); border-radius: var(--r-control); background: var(--c-sunken); color: var(--c-ink-3); }
+.find svg { width: 18px; height: 18px; flex: none; }
+.find span { flex: 1; font-size: var(--fs-md); }
+kbd { font-family: var(--font-mono); font-size: var(--fs-xs); border: 1px solid var(--c-line-strong); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; color: var(--c-ink-2); background: var(--c-surface); }
+.me { width: 34px; height: 34px; border-radius: var(--r-round); background: var(--c-primary); color: var(--c-on-fill); font-weight: var(--fw-title); display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-sm); margin-left: 4px; }
+
+.shell { flex: 1; display: flex; min-height: 0; }
+/* L-02 왼쪽 메뉴 */
+.nav { width: 232px; flex: none; background: var(--c-surface); border-right: 1px solid var(--c-line); padding: var(--sp-2); overflow-y: auto; }
+.nav-gh { display: flex; align-items: center; gap: 6px; padding: 14px 12px 6px; font-size: var(--fs-sm); font-weight: var(--fw-title); color: var(--c-ink-2); cursor: pointer; user-select: none; }
+.nav-gh .cv { margin-left: auto; color: var(--c-ink-3); transition: transform .15s; }
+.nav-gh.closed .cv { transform: rotate(-90deg); }
+.nav-gh .gdot { width: 7px; height: 7px; border-radius: var(--r-round); background: var(--c-danger); display: none; }
+.nav-gh.closed .gdot.has { display: inline-block; }
+.nav-it { display: flex; align-items: center; gap: 14px; height: 42px; padding: 0 12px; border-radius: var(--r-box); color: var(--c-ink); text-decoration: none; cursor: pointer; border: 0; background: none; width: 100%; font: inherit; text-align: left; }
+.nav-it:hover { background: var(--c-sunken); }
+.nav-it.on { background: var(--c-primary-soft); font-weight: var(--fw-strong); color: var(--c-primary); }
+.nav-it svg { width: 20px; height: 20px; flex: none; color: var(--c-ink-2); }
+.nav-it.on svg { color: var(--c-primary); }
+.nav-it .n { margin-left: auto; font-size: var(--fs-xs); color: var(--c-ink-3); font-weight: var(--fw-normal); }
+.nav-it .sid { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--c-ink-3); width: 20px; text-align: center; flex: none; }
+.nav-it.on .sid { color: var(--c-primary); }
+.nav-grp.closed { display: none; }
+.nav hr { border: 0; border-top: 1px solid var(--c-line); margin: 8px 4px; }
+/* 접힘: 아이콘 + 짧은 이름 */
+.app.rail .nav { width: 84px; padding: 6px 4px; }
+.app.rail .nav-gh, .app.rail .nav hr, .app.rail .nav .full { display: none; }
+.app.rail .nav-grp.closed { display: block; }
+.app.rail .nav-it { flex-direction: column; justify-content: center; gap: 4px; height: auto; padding: 10px 2px 8px; font-size: 12px; line-height: 1.2; text-align: center; word-break: keep-all; }
+.app.rail .nav-it .n { display: none; }
+.app.rail .nav-it svg { width: 22px; height: 22px; }
+
+.main { flex: 1; overflow-y: auto; padding: var(--sp-5); min-width: 0; }
+.h1 { font-size: var(--fs-xl); font-weight: var(--fw-title); margin: 0 0 4px; }
+.sub { color: var(--c-ink-2); margin: 0 0 var(--sp-5); }
+
+/* 시스템 카드 */
+.systems { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--sp-3); margin-bottom: var(--sp-6); }
+.sys-card { background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-box); padding: var(--sp-4); display: grid; gap: 10px; }
+.sys-card.on { border-color: var(--c-ink); box-shadow: inset 0 0 0 1px var(--c-ink); }
+.sys-card .hd { display: flex; align-items: center; gap: 10px; }
+.sys-card .hd b { font-size: var(--fs-lg); }
+.sys-card .hd code { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--c-ink-3); }
+.swatches { display: flex; gap: 4px; }
+.swatches i { width: 28px; height: 16px; border-radius: 2px; border: 1px solid var(--c-line); }
+.sys-card .meta { font-size: var(--fs-sm); color: var(--c-ink-2); display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* C-03 상태 */
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-sm); color: var(--c-ink-2); white-space: nowrap; }
+.st::before { content: ""; width: 8px; height: 8px; border-radius: var(--r-round); background: var(--c-muted); flex: none; }
+.st.ok::before { background: var(--c-ok); } .st.wait::before { background: var(--c-wait); } .st.info::before { background: var(--c-info); } .st.hold::before { background: var(--c-hold); }
+.st.mine { padding: 2px 8px; border-radius: var(--r-control); background: var(--c-danger-soft); color: var(--c-danger); font-weight: var(--fw-strong); }
+.st.mine::before { background: var(--c-danger); }
+/* C-01 버튼 */
+.btn { height: var(--h-control); padding: 0 var(--sp-3); border-radius: var(--r-control); border: 1px solid var(--c-line); background: var(--c-surface); color: var(--c-ink); font: inherit; font-size: var(--fs-md); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
+.btn:hover { border-color: var(--c-line-strong); }
+.btn.primary { background: var(--c-primary); border-color: var(--c-primary); color: var(--c-on-fill); }
+.btn.primary:hover { background: var(--c-primary-hover); }
+.btn.quiet { border-color: transparent; background: transparent; color: var(--c-ink-2); }
+.btn.quiet:hover { background: var(--c-sunken); color: var(--c-ink); }
+.btn.sm { height: var(--h-control-sm); padding: 0 10px; font-size: var(--fs-sm); }
+.btn svg { width: 16px; height: 16px; }
+/* C-02 고르기 */
+.seg { display: inline-flex; border: 1px solid var(--c-line); border-radius: var(--r-control); overflow: hidden; background: var(--c-surface); }
+.seg button { border: 0; border-left: 1px solid var(--c-line); background: none; font: inherit; font-size: var(--fs-sm); padding: 0 12px; height: var(--h-control-sm); cursor: pointer; color: var(--c-ink-2); }
+.seg button:first-child { border-left: 0; }
+.seg button.on { background: var(--c-primary-soft); color: var(--c-primary); font-weight: var(--fw-strong); }
+
+/* 블록 목록 */
+.sec-h { display: flex; align-items: center; gap: var(--sp-3); margin: 0 0 var(--sp-3); flex-wrap: wrap; }
+.sec-h h2 { font-size: var(--fs-lg); margin: 0; }
+.sec-h .sp { flex: 1; }
+.blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--sp-3); }
+.blk { background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-box); overflow: hidden; display: flex; flex-direction: column; }
+.blk:hover { border-color: var(--c-line-strong); }
+.blk .pv { height: 104px; background: var(--c-bg); border-bottom: 1px solid var(--c-line-2); display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; flex-wrap: wrap; }
+.blk .bd { padding: 12px 14px; display: grid; gap: 6px; flex: 1; }
+.blk .id { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--c-ink-3); letter-spacing: .02em; }
+.blk .nm { font-weight: var(--fw-strong); }
+.blk .ds { font-size: var(--fs-sm); color: var(--c-ink-2); }
+.blk .ft { display: flex; align-items: center; gap: 8px; padding: 8px 10px 10px 14px; border-top: 1px solid var(--c-line-2); }
+.blk .ft .sp { flex: 1; }
+
+/* 블록 상세 */
+.detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--sp-4); align-items: start; }
+.card { background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-box); }
+.card-h { display: flex; align-items: center; gap: var(--sp-2); padding: 12px 16px; border-bottom: 1px solid var(--c-line-2); font-weight: var(--fw-strong); flex-wrap: wrap; }
+.card-h .sp { flex: 1; }
+.card-b { padding: 16px; }
+.stage { background: var(--c-sunken); border-radius: var(--r-control); padding: 28px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: center; min-height: 180px; }
+.ask { display: flex; align-items: center; gap: 8px; padding: 0 0 12px; border-bottom: 1px solid var(--c-line-2); }
+.ask code { flex: 1; font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--c-ink); }
+dl.spec { margin: 0; display: grid; gap: 10px; }
+dl.spec dt { font-size: var(--fs-xs); color: var(--c-ink-3); font-weight: var(--fw-strong); }
+dl.spec dd { margin: 2px 0 0; font-size: var(--fs-sm); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { font-family: var(--font-mono); font-size: var(--fs-xs); padding: 1px 6px; border: 1px solid var(--c-line); border-radius: var(--r-control); color: var(--c-ink-2); }
+.toast { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--c-ink); color: var(--c-bg); padding: 10px 16px; border-radius: var(--r-box); font-size: var(--fs-sm); box-shadow: var(--shadow-pop); opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 30; }
+.toast.show { opacity: 1; }
+
+/* ── 폰 ── */
+.phone .top { padding: 0 6px; height: 56px; }
+.phone .crumb .sys, .phone .find { display: none; }
+.phone .main { padding: var(--sp-4) var(--sp-3) 120px; }
+.phone .blocks { grid-template-columns: 1fr; }
+/* L-04 유리 탭 줄 */
+.tabs { position: absolute; left: 12px; right: 12px; bottom: 14px; height: 68px; z-index: 20; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 4px;
+  border-radius: 34px; background: var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid color-mix(in srgb, #fff 55%, transparent);
+  box-shadow: 0 6px 18px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.7); }
+[data-mode="dark"] .tabs { border-color: rgba(255,255,255,.12); box-shadow: 0 10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12); }
+.tab { display: grid; justify-items: center; align-content: center; gap: 3px; border: 0; background: none; border-radius: 30px; color: var(--c-ink); font: inherit; font-size: 12px; font-weight: var(--fw-strong); cursor: pointer; position: relative; transition: background .2s, box-shadow .2s; }
+.tab svg { width: 22px; height: 22px; color: var(--c-ink-2); }
+.tab.on { background: var(--glass-drop); box-shadow: 0 1px 4px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.9); color: var(--c-ink); }
+[data-mode="dark"] .tab.on { box-shadow: 0 2px 10px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.18); }
+.tab.on svg { color: var(--c-ink); }
+.tab .dot { position: absolute; top: 8px; right: calc(50% - 18px); width: 8px; height: 8px; border-radius: var(--r-round); background: var(--c-danger); }
+.reduce .tabs { background: var(--c-surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.reduce .tab.on { background: var(--c-primary-soft); box-shadow: none; }
+@media (prefers-reduced-transparency: reduce) { .tabs { background: var(--c-surface); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+/* 서랍 */
+.drawer-bg { position: absolute; inset: 56px 0 0 0; background: rgba(0,0,0,.35); z-index: 25; display: none; }
+.drawer { position: absolute; top: 56px; bottom: 0; left: 0; width: 280px; z-index: 26; background: var(--c-surface); box-shadow: 4px 0 16px rgba(0,0,0,.18); padding: 8px; overflow-y: auto; transform: translateX(-105%); transition: transform .2s; }
+.phone.drawer-open .drawer { transform: none; } .phone.drawer-open .drawer-bg { display: block; }
+.phone-row { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+.phone-cap { text-align: center; font-size: 13px; color: #4a5160; margin-top: 8px; }
+/* 뒤에 비칠 색 있는 카드 — 유리 효과 확인용 */
+
+</style>
+</head>
+<body>
+
+<div class="mk-ctl">
+  <b>시안 1 · 디자인 시스템 룩북</b>
+  <span>모드 <span class="mk-seg" data-ctl="mode"><button class="on" data-v="light">밝게</button><button data-v="dark">어둡게</button></span></span>
+  <span>보기 <span class="mk-seg" data-ctl="density"><button class="on" data-v="compact">촘촘하게</button><button data-v="comfy">편하게</button></span></span>
+  <span>왼쪽 메뉴 <span class="mk-seg" data-ctl="rail"><button class="on" data-v="full">펼침</button><button data-v="rail">접힘</button></span></span>
+  <span>폰 투명도 줄이기 <span class="mk-seg" data-ctl="reduce"><button class="on" data-v="off">끔</button><button data-v="on">켬</button></span></span>
+</div>
+
+<div class="mk-stage" id="stage">
+
+  <div class="mk-notes">
+    <h3>시안 1 고친 판</h3>
+    <p style="margin:0">시스템을 고르면 그 시스템의 블록이 나온다. 블록 이름은 시스템이 달라도 <code>mk1_C-03</code> 꼴로 같고, 복사한 문장을 그대로 부탁에 붙인다.
+    룩북 틀은 시스템마다 같고 미리 보기만 그 시스템 토큰으로 그린다. 이 페이지도 mk1 로 그렸다. 주 색은 먹색 임시값.</p>
+  </div>
+
+  <!-- 데스크톱: 대시보드 -->
+  <div>
+    <p class="mk-cap"><b>① 데스크톱 · 대시보드</b> — mk1 을 고른 상태. 묶음 머리를 누르면 접힌다(접힌 묶음에 새 카드가 있으면 빨간 점).</p>
+    <div class="app" id="desk" data-app>
+      <div class="top">
+        <button class="icon-btn" data-burger aria-label="메뉴 접기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div class="crumb"><b>디자인 시스템</b> › <span class="sys">mk1</span> › 대시보드</div>
+        <div class="find"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>카드 ID나 이름으로 찾기</span><kbd>/</kbd></div>
+        <button class="icon-btn" aria-label="새 시스템"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="icon-btn" aria-label="새 소식"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span></button>
+        <span class="me" title="내 계정">진</span>
+      </div>
+      <div class="shell">
+        <nav class="nav" data-nav></nav>
+        <main class="main">
+          <h1 class="h1">디자인 시스템</h1>
+          <p class="sub">시스템 2 · 블록 51</p>
+          <div class="systems">
+            <div class="sys-card on">
+              <div class="hd"><b>mk1</b><code>여러 연령대 · 업무 포털</code></div>
+              <div class="swatches"><i style="background:#1d2533"></i><i style="background:#1b1f27"></i><i style="background:#1f7a45"></i><i style="background:#8a5a00"></i><i style="background:#c0271b"></i><i style="background:#f4f5f7"></i></div>
+              <div class="meta"><span>카드 51</span><span>예시 12</span><span class="st wait">시안 확인 중</span></div>
+            </div>
+            <div class="sys-card">
+              <div class="hd"><b>mk2</b><code>개인 앱 견본</code></div>
+              <div class="swatches"><i style="background:var(--c-neutral-soft)"></i><i style="background:var(--c-neutral-soft)"></i><i style="background:var(--c-neutral-soft)"></i></div>
+              <div class="meta"><span>카드 0</span><span class="st">옮겨 오기 전</span></div>
+            </div>
+          </div>
+          <div class="sec-h">
+            <h2>mk1 블록</h2>
+            <span class="seg" data-filter><button class="on" data-f="*">전체</button><button data-f="C">부품</button><button data-f="L">틀</button><button data-f="F">동작</button><button data-f="X">도구</button></span>
+            <span class="sp"></span>
+            <span class="seg"><button class="on">예시 있는 것</button><button>카드만</button></span>
+          </div>
+          <div class="blocks" data-blocks></div>
+        </main>
+      </div>
+      <div class="toast" data-toast></div>
+    </div>
+  </div>
+
+  <!-- 데스크톱: 블록 상세 -->
+  <div>
+    <p class="mk-cap"><b>② 데스크톱 · 블록 상세</b> — 왼쪽은 살아 있는 예시(모드·폭 바꾸기), 오른쪽은 카드 글 요약과 부탁 문장. 규칙 원본은 카드 파일 한 곳.</p>
+    <div class="app" data-app>
+      <div class="top">
+        <button class="icon-btn" data-burger aria-label="메뉴 접기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div class="crumb"><b>디자인 시스템</b> › <span class="sys">mk1</span> › 부품 › <b>C-03 상태 표시</b></div>
+        <div class="find"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>카드 ID나 이름으로 찾기</span><kbd>/</kbd></div>
+        <button class="icon-btn" aria-label="새 소식"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+        <span class="me">진</span>
+      </div>
+      <div class="shell">
+        <nav class="nav" data-nav data-on="C-03"></nav>
+        <main class="main">
+          <div class="detail">
+            <div style="display:grid;gap:var(--sp-4)">
+              <div class="card">
+                <div class="card-h">예시<span class="sp"></span><span class="seg"><button class="on">밝게</button><button>어둡게</button></span><span class="seg"><button class="on">데스크톱</button><button>폰</button></span></div>
+                <div class="card-b"><div class="stage">
+                  <span class="st mine">내 할 일</span><span class="st wait">상대 확인 중</span><span class="st info">진행 중</span><span class="st hold">보류</span><span class="st ok">완료</span><span class="st">제외</span>
+                </div></div>
+              </div>
+              <div class="card">
+                <div class="card-h">상태 · 변형</div>
+                <div class="card-b" style="display:grid;gap:10px">
+                  <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><span class="chip">기본</span><span class="st info">진행 중</span><span class="chip">내 할 일(면 있음)</span><span class="st mine">답하기</span><span class="chip">흑백</span><span class="st" style="filter:grayscale(1)">완료</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-h">상태 표시<span class="sp"></span><span style="font-family:var(--font-mono);font-size:var(--fs-xs);color:var(--c-ink-3);font-weight:400">mk1_C-03</span></div>
+              <div class="card-b" style="display:grid;gap:14px">
+                <div class="ask"><code>mk1_C-03 구현해줘</code><button class="btn sm" data-copy="mk1_C-03 구현해줘">복사</button></div>
+                <dl class="spec">
+                  <div><dt>하는 일</dt><dd>무엇이 어떤 상태인지 보인다.</dd></div>
+                  <div><dt>규칙</dt><dd>점 + 이름 하나. 면은 내 할 일에만. 알약 꼬리표로 쓰지 않는다.</dd></div>
+                  <div><dt>끝</dt><dd>흑백 캡처에서 상태가 모두 읽히는지.</dd></div>
+                  <div><dt>토큰</dt><dd class="chips"><span class="chip">ok</span><span class="chip">wait</span><span class="chip">info</span><span class="chip">danger-soft</span><span class="chip">fs-sm</span></dd></div>
+                  <div><dt>이어짐</dt><dd class="chips"><span class="chip">mk1_T-02</span><span class="chip">mk1_P-03</span><span class="chip">mk1_C-04</span></dd></div>
+                </dl>
+                <button class="btn quiet sm" style="justify-self:start">카드 원문 열기</button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+      <div class="toast" data-toast></div>
+    </div>
+  </div>
+
+  <!-- 폰 -->
+  <div>
+    <p class="mk-cap"><b>③ 폰</b> — 아래 떠 있는 유리 탭 줄(지금 탭은 유리 방울, 이름 늘 보임). 오른쪽은 ☰ 서랍을 연 모습. 위 "폰 투명도 줄이기"로 불투명을 확인한다.</p>
+    <div class="phone-row">
+      <div>
+        <div class="app phone" data-app data-phone>
+          <div class="top">
+            <button class="icon-btn" data-drawer aria-label="메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            <div class="crumb"><b>mk1</b> › 블록</div>
+            <span style="flex:1"></span>
+            <button class="icon-btn" aria-label="찾기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+            <button class="icon-btn" aria-label="새 소식"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span></button>
+            <span class="me">진</span>
+          </div>
+          <div class="shell"><main class="main"><div class="blocks" data-blocks data-photo></div></main></div>
+          <div class="tabs" data-tabs></div>
+          <div class="drawer-bg" data-drawer-bg></div>
+          <nav class="drawer nav" data-nav></nav>
+          <div class="toast" data-toast></div>
+        </div>
+        <div class="phone-cap">탭 줄</div>
+      </div>
+      <div>
+        <div class="app phone drawer-open" data-app data-phone>
+          <div class="top">
+            <button class="icon-btn" data-drawer aria-label="메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            <div class="crumb"><b>mk1</b> › 블록</div>
+            <span style="flex:1"></span>
+            <span class="me">진</span>
+          </div>
+          <div class="shell"><main class="main"><div class="blocks" data-blocks data-photo></div></main></div>
+          <div class="tabs" data-tabs></div>
+          <div class="drawer-bg" data-drawer-bg></div>
+          <nav class="drawer nav" data-nav></nav>
+        </div>
+        <div class="phone-cap">☰ 서랍</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var I = {
+    home: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+    layers: '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+    box: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16"/>',
+    layout: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/>',
+    bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+    tool: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
+    palette: '<circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.3"/><circle cx="12" cy="7.5" r="1.3"/><circle cx="16" cy="10" r="1.3"/>',
+    alert: '<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+    more: '<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>',
+    text: '<path d="M4 7V5h16v2M12 5v14M9 19h6"/>',
+    compass: '<circle cx="12" cy="12" r="9"/><path d="m15 9-2 5-4 1 2-5z"/>'
+  };
+  function svg(n) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + I[n] + '</svg>'; }
+
+  var NAV = [
+    { g: '보기', items: [['dash', 'home', '대시보드', '대시보드'], ['tokens', 'palette', '토큰 · 조종 패널', '토큰']] },
+    { g: '시스템', items: [['mk1', 'layers', 'mk1', 'mk1', 51], ['mk2', 'layers', 'mk2', 'mk2', 0]] },
+    { g: 'mk1 묶음', dot: true, items: [['P', 'compass', '원칙', '원칙', 6, 'P'], ['W', 'text', '문구', '문구', 4, 'W'], ['T', 'palette', '토큰', '토큰', 6, 'T'], ['C', 'box', '부품', '부품', 11, 'C'],
+      ['L', 'layout', '틀', '틀', 6, 'L'], ['F', 'bolt', '동작', '동작', 7, 'F'], ['X', 'tool', '도구', '도구', 4, 'X'], ['Q', 'alert', '함정', '함정', 7, 'Q']] }
+  ];
+  function drawNav(el) {
+    var on = el.dataset.on ? el.dataset.on[0] : 'mk1';
+    el.innerHTML = NAV.map(function (g, gi) {
+      return (gi ? '<hr>' : '') + '<div class="nav-gh" data-g="' + gi + '">' + g.g + (g.dot ? '<span class="gdot has"></span>' : '') + '<span class="cv">▾</span></div><div class="nav-grp" data-gg="' + gi + '">' +
+        g.items.map(function (it) {
+          return '<button class="nav-it' + (it[0] === on ? ' on' : '') + '">' + svg(it[1]) + '<span class="full">' + it[2] + '</span><span class="short" style="display:none">' + it[3] + '</span>' + (it[4] != null ? '<span class="n">' + it[4] + '</span>' : '') + '</button>';
+        }).join('') + '</div>';
+    }).join('');
+    el.querySelectorAll('.nav-gh').forEach(function (h) {
+      h.onclick = function () { h.classList.toggle('closed'); el.querySelector('[data-gg="' + h.dataset.g + '"]').classList.toggle('closed'); };
+    });
+  }
+
+  var PV = {
+    'C-01': '<button class="btn primary">보내기</button><button class="btn">저장</button><button class="btn quiet">닫기</button>',
+    'C-02': '<span class="seg"><button class="on">완료</button><button>보류</button><button>되묻기</button></span>',
+    'C-03': '<span class="st mine">내 할 일</span><span class="st wait">확인 중</span><span class="st ok">완료</span>',
+    'C-06': '<div style="width:100%;border:1px solid var(--c-line);border-radius:var(--r-box);background:var(--c-surface);font-size:var(--fs-sm)"><div style="padding:8px 10px;color:var(--c-ink-3)">답글</div><div style="display:flex;gap:6px;padding:6px;border-top:1px solid var(--c-line-2)"><span class="seg"><button class="on">내부 메모</button><button>답글</button></span><span style="flex:1"></span><button class="btn sm primary">보내기</button></div></div>',
+    'C-07': '<div style="display:grid;gap:6px;width:100%;font-size:var(--fs-sm)"><span style="justify-self:start;background:#fbf1e3;color:#1b1f27;padding:6px 10px;border-radius:var(--r-box)">버튼을 앞으로 옮겨 주세요</span><span style="justify-self:end;background:#e8eefb;color:#1b1f27;padding:6px 10px;border-radius:var(--r-box)">첫 칸 말씀이시죠?</span></div>',
+    'L-01': '<div style="display:flex;gap:6px;align-items:center;width:100%;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-control);padding:6px 8px;font-size:var(--fs-xs);color:var(--c-ink-2)">☰ <b style="color:var(--c-ink)">위치</b><span style="flex:1;margin:0 4px;height:20px;border-radius:4px;background:var(--c-sunken)"></span>+ 종 <span class="me" style="width:20px;height:20px;font-size:10px">진</span></div>',
+    'L-02': '<div style="display:flex;gap:10px"><div style="display:grid;gap:4px;font-size:var(--fs-xs);color:var(--c-ink-2)"><span>▢ 대시보드</span><span style="color:var(--c-primary);font-weight:600">▢ 부품</span><span>▢ 틀</span></div><div style="display:grid;gap:6px;justify-items:center;font-size:10px;color:var(--c-ink-2);border-left:1px solid var(--c-line);padding-left:10px"><span>▢<br>대시</span><span style="color:var(--c-primary)">▢<br>부품</span></div></div>',
+    'L-04': '<div style="width:92%;height:46px;border-radius:24px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.6);display:grid;grid-auto-flow:column;padding:3px;box-shadow:0 6px 16px rgba(0,0,0,.18)"><span style="border-radius:20px;background:var(--glass-drop);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--c-primary)">블록</span><span style="display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--c-ink)">토큰</span><span style="display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--c-ink)">찾기</span></div>',
+    'F-02': '<div style="display:flex;gap:8px;align-items:center;font-size:var(--fs-sm);background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-control);padding:6px 10px"><span class="st wait">보내지 않음</span><span style="color:var(--c-ink-3);font-size:var(--fs-xs)">초안 14:02</span><button class="btn sm primary">보내기</button></div>',
+    'X-01': '<div style="display:grid;gap:6px;width:80%;font-size:var(--fs-xs);color:var(--c-ink-2)"><div style="display:flex;align-items:center;gap:6px">주 색<span style="flex:1"></span><i style="width:18px;height:18px;border-radius:4px;background:var(--c-primary)"></i></div><div style="display:flex;align-items:center;gap:6px">둥글기<input type="range" style="flex:1"><b>10</b></div></div>',
+    'X-02': '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:80%"><i style="height:22px;border-radius:4px;background:var(--c-primary)"></i><i style="height:22px;border-radius:4px;background:var(--c-ok)"></i><i style="height:22px;border-radius:4px;background:var(--c-wait)"></i><i style="height:22px;border-radius:4px;border:1px solid var(--c-line);background:var(--c-surface)"></i><i style="height:22px;border-radius:11px;border:1px solid var(--c-line);background:var(--c-surface)"></i><i style="height:22px;border-radius:4px;background:var(--c-sunken)"></i></div>',
+    'T-02': '<span class="st ok">완료</span><span class="st hold">보류</span><span class="st wait">기다림</span><span class="st info">진행</span>',
+    'Q-04': '<div style="font-size:var(--fs-xs);color:var(--c-ink-2);text-align:center">맨 아래 카드가<br>탭 줄에 가리지 않는가</div>'
+  };
+  var BLOCKS = [
+    ['C-01', '버튼', '주 하나 · 보통 · 조용한 · 위험', 'ok', '예시 있음'],
+    ['C-02', '고르기', '한 덩어리 칩, 고르기 전엔 다음이 막힘', 'ok', '예시 있음'],
+    ['C-03', '상태 표시', '점 + 글자, 면은 내 할 일에만', 'ok', '예시 있음'],
+    ['C-06', '주고받기 입력 칸', '내부 메모가 기본, ⌘Enter 보내기', 'ok', '예시 있음'],
+    ['C-07', '주고받은 글', '상대 왼쪽 · 나 오른쪽 고정', 'ok', '예시 있음'],
+    ['L-01', '윗줄', '☰ · 위치 · / 찾기 · + · 알림 · 내 계정', 'ok', '예시 있음'],
+    ['L-02', '왼쪽 메뉴', '접어도 아이콘 밑에 짧은 이름', 'ok', '예시 있음'],
+    ['L-04', '폰 유리 탭 줄', '지금 탭은 유리 방울, 투명도 줄이기 따름', 'ok', '예시 있음'],
+    ['F-02', '초안과 보내기', '저장은 나만, 상대에겐 보낸 것만', 'wait', '카드만'],
+    ['X-01', '조종 패널', '토큰을 움직여 보고 파일로 복사', 'wait', '카드만'],
+    ['X-02', '부품 한 장 보기', '모든 토큰·부품을 한 페이지에', 'wait', '카드만'],
+    ['Q-04', '떠 있는 것에 가림', '아래 여백을 탭 줄만큼', '', '점검용']
+  ];
+  function drawBlocks(el, filter) {
+    var photo = el.hasAttribute('data-photo');
+    el.innerHTML = BLOCKS.filter(function (b) { return !filter || filter === '*' || b[0][0] === filter; }).map(function (b, i) {
+      var id = 'mk1_' + b[0];
+      return '<div class="blk" data-cat="' + b[0][0] + '"><div class="pv' + (photo && i % 3 === 1 ? ' photo' : '') + '">' + (PV[b[0]] || '') + '</div><div class="bd"><span class="id">' + id + '</span><span class="nm">' + b[1] + '</span><span class="ds">' + b[2] + '</span></div>' +
+        '<div class="ft"><span class="st ' + b[3] + '">' + b[4] + '</span><span class="sp"></span><button class="btn sm" data-copy="' + id + ' 구현해줘">부탁 복사</button></div></div>';
+    }).join('');
+  }
+  var TABS = [['layers', '블록', 1], ['palette', '토큰'], ['search', '찾기'], ['bolt', '소식', 0, 1], ['more', '더보기']];
+  function drawTabs(el) {
+    el.innerHTML = TABS.map(function (t) { return '<button class="tab' + (t[2] ? ' on' : '') + '">' + svg(t[0]) + '<span>' + t[1] + '</span>' + (t[3] ? '<span class="dot"></span>' : '') + '</button>'; }).join('');
+    el.querySelectorAll('.tab').forEach(function (b) { b.onclick = function () { el.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); }; });
+  }
+
+  document.querySelectorAll('[data-nav]').forEach(drawNav);
+  document.querySelectorAll('[data-blocks]').forEach(function (el) { drawBlocks(el); });
+  document.querySelectorAll('[data-tabs]').forEach(drawTabs);
+  document.querySelectorAll('[data-filter]').forEach(function (seg) {
+    seg.onclick = function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on');
+      drawBlocks(seg.closest('.main').querySelector('[data-blocks]'), b.dataset.f);
+    };
+  });
+  document.querySelectorAll('[data-burger]').forEach(function (b) { b.onclick = function () { b.closest('.app').classList.toggle('rail'); }; });
+  document.querySelectorAll('[data-drawer]').forEach(function (b) { b.onclick = function () { b.closest('.app').classList.toggle('drawer-open'); }; });
+  document.querySelectorAll('[data-drawer-bg]').forEach(function (b) { b.onclick = function () { b.closest('.app').classList.remove('drawer-open'); }; });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-copy]'); if (!b) return;
+    var text = b.dataset.copy, app = b.closest('.app'), t = app && app.querySelector('[data-toast]');
+    try { navigator.clipboard.writeText(text); } catch (err) { /* 시안에서는 복사 못 해도 된다 */ }
+    if (t) { t.textContent = '복사했습니다: ' + text; t.classList.add('show'); setTimeout(function () { t.classList.remove('show'); }, 1800); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); var f = document.querySelector('#desk .find'); f.style.borderColor = 'var(--c-primary)'; f.style.boxShadow = '0 0 0 3px var(--c-focus)'; }
+  });
+
+  document.querySelectorAll('.mk-seg').forEach(function (seg) {
+    seg.onclick = function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on');
+      var v = b.dataset.v, k = seg.dataset.ctl;
+      document.querySelectorAll('[data-app]').forEach(function (a) {
+        if (k === 'mode') a.dataset.mode = v;
+        if (k === 'density') a.dataset.density = v;
+        if (k === 'rail' && !a.hasAttribute('data-phone')) a.classList.toggle('rail', v === 'rail');
+        if (k === 'reduce') a.classList.toggle('reduce', v === 'on');
+      });
+    };
+  });
+  // 접힘 메뉴에서는 짧은 이름
+  new MutationObserver(function () {
+    document.querySelectorAll('.app').forEach(function (a) {
+      var r = a.classList.contains('rail');
+      a.querySelectorAll('.nav .short').forEach(function (s) { s.style.display = r ? '' : 'none'; });
+    });
+  }).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+})();
+</script>
+</body>
+</html>

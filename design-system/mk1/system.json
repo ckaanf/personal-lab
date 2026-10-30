@@ -1,0 +1,11 @@
+{
+  "id": "mk1",
+  "name": "mk1",
+  "desc": "여러 연령대 · 업무 포털",
+  "status": "만드는 중",
+  "cats": {
+    "P": "원칙", "W": "문구", "T": "토큰", "C": "부품",
+    "L": "틀", "F": "동작", "X": "도구", "Q": "함정"
+  },
+  "swatches": ["c-primary", "c-ink", "c-ok", "c-wait", "c-danger", "c-bg"]
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mk1 예시</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="examples.css">
+</head>
+<body class="ex-solo">
+<div class="ex-body" id="ex"></div>
+<script src="tokens.js"></script>
+<script src="mk1.js"></script>
+<script src="panel.js"></script>
+<script src="examples.js"></script>
+<script>
+/* 예시 하나 — ?id=C-03&mode=dark&density=comfy&reduce=1. 룩북이 iframe 으로 부른다 */
+(function () {
+  'use strict';
+  var q = new URLSearchParams(location.search), id = q.get('id'), box = document.getElementById('ex');
+  var it = (window.MK1_EX || []).filter(function (x) { return x.id === id; })[0];
+  if (!it) { box.innerHTML = '<p class="ex-missing">예시가 없습니다: ' + (id || '(id 없음)') + '</p>'; return; }
+  document.title = 'mk1_' + it.id + ' ' + it.name;
+  if (it.opt.flush) document.body.classList.add('flush');
+  box.innerHTML = typeof it.html === 'function' ? it.html() : it.html;
+  window.MK1.initFolds(box);
+  box.querySelectorAll('.compose[data-audience]').forEach(function (c) { window.MK1.setAudience(c, 'internal'); });
+  function report() { parent.postMessage({ mk1ExHeight: document.documentElement.scrollHeight, id: id }, '*'); }
+  report(); new ResizeObserver(report).observe(document.body);
+})();
+</script>
+</body>
+</html>

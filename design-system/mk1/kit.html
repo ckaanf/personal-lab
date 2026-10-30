@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mk1 부품 한 장 보기</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="examples.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar" id="top"></header>
+  <div class="kit">
+    <main class="kit-main" id="kit"></main>
+    <aside class="panel" id="panel" aria-label="값 고치기"></aside>
+  </div>
+</div>
+<script src="tokens.js"></script>
+<script src="mk1.js"></script>
+<script src="panel.js"></script>
+<script src="examples.js"></script>
+<script>
+/* X-02 부품 한 장 보기 — 모든 예시를 묶음 순서로, 오른쪽에 X-01 조종 패널 */
+(function () {
+  'use strict';
+  var I = window.MK1.icon, P = window.MK1.prefs;
+  var CATS = { T: '토큰', C: '부품', L: '틀', F: '동작', X: '도구' };
+  document.getElementById('top').innerHTML =
+    '<a class="icon-btn" href="../index.html#/mk1" aria-label="룩북으로">' + I('grid') + '</a>' +
+    '<div class="where"><a href="../index.html">디자인 시스템</a> › <a href="../index.html#/mk1">mk1</a> › <b>부품 한 장 보기</b></div>' +
+    '<span style="margin-left:auto"></span>' +
+    '<span class="seg" aria-label="보기"><button data-act="pref" data-key="density" data-val="compact" aria-pressed="' + (P.density !== 'comfy') + '">촘촘하게</button><button data-act="pref" data-key="density" data-val="comfy" aria-pressed="' + (P.density === 'comfy') + '">편하게</button></span>' +
+    '<span class="seg" aria-label="투명도"><button data-act="pref" data-key="reduce" data-val="false" aria-pressed="' + !P.reduce + '">유리</button><button data-act="pref" data-key="reduce" data-val="true" aria-pressed="' + !!P.reduce + '">투명도 줄이기</button></span>';
+  var html = '';
+  Object.keys(CATS).forEach(function (c) {
+    var items = window.MK1_EX.filter(function (x) { return x.id[0] === c; });
+    if (!items.length) return;
+    html += '<section class="kit-cat"><h2>' + CATS[c] + '</h2>' + items.map(function (x) {
+      return '<section class="card kit-ex" id="' + x.id + '"><div class="card-h">' + x.name + ' <span class="mono">mk1_' + x.id + '</span><span class="sp"></span>' +
+        '<button class="btn sm" data-copy="mk1_' + x.id + ' 구현해줘">부탁 복사</button></div><div class="card-b ex-body">' + (typeof x.html === 'function' ? x.html() : x.html) + '</div></section>';
+    }).join('') + '</section>';
+  });
+  document.getElementById('kit').innerHTML = html;
+  window.MK1.initFolds();
+  document.querySelectorAll('.compose[data-audience]').forEach(function (c) { window.MK1.setAudience(c, 'internal'); });
+  if (location.hash) { var t = document.querySelector(location.hash); if (t) t.scrollIntoView(); }
+})();
+</script>
+</body>
+</html>

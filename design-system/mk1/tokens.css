@@ -1,0 +1,175 @@
+/* mk1 토큰 — tools/build.py 가 tokens.json 에서 만든다. 손으로 고치지 않는다 */
+:root {
+  color-scheme: light;
+  /* 글자색 */
+  --c-ink: #1b1f27;
+  --c-ink-2: #4a5160;
+  --c-ink-3: #636b79;
+  --c-on-fill: #ffffff;
+  /* 면 */
+  --c-bg: #f4f5f7;
+  --c-surface: #ffffff;
+  --c-sunken: #f0f2f5;
+  --c-neutral-soft: #eceef2;
+  /* 선 */
+  --c-line: #dde1e7;
+  --c-line-2: #eceef2;
+  --c-line-strong: #c3c9d2;
+  /* 주 색 */
+  --c-primary: #1d2533;
+  --c-primary-hover: #000000;
+  --c-primary-soft: #eceef1;
+  --c-focus: rgba(29, 37, 51, .25);
+  /* 뜻 색 */
+  --c-ok: #1f7a45;
+  --c-hold: #4a5578;
+  --c-wait: #8a5a00;
+  --c-danger: #c0271b;
+  --c-info: #2b5c9a;
+  --c-accent: #6b3fa0;
+  --c-muted: #8b919c;
+  /* 뜻 면 */
+  --c-ok-soft: #e8f4ec;
+  --c-hold-soft: #eef0f6;
+  --c-wait-soft: #fdf5e6;
+  --c-danger-soft: #fdeeed;
+  --c-info-soft: #ecf2fa;
+  --c-accent-soft: #f4effb;
+  /* 뜻 선 */
+  --c-ok-line: #b3d9c1;
+  --c-hold-line: #c3cadf;
+  --c-wait-line: #ead09a;
+  --c-danger-line: #f1b0a8;
+  --c-info-line: #c2d4ec;
+  --c-accent-line: #d8ccef;
+  /* 쪽 */
+  --c-side-them: #f8efe2;
+  --c-side-me: #e9eef6;
+  --c-code-bg: #1d2129;
+  --c-code-ink: #d9dee6;
+  /* 유리 */
+  --glass: rgba(255, 255, 255, .58);
+  --glass-drop: rgba(255, 255, 255, .78);
+  --glass-edge: rgba(255, 255, 255, .65);
+  /* 글자 크기 */
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-md: 14px;
+  --fs-lg: 16px;
+  --fs-xl: 20px;
+  --fw-normal: 400;
+  --fw-strong: 600;
+  --fw-title: 700;
+  --lh: 1.55;
+  /* 둥글기 */
+  --r-control: 6px;
+  --r-box: 8px;
+  --r-round: 999px;
+  /* 간격 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  /* 높이 · 그림자 */
+  --h-control: 32px;
+  --h-control-sm: 28px;
+  --h-touch: 44px;
+  --shadow-pop: 0 4px 14px rgba(15, 20, 30, .10);
+  /* 글꼴 */
+  --font: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+  --font-mono: ui-monospace, Menlo, monospace;
+}
+[data-mode="dark"] {
+  color-scheme: dark;
+  --c-ink: #eceef2;
+  --c-ink-2: #b6bcc7;
+  --c-ink-3: #959cab;
+  --c-on-fill: #12151a;
+  --c-bg: #101216;
+  --c-surface: #1a1d23;
+  --c-sunken: #15171c;
+  --c-neutral-soft: #23272f;
+  --c-line: #2d323b;
+  --c-line-2: #242830;
+  --c-line-strong: #414855;
+  --c-primary: #e9ebef;
+  --c-primary-hover: #ffffff;
+  --c-primary-soft: #262a32;
+  --c-focus: rgba(233, 235, 239, .30);
+  --c-ok: #5cc98a;
+  --c-hold: #a3add0;
+  --c-wait: #e2b04f;
+  --c-danger: #ff7b70;
+  --c-info: #7fb0ec;
+  --c-accent: #c3a2f0;
+  --c-muted: #8b919c;
+  --c-ok-soft: #17301f;
+  --c-hold-soft: #22273a;
+  --c-wait-soft: #33280f;
+  --c-danger-soft: #3a1f1d;
+  --c-info-soft: #18263a;
+  --c-accent-soft: #2a2038;
+  --c-ok-line: #2c5a3c;
+  --c-hold-line: #3c4560;
+  --c-wait-line: #5c4718;
+  --c-danger-line: #6a302b;
+  --c-info-line: #2f4a6e;
+  --c-accent-line: #4c3a68;
+  --c-side-them: #2c261d;
+  --c-side-me: #1f2733;
+  --c-code-bg: #0b0d10;
+  --c-code-ink: #d9dee6;
+  --glass: rgba(30, 33, 40, .62);
+  --glass-drop: rgba(255, 255, 255, .14);
+  --glass-edge: rgba(255, 255, 255, .12);
+  --shadow-pop: 0 4px 14px rgba(0, 0, 0, .45);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode="light"]) {
+    color-scheme: dark;
+    --c-ink: #eceef2;
+    --c-ink-2: #b6bcc7;
+    --c-ink-3: #959cab;
+    --c-on-fill: #12151a;
+    --c-bg: #101216;
+    --c-surface: #1a1d23;
+    --c-sunken: #15171c;
+    --c-neutral-soft: #23272f;
+    --c-line: #2d323b;
+    --c-line-2: #242830;
+    --c-line-strong: #414855;
+    --c-primary: #e9ebef;
+    --c-primary-hover: #ffffff;
+    --c-primary-soft: #262a32;
+    --c-focus: rgba(233, 235, 239, .30);
+    --c-ok: #5cc98a;
+    --c-hold: #a3add0;
+    --c-wait: #e2b04f;
+    --c-danger: #ff7b70;
+    --c-info: #7fb0ec;
+    --c-accent: #c3a2f0;
+    --c-muted: #8b919c;
+    --c-ok-soft: #17301f;
+    --c-hold-soft: #22273a;
+    --c-wait-soft: #33280f;
+    --c-danger-soft: #3a1f1d;
+    --c-info-soft: #18263a;
+    --c-accent-soft: #2a2038;
+    --c-ok-line: #2c5a3c;
+    --c-hold-line: #3c4560;
+    --c-wait-line: #5c4718;
+    --c-danger-line: #6a302b;
+    --c-info-line: #2f4a6e;
+    --c-accent-line: #4c3a68;
+    --c-side-them: #2c261d;
+    --c-side-me: #1f2733;
+    --c-code-bg: #0b0d10;
+    --c-code-ink: #d9dee6;
+    --glass: rgba(30, 33, 40, .62);
+    --glass-drop: rgba(255, 255, 255, .14);
+    --glass-edge: rgba(255, 255, 255, .12);
+    --shadow-pop: 0 4px 14px rgba(0, 0, 0, .45);
+  }
+}
