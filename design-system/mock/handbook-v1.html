@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>룩북 · 사전 · 담기 — 시안 1</title>
+<link rel="stylesheet" href="../mk1/tokens.css">
+<link rel="stylesheet" href="../mk1/components.css">
+<link rel="stylesheet" href="../lookbook/lookbook.css">
+<style>
+/* 시안 전용. 승인되면 lookbook/ 과 카드(다른 이름 칸 · G 묶음)로 옮긴다 */
+.hb-stage { max-width: 1280px; margin: 0 auto; padding: var(--sp-5) var(--sp-4) 80px; display: grid; gap: var(--sp-6); }
+.hb-cap { margin: 0 0 var(--sp-2); font-size: var(--fs-sm); color: var(--c-ink-2); }
+.hb-cap b { color: var(--c-ink); }
+.hb-frame { border: 1px solid var(--c-line-strong); border-radius: 12px; overflow: hidden; background: var(--c-bg); }
+.hb-frame .ds-topbar { position: static; }
+.hb-body { display: grid; grid-template-columns: minmax(0, 1fr) 340px; min-height: 560px; }
+.hb-main { padding: var(--sp-5); min-width: 0; }
+.hb-tray { border-left: 1px solid var(--c-line); background: var(--c-surface); padding: var(--sp-4); display: grid; gap: var(--sp-3); align-content: start; }
+.hb-tray h3 { margin: 0; font-size: var(--fs-lg); display: flex; align-items: center; gap: 8px; }
+.hb-tray .n { font-size: var(--fs-sm); color: var(--c-ink-3); font-weight: 400; }
+.hb-pick { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--c-line); border-radius: var(--r-control); background: var(--c-bg); }
+.hb-pick .ord { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--c-ink-3); width: 16px; }
+.hb-pick .nm { flex: 1; min-width: 0; }
+.hb-pick .nm small { display: block; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--c-ink-3); }
+.hb-pick .mv { display: flex; gap: 2px; }
+.hb-pick .mv button { width: 28px; height: 28px; border: 0; border-radius: var(--r-control); background: none; color: var(--c-ink-2); cursor: pointer; }
+.hb-pick .mv button:hover { background: var(--c-sunken); }
+.hb-pick.missing { border-style: dashed; border-color: var(--c-wait-line); background: var(--c-wait-soft); }
+.hb-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: var(--fs-sm); color: var(--c-ink-2); }
+.hb-ask { border: 1px solid var(--c-line); border-radius: var(--r-box); background: var(--c-bg); padding: 12px; font-family: var(--font-mono); font-size: var(--fs-sm); line-height: 1.6; white-space: pre-wrap; }
+.hb-alias { display: flex; gap: 4px; flex-wrap: wrap; }
+.hb-alias .ds-tag { height: 20px; font-size: 11px; }
+.hb-alias mark { background: var(--c-wait-soft); color: inherit; border-radius: 3px; padding: 0 2px; }
+.blk.on { border-color: var(--c-ink); box-shadow: inset 0 0 0 1px var(--c-ink); }
+.blk.none .pv { background: repeating-linear-gradient(-45deg, var(--c-bg) 0 8px, var(--c-sunken) 8px 16px); }
+.hb-cmp { width: 100%; border-collapse: collapse; }
+.hb-cmp th, .hb-cmp td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--c-line-2); font-size: var(--fs-sm); }
+.hb-cmp th { color: var(--c-ink-2); font-weight: var(--fw-strong); background: var(--c-sunken); white-space: nowrap; }
+.hb-cmp td:first-child { white-space: nowrap; font-weight: var(--fw-strong); font-size: var(--fs-md); }
+.hb-mini { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-sm); }
+.hb-sw { width: 36px; height: 22px; border-radius: 11px; background: var(--c-primary); position: relative; flex: none; }
+.hb-sw::after { content: ""; position: absolute; right: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--c-on-fill); }
+.hb-cb { width: 18px; height: 18px; border-radius: 4px; background: var(--c-primary); color: var(--c-on-fill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; flex: none; }
+.hb-rd { width: 18px; height: 18px; border-radius: 50%; border: 5px solid var(--c-primary); flex: none; }
+.hb-why { display: flex; gap: 10px; padding: 12px 14px; border-radius: var(--r-box); background: var(--c-info-soft); border: 1px solid var(--c-info-line); font-size: var(--fs-sm); }
+.hb-why b { color: var(--c-info); white-space: nowrap; }
+.hb-src { font-size: var(--fs-xs); color: var(--c-ink-3); }
+.hb-phone { width: 390px; margin: 0 auto; }
+@media (max-width: 1000px) { .hb-body { grid-template-columns: 1fr; } .hb-tray { border-left: 0; border-top: 1px solid var(--c-line); } }
+</style>
+</head>
+<body>
+<div class="hb-stage">
+
+  <div class="ds-card"><div class="card-b" style="display:grid;gap:6px">
+    <b>시안 1 · 룩북에 사전과 담기 붙이기</b>
+    <span class="ds-muted">배치는 편집하지 않는다. 표준 이름으로 찾고, 골라 담고, 부탁 문장 한 줄을 받는다. 위 → 아래 순서가 화면의 위 → 아래.
+    "고르는 법"(G 묶음)은 닮은 부품 중 무엇을 고를지와 왜 그런지를 담는다. 아래 내용은 모두 시안용 예시.</span>
+    <div class="ds-row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+      <span class="ds-tag">① 찾기 · 담기</span><span class="ds-tag">② 고르는 법 카드</span><span class="ds-tag">③ 폰에서 담은 것</span>
+    </div>
+  </div></div>
+
+  <!-- ① 찾기 · 담기 -->
+  <section>
+    <p class="hb-cap"><b>① 표준 이름으로 찾고 담기</b> — "바텀"으로 찾으면 다른 이름이 맞는 블록이 나온다. 블록이 없는 표준 부품(토글)도 사전에는 있고, 담으면 "카드에 없음"으로 표시된다.</p>
+    <div class="hb-frame">
+      <header class="ds-topbar">
+        <button class="ds-icon-btn" aria-label="메뉴" id="i-menu"></button>
+        <div class="where"><b>디자인 시스템</b> › mk2 › 블록</div>
+        <label class="find" style="border-color:var(--c-ink);background:var(--c-surface)"><span id="i-search"></span><input value="바텀" aria-label="찾기"><kbd>/</kbd></label>
+        <button class="ds-icon-btn" aria-label="담은 것 3"><span id="i-tray"></span><span class="dot"></span></button>
+        <button class="me">진</button>
+      </header>
+      <div class="hb-body">
+        <div class="hb-main">
+          <div class="lb-bar"><h2>"바텀" 3건</h2><span class="ds-seg"><button aria-pressed="true">전체</button><button aria-pressed="false">부품</button><button aria-pressed="false">고르는 법</button><button aria-pressed="false">사전에만 있음</button></span></div>
+          <div class="blocks">
+            <article class="blk on">
+              <div class="pv" style="display:flex;align-items:flex-end;justify-content:center;padding:0 20px"><div style="width:100%;height:70px;background:var(--c-surface);border-radius:12px 12px 0 0;box-shadow:var(--shadow-pop);display:grid;justify-items:center;padding-top:6px"><i style="width:28px;height:4px;border-radius:2px;background:var(--c-line-strong)"></i></div></div>
+              <a class="body" href="#"><span class="id">mk2_C-15</span><span class="nm">아래에서 올라오는 시트</span>
+                <span class="hb-alias"><span class="ds-tag"><mark>바텀</mark>시트</span><span class="ds-tag">Bottom sheet</span><span class="ds-tag">액션 시트</span></span></a>
+              <div class="ft"><span class="ds-st ok">예시 있음</span><span class="sp"></span><button class="ds-btn sm" aria-pressed="true">✓ 담음</button></div>
+            </article>
+            <article class="blk">
+              <div class="pv" style="display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px"><div style="width:86%;height:34px;border-radius:17px;background:var(--glass);border:1px solid var(--c-line);display:grid;grid-auto-flow:column;padding:3px"><i style="border-radius:14px;background:var(--c-surface)"></i><i></i><i></i></div></div>
+              <a class="body" href="#"><span class="id">mk2_L-04</span><span class="nm">폰: 떠 있는 유리 탭 줄 + 서랍</span>
+                <span class="hb-alias"><span class="ds-tag"><mark>바텀</mark> 내비게이션</span><span class="ds-tag">Tab bar</span><span class="ds-tag">하단 탭</span></span></a>
+              <div class="ft"><span class="ds-st ok">예시 있음</span><span class="sp"></span><button class="ds-btn sm" aria-pressed="true">✓ 담음</button></div>
+            </article>
+            <article class="blk">
+              <div class="pv none"><span class="lb-mark">G-03</span><span>고르는 법</span></div>
+              <a class="body" href="#"><span class="id">mk2_G-03</span><span class="nm">창 · 시트 · 새 화면 중 고르기</span>
+                <span class="hb-alias"><span class="ds-tag">모달 vs <mark>바텀</mark>시트</span><span class="ds-tag">Dialog</span></span></a>
+              <div class="ft"><span class="ds-st info">고르는 법</span><span class="sp"></span><button class="ds-btn sm quiet">읽기</button></div>
+            </article>
+          </div>
+          <div class="lb-bar" style="margin-top:var(--sp-5)"><h2>사전에만 있음</h2><span class="ds-muted">표준 부품인데 우리 블록이 아직 없는 것</span></div>
+          <div class="blocks">
+            <article class="blk none">
+              <div class="pv none"><span class="lb-mark">—</span><span>블록 없음</span></div>
+              <a class="body" href="#"><span class="id">사전 · 토글</span><span class="nm">토글 스위치</span>
+                <span class="hb-alias"><span class="ds-tag">Switch</span><span class="ds-tag">On/Off</span></span><span class="ds">비슷한 것: mk2_C-02 고르기 · 고르는 법 G-01</span></a>
+              <div class="ft"><span class="ds-st wait">카드에 없음</span><span class="sp"></span><button class="ds-btn sm" aria-pressed="true">✓ 담음</button></div>
+            </article>
+          </div>
+        </div>
+        <aside class="hb-tray" aria-label="담은 것">
+          <h3>담은 것 <span class="n">4 · 위에서 아래로</span></h3>
+          <div class="hb-row">시스템 <span class="ds-seg"><button aria-pressed="false">mk1</button><button aria-pressed="true">mk2</button></span> 화면 <span class="ds-seg"><button aria-pressed="true">폰</button><button aria-pressed="false">데스크톱</button></span></div>
+          <div class="hb-pick"><span class="ord">1</span><span class="nm">큰 숫자<small>C-12</small></span><span class="mv"><button aria-label="위로">↑</button><button aria-label="아래로">↓</button><button aria-label="빼기">×</button></span></div>
+          <div class="hb-pick missing"><span class="ord">2</span><span class="nm">토글 스위치<small>카드에 없음 · 먼저 묻기</small></span><span class="mv"><button>↑</button><button>↓</button><button>×</button></span></div>
+          <div class="hb-pick"><span class="ord">3</span><span class="nm">아래에서 올라오는 시트<small>C-15</small></span><span class="mv"><button>↑</button><button>↓</button><button>×</button></span></div>
+          <div class="hb-pick"><span class="ord">4</span><span class="nm">유리 탭 줄 + 서랍<small>L-04 · 늘 맨 아래</small></span><span class="mv"><button>↑</button><button>↓</button><button>×</button></span></div>
+          <label class="ds-field"><span class="lbl">화면 이름 · 한 줄 설명 <span class="ds-muted">(선택)</span></span><input class="ds-input" value="식단표 오늘 화면"></label>
+          <div class="hb-ask">mk2 프리셋 · 폰 화면 "식단표 오늘 화면"
+위에서 아래로: C-12 → [토글: 카드에 없음] → C-15 → L-04
+구현해줘. 카드에 없는 것은 만들기 전에 먼저 물어봐.</div>
+          <div style="display:flex;gap:8px"><button class="ds-btn primary" style="flex:1">부탁 문장 복사</button><button class="ds-btn quiet">비우기</button></div>
+          <p class="hb-src" style="margin:0">담은 것은 이 브라우저에 기억. 부탁 문장은 Claude가 카드 파일만 보고 구현할 수 있게 ID로만 쓴다.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 고르는 법 카드 -->
+  <section>
+    <p class="hb-cap"><b>② 고르는 법 카드 (G 묶음)</b> — 닮은 부품을 한 표에. 언제 쓰나(사전) · 왜 그런가(심리) · 우리 블록. 문장은 우리 말로 쓰고 참고한 곳은 출처로만 남긴다.</p>
+    <div class="hb-frame">
+      <div class="hb-main" style="max-width:980px">
+        <div class="detail-head" style="position:static;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:0 0 4px">
+          <span class="ds-mono ds-muted">mk2_G-01</span><h1 style="margin:0;font-size:var(--fs-xl)">켜고 끄기 · 여럿 고르기 · 하나 고르기</h1><span class="ds-st info">고르는 법</span>
+        </div>
+        <p class="lb-sub" style="margin:4px 0 16px">토글 · 체크박스 · 라디오 · 고르기 중 무엇을 쓸지</p>
+        <div class="ds-card"><table class="hb-cmp">
+          <thead><tr><th>부품</th><th>언제</th><th>반영</th><th>쓰지 않을 때</th><th>우리 블록</th></tr></thead>
+          <tbody>
+            <tr><td><span class="hb-mini"><i class="hb-sw"></i>토글</span></td><td>설정 하나를 켜고 끈다</td><td>누르는 즉시</td><td>저장 버튼을 눌러야 반영될 때</td><td><span class="ds-st wait">카드에 없음</span></td></tr>
+            <tr><td><span class="hb-mini"><i class="hb-cb">✓</i>체크박스</span></td><td>서로 상관없는 여러 개를 고른다</td><td>저장 · 보내기 때</td><td>하나만 골라야 할 때</td><td><span class="ds-st wait">카드에 없음</span></td></tr>
+            <tr><td><span class="hb-mini"><i class="hb-rd"></i>라디오</span></td><td>여럿 중 하나, 모두 보여야 할 때(5개 이하)</td><td>저장 · 보내기 때</td><td>6개 넘으면 → 펼침 목록</td><td><span class="ds-st wait">카드에 없음</span></td></tr>
+            <tr><td><span class="ds-seg"><button aria-pressed="true">완료</button><button aria-pressed="false">보류</button></span></td><td>2~4개 중 하나, 짧은 이름</td><td>누르는 즉시</td><td>이름이 길거나 5개 넘을 때</td><td><a href="#" class="ds-mono">mk2_C-02</a></td></tr>
+          </tbody>
+        </table></div>
+        <div class="hb-why" style="margin-top:16px"><b>왜</b><span>사람은 스위치를 보면 전등 스위치처럼 "누르면 바로 바뀐다"고 기대한다. 토글을 눌렀는데 저장을 또 눌러야 하면 바뀐 줄 알고 떠난다. 반대로 체크박스는 "골라 두고 나중에 확정"으로 읽힌다.</span></div>
+        <div class="hb-why" style="margin-top:8px;background:var(--c-wait-soft);border-color:var(--c-wait-line)"><b style="color:var(--c-wait)">여러 연령대</b><span>토글의 켬/끔을 색만으로 보이지 않는다. 옆에 "켬"·"끔" 글자를 붙인다(P-01).</span></div>
+        <p class="hb-src" style="margin:12px 0 0">참고: Apple Human Interface Guidelines(Toggles), Material Design 3(Selection controls), WCAG 2.2 1.4.1 색 사용 · 이어짐: C-02 · C-05 · P-01</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ 폰 -->
+  <section>
+    <p class="hb-cap"><b>③ 폰에서 담은 것</b> — 담은 것은 아래 시트로. 위 ①과 같은 내용.</p>
+    <div class="hb-phone">
+      <div class="ds-phone-frame ds-has-tabbar ds-sheet-open" style="height:720px">
+        <header class="ds-topbar"><button class="ds-icon-btn" id="i-menu2" aria-label="메뉴"></button><div class="where"><b>mk2 블록</b></div><button class="ds-icon-btn find-btn" aria-label="찾기" id="i-search2"></button><button class="me">진</button></header>
+        <div class="scroll"><div class="blocks"><article class="blk on"><div class="pv none"><span class="lb-mark">C-15</span><span>부품</span></div><a class="body" href="#"><span class="id">mk2_C-15</span><span class="nm">아래에서 올라오는 시트</span></a></article></div></div>
+        <nav class="ds-tabbar"><a class="ds-tab" href="#" aria-current="page"><span id="i-t1"></span><span>블록</span></a><a class="ds-tab" href="#"><span id="i-t2"></span><span>담은 것</span></a><a class="ds-tab" href="#"><span id="i-t3"></span><span>찾기</span></a><a class="ds-tab" href="#"><span id="i-t4"></span><span>더보기</span></a></nav>
+        <div class="ds-sheet-bg"></div>
+        <div class="ds-sheet" role="dialog" aria-label="담은 것">
+          <div class="grab"></div><h3>담은 것 4</h3>
+          <div class="ds-list"><div class="row"><span class="name">1 · 큰 숫자</span><span class="val ds-mono">C-12</span></div><div class="row"><span class="name">2 · 토글 스위치</span><span class="ds-st wait">카드에 없음</span></div><div class="row"><span class="name">3 · 시트</span><span class="val ds-mono">C-15</span></div><div class="row"><span class="name">4 · 탭 줄</span><span class="val ds-mono">L-04</span></div></div>
+          <div class="actions"><button class="ds-btn quiet">비우기</button><button class="ds-btn primary">부탁 문장 복사</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="../mk2/tokens.js"></script>
+<script src="../mk1/mk1.js"></script>
+<script>
+(function () {
+  var I = window.MK1.icon;
+  var map = { 'i-menu': 'menu', 'i-menu2': 'menu', 'i-search': 'search', 'i-search2': 'search', 'i-tray': 'inbox', 'i-t1': 'grid', 'i-t2': 'inbox', 'i-t3': 'search', 'i-t4': 'more' };
+  Object.keys(map).forEach(function (id) { var el = document.getElementById(id); if (el) el.outerHTML = I(map[id]); });
+  // 시안은 mk2 값으로
+  var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '../mk2/tokens.css'; document.head.appendChild(l);
+  (window.DS_PRESET && window.DS_PRESET.fontCss || []).forEach(function (u) { var x = document.createElement('link'); x.rel = 'stylesheet'; x.href = u; document.head.appendChild(x); });
+})();
+</script>
+</body>
+</html>

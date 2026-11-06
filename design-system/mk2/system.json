@@ -9,7 +9,7 @@
     "https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
   ],
   "cats": {
-    "P": "원칙", "W": "문구", "T": "토큰", "C": "부품",
+    "P": "원칙", "W": "문구", "T": "토큰", "C": "부품", "G": "고르는 법",
     "L": "틀", "F": "동작", "X": "도구", "Q": "함정"
   },
   "swatches": ["c-primary", "c-ink", "c-ok", "c-wait", "c-danger", "c-bg"]

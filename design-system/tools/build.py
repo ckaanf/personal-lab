@@ -8,6 +8,7 @@
 """
 import json
 import re
+import time
 from datetime import date
 from pathlib import Path
 
@@ -56,6 +57,23 @@ def parse_cards(folder, cats):
     return cards
 
 
+def parse_dictionary(path):
+    """블록이 없는 표준 부품 — ### 이름 + - 키: 값 줄. 룩북이 찾기 · 담기에 쓴다"""
+    if not path.exists():
+        return []
+    items, cur = [], None
+    for line in path.read_text(encoding="utf-8").splitlines():
+        h = re.match(r"^###\s+(.+?)\s*$", line)
+        if h:
+            cur = {"name": h.group(1), "fields": []}
+            items.append(cur)
+            continue
+        f = FIELD.match(line)
+        if cur and f:
+            cur["fields"].append([f.group(1).strip(), f.group(2).strip()])
+    return items
+
+
 def example_ids(path):
     if not path.exists():
         return []
@@ -84,13 +102,25 @@ def main():
         examples = example_ids(src / "examples.js")
         for c in cards:
             c["example"] = c["id"] in examples
-        systems.append({**meta, "swatches": swatches, "cards": cards,
+        systems.append({**meta, "swatches": swatches, "cards": cards, "dict": parse_dictionary(src / "dictionary.md"),
                         "home": src.name, "hasExamples": (src / "examples.html").exists(), "hasKit": (src / "kit.html").exists()})
-        print(f"{meta['id']}: 카드 {len(cards)} · 예시 {len(examples)}" + (" · 토큰" if tj.exists() else "") + (f" · {meta['base']} 프리셋" if meta.get("base") else ""))
+        print(f"{meta['id']}: 카드 {len(cards)} · 예시 {len(examples)} · 사전 {len(systems[-1]['dict'])}" + (" · 토큰" if tj.exists() else "") + (f" · {meta['base']} 프리셋" if meta.get("base") else ""))
     out = {"built": date.today().isoformat(), "systems": systems}
+    stamp_assets()
     (ROOT / "lookbook" / "catalog.js").write_text(
         "/* tools/build.py 가 만든다. 손으로 고치지 않는다 */\nwindow.DS_CATALOG = " + json.dumps(out, ensure_ascii=False, indent=1) + ";\n",
         encoding="utf-8")
+
+
+def stamp_assets():
+    """페이지가 부르는 css · js 주소 끝에 ?v=빌드 시각을 붙인다. 브라우저가 예전 파일을 들고 있지 않게"""
+    v = str(int(time.time()))
+    pat = re.compile(r'((?:href|src)="(?!https?:)[^"?]+\.(?:css|js))(?:\?v=\d+)?"')
+    for page in [ROOT / "index.html", *ROOT.glob("*/kit.html"), *ROOT.glob("*/examples.html")]:
+        t = page.read_text(encoding="utf-8")
+        n = pat.sub(lambda m: m.group(1) + "?v=" + v + '"', t)
+        if n != t:
+            page.write_text(n, encoding="utf-8")
 
 
 if __name__ == "__main__":
