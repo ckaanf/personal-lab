@@ -1,6 +1,6 @@
 /* tools/build.py 가 만든다. 손으로 고치지 않는다 */
 window.DS_CATALOG = {
- "built": "2026-11-06",
+ "built": "2026-11-07",
  "systems": [
   {
    "id": "mk1",

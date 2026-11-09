@@ -10,8 +10,10 @@
 ## 여는 법
 
 ```bash
-python3 -m http.server 8791 --directory ~/Personal/project/personal-lab/design-system
+~/Personal/project/personal-lab/design-system/tools/serve.sh
 ```
+
+빌드하고 `127.0.0.1:8791` 에 띄운 뒤 기본 브라우저로 연다(이미 떠 있으면 브라우저만). 끄기는 Ctrl+C.
 
 `http://127.0.0.1:8791` → 룩북. 파일을 바로 열면(file://) 예시 iframe 이 막히니 서버로 연다.
 

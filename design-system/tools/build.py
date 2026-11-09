@@ -6,9 +6,9 @@
 
 를 만든다. 표준 라이브러리만 쓴다. 실행: python3 tools/build.py
 """
+import hashlib
 import json
 import re
-import time
 from datetime import date
 from pathlib import Path
 
@@ -113,9 +113,12 @@ def main():
 
 
 def stamp_assets():
-    """페이지가 부르는 css · js 주소 끝에 ?v=빌드 시각을 붙인다. 브라우저가 예전 파일을 들고 있지 않게"""
-    v = str(int(time.time()))
-    pat = re.compile(r'((?:href|src)="(?!https?:)[^"?]+\.(?:css|js))(?:\?v=\d+)?"')
+    """페이지가 부르는 css · js 주소 끝에 ?v=내용 해시를 붙인다. 내용이 바뀔 때만 달라져 브라우저가 새 파일을 받는다"""
+    h = hashlib.sha1()
+    for f in sorted(x for x in [*ROOT.glob("*/*.css"), *ROOT.glob("*/*.js")] if x.name != "catalog.js"):
+        h.update(f.read_bytes())
+    v = h.hexdigest()[:10]
+    pat = re.compile(r'((?:href|src)="(?!https?:)[^"?]+\.(?:css|js))(?:\?v=\w+)?"')
     for page in [ROOT / "index.html", *ROOT.glob("*/kit.html"), *ROOT.glob("*/examples.html")]:
         t = page.read_text(encoding="utf-8")
         n = pat.sub(lambda m: m.group(1) + "?v=" + v + '"', t)
