@@ -178,6 +178,7 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 - 입구는 Caddy 하나다. 공개는 `127.0.0.1:8080`(Tunnel 뒤), tailnet은 tailnet IP의 443. 블록에 없는 도메인은 404로 거절한다.
 - `tailscale serve`는 쓰지 않는다. tailnet IP의 포트를 두고 Caddy와 부딪힌다.
 - 공개 범위가 바뀌는 변경은 임시 포트에서 먼저 시험하고, 적용 명령은 사람이 승인한다.
+- OCI 계정은 유료(PAYG)지만 **무료 한도 안에서만** 쓴다. 할당량 정책 `free-tier-guard`([oci/quota-free-tier-guard.txt](oci/quota-free-tier-guard.txt))가 A1 2코어·12GB, 스토리지 200GB, 백업 5개 밖의 자원 생성을 막는다. 사양을 바꾸려면 이 정책부터 고친다. 나가는 데이터 전송량은 할당량으로 막을 수 없다.
 
 ## 문제 해결
 
@@ -199,6 +200,7 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-11-16 | 유료(PAYG) 전환, 할당량 정책 `free-tier-guard`로 무료 한도 밖 자원 생성을 막음 | 무료 계정은 A1 자리를 못 받았다. 유료로 전환하되 요금이 나가지 않게 |
 | 2026-11-16 | 사라진 인스턴스를 남은 부트 볼륨으로 다시 만듦 (A1 2코어·12GB). 재생성 스크립트 `oci/` 추가 | 체험 종료 뒤 Oracle이 인스턴스를 회수(10/27). 도쿄 A1 자리가 없어 자동으로 계속 시도해야 했다 |
 | 2026-10-27 | 재정 앱 원본을 저장소로, 볼트 감시 배포 `fin-publish.path` 없앰. 도구 두 페이지(`/fin/ladder/`, `/fin/map/`) 추가 | 볼트 html은 시안으로만 쓰기로(사용자 결정). 원본이 GitHub에 남고, 배포는 저장소 기준 |
 | 2026-10-14 | 앱 원본 위치를 볼트 `재정/`에서 `Projects/js/meal`·`Projects/js/fin`으로 옮김. `meal-publish.path`·`fin-publish.path`가 각자 폴더를 감시 | 앱 문서와 범용 재정 문서를 나누려고. 저장소 `js/` 구조와 맞춤 |

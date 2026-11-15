@@ -1,0 +1,10 @@
+# OCI 할당량 정책 free-tier-guard (테넌시 루트, 2026-11-16 적용)
+# 유료(PAYG) 계정에서 Always Free 한도 밖의 자원을 만들 수 없게 막는다.
+# 같은 정책 안에서는 뒤 문장이 앞 문장을 덮는다 → zero 로 전부 막고 set 으로 필요한 것만 연다.
+# 한도 값은 이 계정의 Free 한도(Limits의 total-free-storage-gb, free-backup-count)와 무료 A1 한도에서 가져옴.
+zero compute-core quotas in tenancy
+set compute-core quota standard-a1-core-count to 2 in tenancy
+zero compute-memory quotas in tenancy
+set compute-memory quota standard-a1-memory-count to 12 in tenancy
+set block-storage quota total-storage-gb to 200 in tenancy
+set block-storage quota backup-count to 5 in tenancy
