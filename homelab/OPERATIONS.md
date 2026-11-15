@@ -194,12 +194,14 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 | 인증서 오류 / Caddy 로그에 `obtaining certificate` 실패 | Caddy용 토큰이 없거나 권한·IP 제한이 맞지 않음 | `/etc/caddy/cloudflare.env` 확인, `journalctl -u caddy` |
 | Caddy가 부팅 직후 실패 | tailnet IP가 아직 안 붙음 | override의 `Restart=on-failure`가 5초 뒤 다시 시도 |
 | 폰에서 서버 세션이 안 보임 | `claude-rc`가 신뢰 질문이나 로그인에서 멈춤 | `tmux attach -t cc`로 화면 확인, 필요하면 `claude auth login` 후 `systemctl --user restart claude-rc` |
+| 재부팅 뒤 `claude-rc`가 30초마다 재시작, `tmux ls`에 `cc` 없음 (로그: `no server running`) | Claude Code 로그인이 풀려 `claude remote-control`이 바로 끝남 (`claude auth status` → `loggedIn: false`) | 터미널에서 `claude auth login` → 나온 링크를 다른 기기 브라우저에서 승인 → 받은 코드를 터미널에 붙여 넣기 → `systemctl --user restart claude-rc`. 그래도 바로 죽으면 `cd ~/project && claude remote-control`을 한 번 직접 실행해 `Connected`를 확인하고 끈 뒤 `systemctl --user reset-failed claude-rc && systemctl --user start claude-rc` |
 | 맥 터미널 scp/ssh가 `Permission denied (publickey)` | 기본 키를 씀. 서버는 OCI 키만 허용 | 맥 `~/.ssh/config`에 `Host oracle-arm`, `User ubuntu`, `IdentityFile` 지정 |
 
 ## 변경 기록
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-11-16 | 문제 해결에 "재부팅 뒤 Claude 로그인 풀림으로 `claude-rc` 재시작 반복" 항목 추가 | 인스턴스를 다시 만든 뒤 RC가 로그인 없이 계속 죽었다. 로그인 직후에도 두 번 실패했고, 한 번 직접 실행한 뒤에야 서비스가 떴다(원인 미확인) |
 | 2026-11-16 | 유료(PAYG) 전환, 할당량 정책 `free-tier-guard`로 무료 한도 밖 자원 생성을 막음 | 무료 계정은 A1 자리를 못 받았다. 유료로 전환하되 요금이 나가지 않게 |
 | 2026-11-16 | 사라진 인스턴스를 남은 부트 볼륨으로 다시 만듦 (A1 2코어·12GB). 재생성 스크립트 `oci/` 추가 | 체험 종료 뒤 Oracle이 인스턴스를 회수(10/27). 도쿄 A1 자리가 없어 자동으로 계속 시도해야 했다 |
 | 2026-10-27 | 재정 앱 원본을 저장소로, 볼트 감시 배포 `fin-publish.path` 없앰. 도구 두 페이지(`/fin/ladder/`, `/fin/map/`) 추가 | 볼트 html은 시안으로만 쓰기로(사용자 결정). 원본이 GitHub에 남고, 배포는 저장소 기준 |
