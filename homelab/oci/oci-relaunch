@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# oci-relaunch — 남은 부트 볼륨으로 A1 인스턴스를 만들 때까지 한 번씩 시도한다.
+# launchd(com.ckaanf.oci-relaunch)가 2분마다 실행. 성공하면 표시 파일을 남기고 이후 실행은 바로 끝난다.
+#
+#   oci-relaunch          한 번 시도
+#   oci-relaunch status   상태와 최근 로그
+#   oci-relaunch reset    성공 표시·대기 시간 지우기 (다시 시도하게)
+set -u
+
+PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
+export PYTHONWARNINGS=ignore   # oci-cli의 SyntaxWarning이 출력에 섞이지 않게
+CONF=${OCI_RELAUNCH_CONF:-$HOME/.config/oci-relaunch/env}
+STATE=$HOME/.local/state/oci-relaunch
+LOG=$STATE/log
+DONE=$STATE/created
+BACKOFF=$STATE/backoff_until
+FD_NEXT=$STATE/fault_domain
+
+mkdir -p "$STATE"
+log() { printf '%s %s\n' "$(date '+%F %T')" "$*" >>"$LOG"; }
+notify() { osascript -e "display notification \"$1\" with title \"oci-relaunch\" sound name \"Glass\"" >/dev/null 2>&1 || true; }
+
+case "${1:-}" in
+  status)
+    [ -f "$DONE" ] && echo "완료: $(cat "$DONE")" || echo "아직 시도 중"
+    [ -f "$BACKOFF" ] && echo "대기 끝: $(date -r "$(cat "$BACKOFF")" '+%F %T')"
+    echo "--- 최근 로그"; tail -n 15 "$LOG" 2>/dev/null
+    exit 0 ;;
+  reset)
+    rm -f "$DONE" "$BACKOFF"; echo "초기화했습니다."; exit 0 ;;
+esac
+
+[ -f "$DONE" ] && exit 0
+[ -f "$BACKOFF" ] && [ "$(date +%s)" -lt "$(cat "$BACKOFF")" ] && exit 0
+
+# COMPARTMENT_ID, AVAILABILITY_DOMAIN, SUBNET_ID, BOOT_VOLUME_ID, OCPUS, MEMORY_GB, DISPLAY_NAME, ASSIGN_PUBLIC_IP
+# shellcheck source=/dev/null
+. "$CONF" || { log "설정 파일 없음: $CONF"; exit 1; }
+BACKOFF_429=${BACKOFF_429:-120}   # 요청 제한(429) 뒤 쉬는 초
+
+# 부트 볼륨이 이미 어떤 인스턴스에 붙어 있으면(앞선 시도가 응답만 놓친 경우 등) 성공으로 본다.
+# 요청 수를 아끼려고 매번이 아니라 자리 부족·요청 제한이 아닌 오류가 났을 때만 확인한다.
+check_attached() {
+  local attached
+  attached=$(oci --no-retry compute boot-volume-attachment list \
+    --compartment-id "$COMPARTMENT_ID" --availability-domain "$AVAILABILITY_DOMAIN" \
+    --boot-volume-id "$BOOT_VOLUME_ID" \
+    --query 'data[?"lifecycle-state"!=`DETACHED`] | [0]."instance-id"' --raw-output 2>>"$LOG")
+  [ -n "$attached" ] && [ "$attached" != "null" ] || return 1
+  echo "$attached" >"$DONE"
+  log "이미 붙어 있음: $attached"
+  notify "부트 볼륨이 이미 인스턴스에 붙어 있습니다."
+}
+
+fd=$(cat "$FD_NEXT" 2>/dev/null || echo 1)
+echo $(( fd % 3 + 1 )) >"$FD_NEXT"
+
+# --no-retry: CLI 자체 재시도까지 겹치면 요청 제한(429)에 걸린다. 재시도는 launchd 주기가 맡는다.
+out=$(oci --no-retry compute instance launch \
+  --compartment-id "$COMPARTMENT_ID" \
+  --availability-domain "$AVAILABILITY_DOMAIN" \
+  --fault-domain "FAULT-DOMAIN-$fd" \
+  --shape VM.Standard.A1.Flex \
+  --shape-config "{\"ocpus\": $OCPUS, \"memoryInGBs\": $MEMORY_GB}" \
+  --source-boot-volume-id "$BOOT_VOLUME_ID" \
+  --subnet-id "$SUBNET_ID" \
+  --assign-public-ip "$ASSIGN_PUBLIC_IP" \
+  --display-name "$DISPLAY_NAME" 2>"$STATE/last_err")
+id=$(printf '%s' "$out" | jq -r '.data.id // empty' 2>/dev/null)
+out="$out $(cat "$STATE/last_err")"
+if [ -n "$id" ]; then
+  echo "$id" >"$DONE"
+  log "성공 (FD-$fd): $id"
+  notify "오라클 인스턴스 생성 성공! 몇 분 뒤 ssh oracle uptime"
+  exit 0
+fi
+
+msg=$(printf '%s' "$out" | tr '\n' ' ' | grep -oE '"(code|message)": "[^"]*"' | tr '\n' ' ')
+case "$out" in
+  *"Out of host capacity"*|*"OutOfCapacity"*|*"InternalError"*)
+    log "자리 없음 (FD-$fd)" ;;
+  *TooManyRequests*|*'"status": 429'*)
+    echo $(( $(date +%s) + BACKOFF_429 )) >"$BACKOFF"
+    log "요청 제한 → $(( BACKOFF_429 / 60 ))분 쉼" ;;
+  *)
+    check_attached && exit 0
+    # 한도·권한·설정 오류는 기다려도 안 풀리므로 30분 쉬고 알린다.
+    echo $(( $(date +%s) + 1800 )) >"$BACKOFF"
+    log "다른 오류 → 30분 쉼: ${msg:-$(printf '%s' "$out" | head -c 300)}"
+    notify "생성 오류(자리 부족 아님). oci-relaunch status 로 확인" ;;
+esac

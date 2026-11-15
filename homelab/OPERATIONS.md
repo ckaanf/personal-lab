@@ -126,6 +126,22 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 
 `--network host`는 tailnet 전용 주소(js.ckaanf.com 등)에 닿기 위해서다. 다 쓴 뒤 지우려면 `docker rmi playwright-shot:1.63.0 mcr.microsoft.com/playwright/python:v1.63.0-noble`.
 
+### 인스턴스가 사라졌을 때 (다시 만들기)
+
+인스턴스만 사라지고 부트 볼륨이 남아 있으면, 그 볼륨으로 다시 만든다. 디스크가 같아서 Tailscale 이름·SSH 키·서비스가 그대로 올라온다. 2026-10-27 체험 종료 뒤 인스턴스가 회수됐을 때 이렇게 복구했다 (11/16 성공, 도쿄 A1은 자리가 없어 약 8,400번 시도).
+
+1. **부트 볼륨을 지우지 않는다.** 먼저 볼륨 백업을 만든다.
+2. 도쿄 A1은 `Out of host capacity`가 흔하다. 맥에서 [oci/oci-relaunch](oci/oci-relaunch)를 launchd로 2분마다 돌려 자리가 날 때까지 시도한다.
+   - 설치: 스크립트를 `~/.local/bin/`, [oci/env.example](oci/env.example)을 채워 `~/.config/oci-relaunch/env`, [plist](oci/com.ckaanf.oci-relaunch.plist)의 경로를 고쳐 `~/Library/LaunchAgents/`에 두고 `launchctl bootstrap gui/$(id -u) <plist>`.
+   - 상태 `oci-relaunch status`, 멈추기 `launchctl bootout gui/$(id -u)/com.ckaanf.oci-relaunch`. 성공하면 알림을 띄우고 스스로 멈춘다.
+   - 맥이 잠들면 멈춘다. 전원 연결·뚜껑 열기. 1분 간격이면 요청 제한(429)에 걸려 오히려 시도가 준다.
+3. 새 인스턴스는 cloud-init이 **SSH 호스트 키를 새로 만든다**. 접속 경고가 뜨면 넘기지 말고 콘솔 기록의 지문과 대조한 뒤 `known_hosts`를 고친다.
+   ```bash
+   oci compute console-history capture --instance-id <인스턴스>   # 나온 id로
+   oci compute console-history get-content --instance-console-history-id <id> --length 10000000 --file - | grep -A3 'HOST KEY FINGERPRINTS'
+   ```
+4. `scripts/check.sh`로 점검. 끝나면 launchd 작업을 지운다.
+
 ## Cloudflare
 
 돈이 드는 것은 도메인뿐이고, Tunnel·DNS·Workers는 Free 플랜 안에서 쓴다.
@@ -183,6 +199,7 @@ docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
+| 2026-11-16 | 사라진 인스턴스를 남은 부트 볼륨으로 다시 만듦 (A1 2코어·12GB). 재생성 스크립트 `oci/` 추가 | 체험 종료 뒤 Oracle이 인스턴스를 회수(10/27). 도쿄 A1 자리가 없어 자동으로 계속 시도해야 했다 |
 | 2026-10-27 | 재정 앱 원본을 저장소로, 볼트 감시 배포 `fin-publish.path` 없앰. 도구 두 페이지(`/fin/ladder/`, `/fin/map/`) 추가 | 볼트 html은 시안으로만 쓰기로(사용자 결정). 원본이 GitHub에 남고, 배포는 저장소 기준 |
 | 2026-10-14 | 앱 원본 위치를 볼트 `재정/`에서 `Projects/js/meal`·`Projects/js/fin`으로 옮김. `meal-publish.path`·`fin-publish.path`가 각자 폴더를 감시 | 앱 문서와 범용 재정 문서를 나누려고. 저장소 `js/` 구조와 맞춤 |
 | 2026-10-14 | 재정 앱 추가: `fin-api`·`fin-publish.path`·`fin-backup.timer`, Caddy `js` 블록에 `/fin/api/*` → 8084 | 월말 결산을 폰·맥에서 같이 보려고. 식단표와 같은 구성(볼트 원본 → 배포, SQLite 동기화) |
