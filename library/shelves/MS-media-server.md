@@ -24,7 +24,7 @@
 - 장면: 화상 방에 사람이 늘수록 각자의 업로드가 터짐(메시 연결).
 - 이론: 메시 vs MCU(섞어서 하나로) vs SFU(골라서 전달), 시뮬캐스트·SVC, 대역폭 추정과 계층 선택.
 - 답해 볼 것: ① 6명 메시에서 한 사람의 업로드 개수 ② SFU가 디코딩하지 않는 이유 ③ 시뮬캐스트로 얻는 것
-- 읽을 곳: webrtcforthecurious.com "Applied WebRTC" · LiveKit 문서 "Architecture"
+- 읽을 곳: webrtcforthecurious.com "Applied WebRTC" · LiveKit 문서 "Architecture" · 하이퍼커넥트 기술블로그 "글로벌 라이브 스트리밍을 지탱하는 하이퍼커넥트 미디어 서버 인프라를 소개합니다"(2022-12)·"그룹콜 미디어 서버 인프라를 소개합니다"(2024-09) · webrtcHacks "Distributed and Cascaded SFUs"(2026-10) · LiveKit 블로그 "Scaling WebRTC with Distributed Mesh" · Discord "How Discord Handles Two and Half Million Concurrent Voice Users using WebRTC"
 - 실습: LiveKit(또는 Pion 예제) 로컬 SFU에 클라이언트 N명 → 서버 CPU·대역폭 예측 후 측정
 - 손으로: 방 크기별 구조 선택표
 - 끝: 볼트에 3줄
@@ -33,7 +33,7 @@
 - 장면: 시청자가 몰리자 원본 서버 대역폭이 바닥.
 - 이론: 원본(origin) — 엣지 캐시, 세그먼트 캐시 TTL, 매니페스트는 짧게, 원본 보호(shield), 저지연과 캐시의 긴장.
 - 답해 볼 것: ① 매니페스트와 세그먼트 캐시 시간이 다른 이유 ② 시청자 1만 명이면 원본 요청은 ③ LL-HLS에서 CDN이 어려운 점
-- 읽을 곳: Cloudflare 블로그 스트리밍 글 · Apple LL-HLS 문서
+- 읽을 곳: Cloudflare 블로그 스트리밍 글 · Apple LL-HLS 문서 · moq.dev 블로그 "Distribution @ Twitch" · howvideo.works "Delivery"
 - 실습: nginx 캐시를 원본 앞에 두고 시청자 수별 원본 요청 수 측정
 - 손으로: 캐시 규칙
 - 끝: 볼트에 3줄

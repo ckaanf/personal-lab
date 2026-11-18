@@ -22,7 +22,7 @@
 - 장면: 입은 움직이는데 소리가 늦게 들림.
 - 이론: PTS·DTS, 오디오를 기준 시계로 영상을 맞추는 이유, 허용 범위(대략 수십 ms), 드리프트.
 - 답해 볼 것: ① PTS와 DTS가 다른 경우 ② 영상이 아니라 오디오를 기준으로 하는 이유 ③ 드리프트를 고치는 법
-- 읽을 곳: ITU-R BT.1359(립싱크 허용 범위) 요약 · FFmpeg 문서 `-async`·`aresample`
+- 읽을 곳: ITU-R BT.1359(립싱크 허용 범위) 요약 · FFmpeg 문서 `-async`·`aresample` · leandromoreira/ffmpeg-libav-tutorial 1장(타이밍·PTS/DTS, 한국어 README-ko)
 - 실습: 오디오를 일부러 100ms 늦춰 체감 확인, 타임스탬프로 되돌리기
 - 손으로: 어긋남 측정 방법
 - 끝: 볼트에 3줄
@@ -31,7 +31,7 @@
 - 장면: mp4인데 재생이 안 됨 / 같은 영상인데 브라우저마다 됨·안 됨.
 - 이론: 컨테이너(mp4·ts·webm·fmp4)와 코덱(H.264·HEVC·AV1·Opus·AAC)은 다르다, 브라우저 지원표, `ffprobe`로 보기.
 - 답해 볼 것: ① 컨테이너가 담는 것 ② fmp4가 스트리밍에 쓰이는 이유 ③ 코덱을 고를 때 볼 것(지원·라이선스·인코딩 비용)
-- 읽을 곳: MDN "Media container formats" · "Web video codec guide"
+- 읽을 곳: MDN "Media container formats" · "Web video codec guide" · leandromoreira/ffmpeg-libav-tutorial 2장(리먹싱)
 - 실습: 같은 영상을 컨테이너·코덱 조합 4개로 → 크기·인코딩 시간·브라우저 재생 확인
 - 손으로: `ffprobe` 결과 읽기 메모
 - 끝: 볼트에 3줄

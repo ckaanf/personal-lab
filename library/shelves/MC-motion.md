@@ -6,7 +6,7 @@
 - 장면: 웹캠으로 얼굴을 잡았는데 숫자 수백 개를 어디에 써야 할지 모름.
 - 이론: 얼굴·손 랜드마크(정규화 좌표), 블렌드셰이프 점수(눈 감음·입 벌림 0~1), 머리 회전(변환 행렬), 카메라 좌표와 화면 좌표.
 - 답해 볼 것: ① 랜드마크와 블렌드셰이프의 차이 ② 정규화 좌표의 기준 ③ 머리 회전을 얻는 법
-- 읽을 곳: Google MediaPipe 문서 "Face Landmarker"
+- 읽을 곳: Google MediaPipe 문서 "Face Landmarker" · 좌표 변환 바탕: 3Blue1Brown "Essence of Linear Algebra"(영상)
 - 실습: 브라우저에서 Face Landmarker를 돌려 프레임당 처리 시간·출력 크기 예측 후 측정
 - 손으로: 필요한 값만 고르는 추출 함수
 - 끝: 볼트에 3줄
@@ -15,7 +15,7 @@
 - 장면: 가만히 있어도 캐릭터가 덜덜 떨림 / 필터를 세게 걸면 굼뜸.
 - 이론: 이동 평균·지수 평활의 지연, One Euro Filter(빠르면 덜 거르고 느리면 더 거름), 칼만 필터 개념.
 - 답해 볼 것: ① 평활과 지연의 맞교환 ② One Euro의 두 매개변수 ③ 눈 깜빡임처럼 빠른 신호는
-- 읽을 곳: Casiez et al. "1€ Filter"(CHI 2012, 저자 사이트에 데모)
+- 읽을 곳: Casiez et al. "1€ Filter"(CHI 2012, 저자 사이트에 데모) · Roger Labbe "Kalman and Bayesian Filters in Python"(GitHub, 무료) 1~4장
 - 실습: 같은 녹화 신호에 필터 3가지 → 떨림·지연 수치 비교 그래프
 - 손으로: One Euro Filter 구현
 - 끝: 볼트에 3줄
